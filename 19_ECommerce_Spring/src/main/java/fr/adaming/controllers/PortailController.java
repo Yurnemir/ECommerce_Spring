@@ -29,6 +29,10 @@ public class PortailController {
 		model.addAttribute("message", "Bonjour Admin");
 		return "admin";
 	}
+	@RequestMapping(value="/login")
+	public String afficherFormulaireConnexion(){
+		return "connexion";
+	}
 	@RequestMapping(value="/client", method=RequestMethod.GET)
 	public String afficherPageClient(ModelMap model) {
 		model.addAttribute("message", "Bonjour Client");

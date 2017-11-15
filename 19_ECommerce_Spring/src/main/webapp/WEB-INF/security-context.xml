@@ -34,10 +34,9 @@
 
 
 		<!-- Utilisation d'un formulaire de login personnalisé pour la connection -->
-		<!-- <security:form-login login-page="/login" authentication-failure-url="/loginEchec" 
-			/> -->
+		 <security:form-login login-page="/login" authentication-failure-url="/loginEchec" login-processing-url="/connexion"	/>
 		<!-- Formulaire automatique -->
-		<security:http-basic />
+		<!--  <security:http-basic /> -->
 		<!-- Specifier l'URL à appeler en cas d'accès refusé -->
 		<security:access-denied-handler
 			error-page="/denied" />
