@@ -2,8 +2,7 @@ package fr.adaming.dao;
 
 import java.util.List;
 
-
-
+import fr.adaming.modele.Categorie;
 import fr.adaming.modele.Produit;
 
 public interface IProduitDao {
@@ -19,5 +18,11 @@ public interface IProduitDao {
 	public Produit modifierProduit(Produit produit);
 	
 	public int assoicierImageProduit(Produit produit);
+
+	List<Produit> getProduitsByCategorie(Categorie c);
+
+	List<Produit> getSelectedProduit();
+
+	List<Produit> getProduitsByMot(String mot);
 	
 }

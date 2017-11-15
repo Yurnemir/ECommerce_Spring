@@ -1,6 +1,5 @@
 package fr.adaming.dao;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -10,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import fr.adaming.modele.Categorie;
 import fr.adaming.modele.Produit;
 
 @Repository
@@ -22,28 +22,79 @@ public class ProduitDaoImpl implements IProduitDao{
 	@Override
 	public List<Produit> listerProduits() {
 		Session session = sessionFactory.getCurrentSession();
-		//Requête SQL 
+		//Requï¿½te SQL 
 		String req = "FROM Produit";
 		Query query =session.createQuery(req);
-		//Execution de la requête
+		//Execution de la requï¿½te
 		List<Produit> listeProduits = query.list();
 		return listeProduits;
 	}
 
 
 	@Override
+	public List<Produit> getProduitsByCategorie(Categorie c) {
+		Session s = sessionFactory.getCurrentSession() ; 
+		String req = "Select p from Produit p where p.categorie.idCategorie=:pidc";
+
+		// recup d'un query
+		Query query = s.createQuery(req) ; 
+
+		// passage des param
+		query.setParameter("pidc", c.getIdCategorie());
+
+		try{
+		List<Produit> listeProduitsCat = query.list();
+		return listeProduitsCat;
+
+		} catch (Exception e){
+			System.out.println("Impossible de trouver");
+			return null;
+		}
+	}
+
+	@Override
+	public List<Produit> getSelectedProduit() {
+		String req = "From Produit p WHERE p.selectionne:=true";
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(req);
+		
+		List<Produit> liste = (List<Produit>)query.list();
+		
+		return liste;
+	}
+	
+	@Override
 	public Produit rechercherProduitAvecId(Produit produit) {
 		Session session = sessionFactory.getCurrentSession();
-		//Requête SQL 
+		//Requï¿½te SQL 
 		String req = "FROM Produit prod WHERE prod.idProduit=:pIdProduit";
 		Query query = session.createQuery(req);
-		//Passage du paramètre
+		//Passage du paramï¿½tre
 		query.setParameter("pIdProduit", produit.getIdProduit());
 		Produit produitCherche = (Produit) query.uniqueResult();
 		return produitCherche;
 	}
 
+	@Override
+	public List<Produit> getProduitsByMot(String mot) {
+		Session s = sessionFactory.getCurrentSession() ; 
+		String req = "SELECT prod FROM Produit prod WHERE prod.description LIKE :pDescription";
+		Query query = s.createQuery(req) ; 
 
+		// Production du paramï¿½tre
+		StringBuilder intitule = new StringBuilder();
+		intitule.append('%');
+		intitule.append(mot);
+		intitule.append('%');
+		String intituleParam = intitule.toString();
+		//Passage du paramï¿½tre
+		query.setParameter("pDescription", intituleParam);
+		@SuppressWarnings("unchecked")
+		List<Produit> liste = query.list();
+		
+		return liste;
+	}
+	
 	@Override
 	public Produit ajouterProduit(Produit produit) {
 		Session session = sessionFactory.getCurrentSession();
@@ -55,10 +106,10 @@ public class ProduitDaoImpl implements IProduitDao{
 	
 	public void supprimerProduit(Produit produit){
 		Session session = sessionFactory.getCurrentSession();
-		//Requête SQL 
+		//Requï¿½te SQL 
 		String req = "FROM Produit prod WHERE prod.idProduit=:pIdProduit";
 		Query query = session.createQuery(req);
-		//Passage du paramètre
+		//Passage du paramï¿½tre
 		query.setParameter("pIdProduit", produit.getIdProduit());
 		Produit produitCherche = (Produit) query.uniqueResult();
 
@@ -69,10 +120,10 @@ public class ProduitDaoImpl implements IProduitDao{
 	@Override
 	public Produit modifierProduit(Produit produit) {
 		Session session = sessionFactory.getCurrentSession();
-		//Requête SQL 
+		//Requï¿½te SQL 
 		String req = "FROM Produit prod WHERE prod.idProduit=:pIdProduit";
 		Query query = session.createQuery(req);
-		//Passage du paramètre
+		//Passage du paramï¿½tre
 		query.setParameter("pIdProduit", produit.getIdProduit());
 		Produit produitCherche = (Produit) query.uniqueResult();
 
@@ -98,13 +149,12 @@ public class ProduitDaoImpl implements IProduitDao{
 		String req = "UPDATE Produit prod SET prod.imageFichier=:pImage WHERE prod.idProduit=:pIDProduit";
 		Query query = session.createQuery(req);
 		
-		//Passage des paramètre.
+		//Passage des paramï¿½tre.
 		try {
 			query.setParameter("pImage",produit.getImageFichier());
 			query.setParameter("pIDProduit",produit.getIdProduit());
 			return query.executeUpdate();
 		} catch (HibernateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return 0;
 		}

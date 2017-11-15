@@ -23,13 +23,12 @@ public class CategorieDaoImpl implements ICategorieDao{
 		this.sessionFactory = sessionFactory;
 	}
 
-
 	@Override
 	public List<Categorie> listerCategorie() {
 		Session session =sessionFactory.getCurrentSession();
 		String req = "FROM Categorie";
 		Query query =session.createQuery(req);
-		//Execution de la requête
+		//Execution de la requï¿½te
 		@SuppressWarnings("unchecked")
 		List<Categorie> listeCategorie = query.list();
 		return listeCategorie;
@@ -48,7 +47,7 @@ public class CategorieDaoImpl implements ICategorieDao{
 		String req = "FROM Categorie cat WHERE cat.idCategorie=:pIDCategorie";
 		Query query = session.createQuery(req);
 		
-		//Passage de paramètre 
+		//Passage de paramï¿½tre 
 		query.setParameter("pIDCategorie", categorie.getIdCategorie());
 		Categorie categorieCherche = (Categorie) query.uniqueResult();
 		
@@ -61,7 +60,7 @@ public class CategorieDaoImpl implements ICategorieDao{
 		String req = "FROM Categorie cat WHERE cat.idCategorie=:pIDCategorie";
 		Query query = session.createQuery(req);
 		
-		//Passage de paramètre 
+		//Passage de paramï¿½tre 
 		query.setParameter("pIDCategorie", categorie.getIdCategorie());
 		Categorie categorieCherche = (Categorie) query.uniqueResult();
 
@@ -75,7 +74,7 @@ public class CategorieDaoImpl implements ICategorieDao{
 		String req = "FROM Categorie cat WHERE cat.idCategorie=:pIDCategorie";
 		Query query = session.createQuery(req);
 		
-		//Passage de paramètre 
+		//Passage de paramï¿½tre 
 		query.setParameter("pIDCategorie", categorie.getIdCategorie());
 		Categorie categorieCherche = (Categorie) query.uniqueResult();
 		

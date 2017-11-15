@@ -10,16 +10,11 @@ import fr.adaming.modele.Produit;
 
 public interface IClientService {
 
-	public List<Categorie> getAllCategories() ; 
-	public List<Produit> getAllProduits() ;
-	public List<Produit> getAllProduitByCategorie(Categorie c) ; 
-	public List<Produit> getProduitsSelect(List<Produit> lp) ; 
-	public List<Produit> getProduitsByMot(String mot) ; 
-	public Produit addProduitPanier(Produit p, int quantite, Panier pan) ;
-	public int deleteProduitPanier(Produit p, Panier pan) ; 
-	public Client enregitrementClient(Client c) ; 
-	public Commande enregistrementCommande(Commande commande);
-	public Client recuperClient(Client c);
+	public Client getClientByInfo(Client c); 
+	public Client getClientById(Client c);
+	public Client createClient(Client c);
+	public Client modifClient(Client c);
+	public boolean deleteClient (Client c);
 	
 	
 }

@@ -28,58 +28,28 @@ public class ClientServiceImpl implements IClientService {
 	}
 
 	@Override
-	public List<Categorie> getAllCategories() {
-		return clientDao.getAllCategories();
+	public Client getClientByInfo(Client c) {
+		return clientDao.getClientByInfo(c);
 	}
 
 	@Override
-	public List<Produit> getAllProduits() {
-		return clientDao.getAllProduits();
-
+	public Client getClientById(Client c) {
+		return clientDao.getClientById(c);
 	}
 
 	@Override
-	public List<Produit> getAllProduitByCategorie(Categorie c) {
-		// TODO Auto-generated method stub
-		return clientDao.getAllProduitByCategorie(c);
+	public Client createClient(Client c) {
+		return clientDao.createClient(c);
 	}
 
 	@Override
-	public List<Produit> getProduitsSelect(List<Produit> lp) {
-		// TODO Auto-generated method stub
-		return null;
+	public Client modifClient(Client c) {
+		return clientDao.modifClient(c);
 	}
 
 	@Override
-	public List<Produit> getProduitsByMot(String mot) {
-		return clientDao.getProduitsByMot(mot);
-	}
-
-	@Override
-	public Produit addProduitPanier(Produit p, int quantite, Panier pan) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int deleteProduitPanier(Produit p, Panier pan) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Client enregitrementClient(Client c) {
-		return clientDao.enregitrementClient(c);
-	}
-
-	@Override
-	public Commande enregistrementCommande(Commande commande) {
-		return clientDao.enregistrementCommande(commande);
-	}
-
-	@Override
-	public Client recuperClient(Client c) {
-		return clientDao.recuperClient(c);
+	public boolean deleteClient(Client c) {
+		return clientDao.deleteClient(c);
 	}
 
 }
