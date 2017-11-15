@@ -99,5 +99,18 @@ public class ProduitController {
 		return "admin";
 
 	}
+	@RequestMapping(value="/modif", method = RequestMethod.GET)
+	public ModelAndView affichageFormulaireModification(){
+		return new ModelAndView("produit_modif","produitModif",new Produit());
+	}
 	
+	@RequestMapping(value="modifierProduit",method=RequestMethod.POST)
+	public String soumissionFormulaireModification(Model modele,@ModelAttribute("produitModif") Produit produit){
+		Produit produitModif = serviceProduit.modifierProduit(produit);
+		
+		List<Produit> listeProduit = serviceProduit.listerProduits();
+		System.out.println(listeProduit.toString());
+		modele.addAttribute("listeProduit",listeProduit);
+		return "admin";
+	}
 }
