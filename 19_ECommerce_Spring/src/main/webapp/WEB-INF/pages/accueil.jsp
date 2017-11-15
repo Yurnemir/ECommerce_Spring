@@ -14,8 +14,5 @@
 <body>
 	<h2><a href="${pageContext.request.contextPath}/admin">page admin</a></h2>
 	<h2><a href="${pageContext.request.contextPath}/client">page client</a></h2>
-	<br />
-	<h2><a href="${pageContext.request.contextPath}/admin/categorie/recap">recap categories</a></h2>
-	<h2><a href="${pageContext.request.contextPath}/admin/produit/recap">recap produits</a></h2>
 </body>
 </html>

@@ -15,5 +15,18 @@
 	<h2><a href="${pageContext.request.contextPath}/accueil">accueil</a></h2>
 	<br/>
 	<h1>${message}</h1>
+	<br/>
+	<br/>
+	<h1>Categories</h1>
+	<h2><a href="${pageContext.request.contextPath}/admin/categorie/recap">recap</a></h2>
+	<h2><a href="${pageContext.request.contextPath}/admin/categorie/ajout">ajout</a></h2>
+	<h2><a href="${pageContext.request.contextPath}/admin/categorie/modif">modif</a></h2>
+	<h2><a href="${pageContext.request.contextPath}/admin/categorie/suppr">suppr</a></h2>
+	<br/>
+	<h1>Produits</h1>
+	<h2><a href="${pageContext.request.contextPath}/admin/produit/recap">recap</a></h2>
+	<h2><a href="${pageContext.request.contextPath}/admin/produit/ajout">ajout</a></h2>
+	<h2><a href="${pageContext.request.contextPath}/admin/produit/modif">modif</a></h2>
+	<h2><a href="${pageContext.request.contextPath}/admin/produit/suppr">suppr</a></h2>
 </body>
 </html>

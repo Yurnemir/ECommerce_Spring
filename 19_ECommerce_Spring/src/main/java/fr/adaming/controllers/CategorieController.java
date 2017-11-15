@@ -11,4 +11,16 @@ public class CategorieController {
 	public String afficherRecap() {
 		return "categorie_recap";
 	}
+	@RequestMapping(value="/ajout", method=RequestMethod.GET)
+	public String afficherFormAjout() {
+		return "categorie_ajout";
+	}
+	@RequestMapping(value="/modif", method=RequestMethod.GET)
+	public String afficherFormModif() {
+		return "categorie_modif";
+	}
+	@RequestMapping(value="/suppr", method=RequestMethod.GET)
+	public String afficherFormSuppr() {
+		return "categorie_suppr";
+	}
 }
