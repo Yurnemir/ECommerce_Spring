@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+
 
 import fr.adaming.modele.Produit;
 import fr.adaming.service.IProduitService;
@@ -24,12 +24,18 @@ public class PortailController {
 		modele.addAttribute("listeProduit",listeProduit);
 		return "accueil";
 	}
-	@RequestMapping(value="/admin", method=RequestMethod.GET)
-	public String afficherLogin(ModelMap model) {
+	@RequestMapping(value="/admin/connexion", method=RequestMethod.GET)
+	public String afficherPageAdmin(ModelMap model) {
+		model.addAttribute("message", "Bonjour Admin");
 		return "admin";
 	}
-	@RequestMapping(value="/panier", method=RequestMethod.GET)
-	public String afficherPanier(ModelMap model) {
-		return "panier";
+	@RequestMapping(value="/client", method=RequestMethod.GET)
+	public String afficherPageClient(ModelMap model) {
+		model.addAttribute("message", "Bonjour Client");
+		return "client";
+	}
+	@RequestMapping(value="/logout")
+	public String seDeconnecter(){
+		return "accueil";
 	}
 }

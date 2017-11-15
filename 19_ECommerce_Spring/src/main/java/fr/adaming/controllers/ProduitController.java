@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,7 +40,7 @@ public class ProduitController {
 	//Méthodes du formulaire d'ajout
 	//Affichage formulaire d'ajout de produit
 	/**
-	 * Permet d'afficher le formaulaire d'ajout d'un produit dans la base de données.
+	 * Permet d'afficher le formulaire d'ajout d'un produit dans la base de données.
 	 * 
 	 * @return Modele MVC de la page ajout de produit.
 	 * Cette méthode permet d'afficher le formulaire d'ajout d'un produit.
@@ -50,7 +49,7 @@ public class ProduitController {
 	 */
 	@RequestMapping(value="/ajout", method = RequestMethod.GET)
 	public ModelAndView affichageFormulaireAjout(){
-		return new ModelAndView("produit_ajout","ProduitAjoute",new Produit());
+		return new ModelAndView("produit_ajout","produitAjoute",new Produit());
 	}
 	
 	/**
@@ -103,20 +102,8 @@ public class ProduitController {
 		System.out.println(listeProduit.toString());
 		modele.addAttribute("listeProduit",listeProduit);
 		return "admin";
-	}
 
-	@RequestMapping(value="/supprViaLien/{pId}", method=RequestMethod.GET)
-	public String supprViaLink(Model modele, @PathVariable("pId") int id) {
-		Produit pIn = new Produit();
-		pIn.setIdProduit(id);
-		pIn = serviceProduit.rechercherProduitAvecId(pIn);
-		serviceProduit.supprimerProduit(pIn);
-		List<Produit> listeProduit = serviceProduit.listerProduits();
-		System.out.println(listeProduit.toString());
-		modele.addAttribute("listeProduit",listeProduit);
-		return "produit_recap";
 	}
-	
 	/**
 	 * Permet d'afficher le formulaire pour modifier un produit
 	 * @return Le modèle de la page contenant le formulaire de modification de produit.

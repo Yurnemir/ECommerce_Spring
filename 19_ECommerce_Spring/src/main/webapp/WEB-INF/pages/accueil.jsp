@@ -12,19 +12,24 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<h2><a href="${pageContext.request.contextPath}/admin">login admin</a></h2>
-	<h2><a href="${pageContext.request.contextPath}/panier">panier</a></h2>
+	<h2><a href="${pageContext.request.contextPath}/admin/connexion">page admin</a></h2>
+	<h2><a href="${pageContext.request.contextPath}/client">page client</a></h2>
 	
-	<h1>Produits :</h1>
-	<table class="table table-bordered">
+		<table class="table table-bordered">
+		<thead>Recapitulatif Produits
+		</thead>
+
 		<tr>
+
 			<th>Désignation</th>
 			<th>Description</th>
 			<th>Prix</th>
 			<th>Quantité</th>
 			<th>Image</th>
 		</tr>
+
 		<c:forEach var="produit" items="${listeProduit}">
+		
 			<tr>
 				<th>${produit.designation}</th>
 				<th>${produit.description}</th>
@@ -32,7 +37,13 @@
 				<th>${produit.quantite}</th>
 				<th>Placeholder</th>
 			</tr>
+
+
+
 		</c:forEach>
+
 	</table>
+	
+	
 </body>
 </html>
