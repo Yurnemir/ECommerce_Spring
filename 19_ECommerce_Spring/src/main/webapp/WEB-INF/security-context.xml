@@ -18,31 +18,31 @@
 <!-- 	</bean> -->
 
 
-<!-- 	Configuration de la partie autorisation --> -->
+<!-- 	Configuration de la partie autorisation -->
 <!-- 	<security:http> -->
  		<!-- Proteger les url et les autoriser juste pour le formateur et les roles  -->
-<!-- 			qui y ont acces --> -->
+<!-- 			qui y ont acces -->
 <!-- 		<security:intercept-url pattern="/etudiant/**" -->
 <!-- 			access="ROLE_FORMATEUR" /> -->
 
-<!-- 		<!-- Utilisation d'un formulaire de login personnalisé pour la connection --> -->
+<!-- 		 Utilisation d'un formulaire de login personnalisé pour la connection -->
 <!-- 		<security:form-login login-page="/login" -->
 <!-- 			authentication-failure-url="/loginEchec" /> -->
 
-<!-- 		<!-- Specifier l'URL à appeler en cas d'accès refusé --> -->
+<!-- 		 Specifier l'URL à appeler en cas d'accès refusé -->
 <!-- 		<security:access-denied-handler -->
 <!-- 			error-page="/denied" /> -->
 
-<!-- 		<!-- Pour se déconnecter --> -->
+<!-- 		 Pour se déconnecter -->
 <!-- 		<security:logout logout-success-url="/logout" /> -->
 <!-- 	</security:http> -->
 
 
 
-<!-- 	<!-- Configuration de la partie authentification --> -->
+<!-- 	 Configuration de la partie authentification -->
 <!-- 	<security:authentication-manager> -->
 <!-- 		<security:authentication-provider> -->
-<!-- 			<!-- Utilisation d'une base de données pour vérifier l'authentification --> -->
+<!-- 			 Utilisation d'une base de données pour vérifier l'authentification -->
 <!-- 			<security:jdbc-user-service -->
 <!-- 				data-source-ref="databaseBean" -->
 <!-- 				users-by-username-query="SELECT mail, mdp, active FROM formateurs WHERE mail=?" -->

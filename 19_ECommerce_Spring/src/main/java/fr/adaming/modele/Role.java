@@ -21,7 +21,7 @@ public class Role {
 		
 	@ManyToOne
 	@JoinColumn(name="id_admin")
-	private Administrateur adminstrateur;
+	private Administrateur administrateur;
 	
 	public Role() {
 		super();
