@@ -7,6 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import fr.adaming.modele.Administrateur;
+
+/**
+ * Interaction avec les administrateurs de la db
+ * @author inti
+ */
 @Repository
 public class AdminDaoImpl implements IAdminDao{
 
