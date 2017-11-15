@@ -7,17 +7,45 @@
 	
 	
 	<!-- Listener spring ioc -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/application-context.xml /WEB-INF/security-context.xml</param-value>
+	</context-param>
+
+	<!-- Bootstraps the root web application context before servlet initialization -->
 	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
 	
+	<!-- Servlet Spring MVC -->
+	<servlet>
+		<servlet-name>unqueServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/mvc-context.xml</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>uniqueServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	<!-- Declaration du filtre spring security -->
+<!-- 	<filter> -->
+<!-- 		<filter-name>springSecurityFilterChain</filter-name> -->
+<!-- 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class> -->
+<!-- 	</filter> -->
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>springSecurityFilterChain</filter-name> -->
+<!-- 		<url-pattern>/*</url-pattern>	 -->
+<!-- 	</filter-mapping> -->
+
 	
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-		<welcome-file>index.htm</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
-		<welcome-file>default.html</welcome-file>
-		<welcome-file>default.htm</welcome-file>
-		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 </web-app>
