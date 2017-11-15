@@ -12,8 +12,24 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<h2><a href="${pageContext.request.contextPath}/accueil">accueil</a></h2>
-	<br/>
-	<h1>Recapitulatif Categories</h1>
+	<h1 align="center">Liste des categories :</h1>
+	<div align="center">
+		<table class="table table-bordered">
+			<tr>
+				<th>ID</th>
+				<th>Nom</th>
+				<th>Description</th>
+				<th>operation</th>
+			</tr>
+			<c:forEach var="categorie" items="${categories}">
+				<tr>
+					<td>${categorie.idCategorie}</td>
+					<td>${categorie.nomCategorie}</td>
+					<td>${categorie.description}</td>
+					<td><a href="${pageContext.request.contextPath}/admin/categorie/supprViaLien/${categorie.idCategorie}">Supprimer</a></td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
 </body>
 </html>
