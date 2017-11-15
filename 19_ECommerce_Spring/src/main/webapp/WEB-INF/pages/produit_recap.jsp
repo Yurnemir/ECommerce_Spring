@@ -22,10 +22,8 @@
 	<br />
 	<h1>Recapitulatif Produits</h1>
 
+<h1>Recapitulatif Produits</h1>
 	<table class="table table-bordered">
-		<thead>Recapitulatif Produits
-		</thead>
-
 		<tr>
 			<th>ID</th>
 			<th>Désignation</th>
@@ -33,8 +31,8 @@
 			<th>Prix</th>
 			<th>Quantité</th>
 			<th>Image</th>
+			<th>Operation</th>
 		</tr>
-
 		<c:forEach var="produit" items="${listeProduit}">
 			<tr>
 				<th>${produit.idProduit}</th>
@@ -43,12 +41,9 @@
 				<th>${produit.prix}</th>
 				<th>${produit.quantite}</th>
 				<th>Placeholder</th>
+				<td><a href="${pageContext.request.contextPath}/admin/produit/supprViaLien/${produit.idProduit}">Supprimer</a></td>
 			</tr>
-
-
-
 		</c:forEach>
-
 	</table>
 </body>
 </html>

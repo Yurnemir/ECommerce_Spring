@@ -48,6 +48,8 @@ public class CategorieController {
 	public String soumettreFormAjout(Model model, @ModelAttribute("categorie") Categorie categorie) {
 		Categorie cOut = categrieService.ajouterCategorie(categorie);
 		if (cOut.getIdCategorie() != 0) {
+			List<Categorie> categories = categrieService.listerCategorie();
+			model.addAttribute("categories", categories);
 			return "admin";
 		} else {
 			return "redirect:ajout";
@@ -57,6 +59,8 @@ public class CategorieController {
 	public String soumettreFormModif(Model model, @ModelAttribute("categorie") Categorie categorie) {
 		Categorie cOut = categrieService.modifierCategorie(categorie);
 		if (cOut.getIdCategorie() != 0) {
+			List<Categorie> categories = categrieService.listerCategorie();
+			model.addAttribute("categories", categories);
 			return "admin";
 		} else {
 			return "redirect:ajout";
@@ -67,6 +71,8 @@ public class CategorieController {
 		int nbCategoriesBefore = categrieService.listerCategorie().size();
 		categrieService.supprimerCategorie(categorie);
 		if (categrieService.listerCategorie().size() != nbCategoriesBefore) {
+			List<Categorie> categories = categrieService.listerCategorie();
+			model.addAttribute("categories", categories);
 			return "admin";
 		}else {
 			return "redirect:ajout";
