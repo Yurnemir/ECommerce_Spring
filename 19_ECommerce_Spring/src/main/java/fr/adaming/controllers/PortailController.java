@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping(value="/ecommerce")
-public class EcommerceController {
+public class PortailController {
 	@RequestMapping(value="/accueil", method=RequestMethod.GET)
 	public String afficherAccueil() {
 		return "accueil";

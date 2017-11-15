@@ -12,7 +12,10 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<h2><a href="${pageContext.request.contextPath}/ecommerce/admin">page admin</a></h2>
-	<h2><a href="${pageContext.request.contextPath}/ecommerce/client">page client</a></h2>
+	<h2><a href="${pageContext.request.contextPath}/admin">page admin</a></h2>
+	<h2><a href="${pageContext.request.contextPath}/client">page client</a></h2>
+	<br />
+	<h2><a href="${pageContext.request.contextPath}/admin/categorie/recap">recap categories</a></h2>
+	<h2><a href="${pageContext.request.contextPath}/admin/produit/recap">recap produits</a></h2>
 </body>
 </html>

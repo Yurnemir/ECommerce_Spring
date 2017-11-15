@@ -12,7 +12,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<h2><a href="${pageContext.request.contextPath}/ecommerce/accueil">accueil</a></h2>
+	<h2><a href="${pageContext.request.contextPath}/accueil">accueil</a></h2>
 	<br/>
 	<h1>${message}</h1>
 </body>
