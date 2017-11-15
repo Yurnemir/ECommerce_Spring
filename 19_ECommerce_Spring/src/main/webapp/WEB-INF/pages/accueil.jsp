@@ -13,7 +13,7 @@
 </head>
 <body>
 	<h2><a href="${pageContext.request.contextPath}/admin/connexion">page admin</a></h2>
-	<h2><a href="${pageContext.request.contextPath}/client">page client</a></h2>
+	<h2><a href="${pageContext.request.contextPath}/panier">Panier</a></h2>
 	
 		<table class="table table-bordered">
 		<thead>Recapitulatif Produits
