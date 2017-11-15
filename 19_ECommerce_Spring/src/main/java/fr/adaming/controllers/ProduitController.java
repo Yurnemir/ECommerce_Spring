@@ -28,8 +28,13 @@ public class ProduitController {
 	private IProduitService serviceProduit;
 	
 	@RequestMapping(value="/recap", method=RequestMethod.GET)
-	public String afficherRecap() {
-		return "produit_recap";
+	public ModelAndView afficherRecap() {
+		
+		List<Produit> listeProduit = serviceProduit.listerProduits();
+		System.out.println(listeProduit.toString());
+
+
+		return new ModelAndView("produit_recap","listeProduit",listeProduit);
 	}
 	
 	//Méthodes du formulaire d'ajout
@@ -37,7 +42,7 @@ public class ProduitController {
 	/**
 	 * Permet d'afficher le formaulaire d'ajout d'un produit dans la base de données.
 	 * 
-	 * @return Le modèle de la page contenant le formulaire d'ajout de la méthode.
+	 * @return Modele MVC de la page ajout de produit.
 	 * Cette méthode permet d'afficher le formulaire d'ajout d'un produit.
 	 * Les informations du formulaire seront stockés dans l'objet produitAjoute
 	 * qui est une instance de la classe Produit.
@@ -51,7 +56,7 @@ public class ProduitController {
 	 * Permet d'ajouter un produit contenant les informations dans la base de données.
 	 * Les informations sont fournis par l'utilisateur à travers le formulaire d'ajout.
 	 * 
-	 * @param modele : 
+	 * @param modele : Modele MVC de la page ajout de produit
 	 * @param produit : Un objet de type produit (il s'agit de produitAjoute du formulaire affiché par affichageFormulaireAjout) qui contient les infos nécessaire à l'ajout dans la base de données
 	 * @return : La page où l'on 
 	 */
@@ -79,10 +84,10 @@ public class ProduitController {
 	}
 
 	/**
-	 * Permet d'ajouter un produit contenant les informations dans la base de données.
+	 * Permet de supprimer un produit contenu dans la base de données.
 	 * Les informations sont fournis par l'utilisateur à travers le formulaire de suppression.
 	 * 
-	 * @param modele : 
+	 * @param modele : Modele MVC de la page supression de produit
 	 * @param produit : Un objet de type produit (il s'agit de produitSuppression du formulaire affiché la méthode affichageFormulaireSuppression) qui contient les infos nécessaire à l'ajout dans la base de données
 	 * @return : La page d'accueil à partir de laquelle les admins ont accès aux différentes fonctionnalités 
 	 * @see affichageFormulaireSuppression
@@ -99,11 +104,23 @@ public class ProduitController {
 		return "admin";
 
 	}
+	/**
+	 * Permet d'afficher le formulaire pour modifier un produit
+	 * @return Le modèle de la page contenant le formulaire de modification de produit.
+	 * Les informations sont stockées dans produitModif qui est une instance de la classe Produit.
+	 */
 	@RequestMapping(value="/modif", method = RequestMethod.GET)
 	public ModelAndView affichageFormulaireModification(){
 		return new ModelAndView("produit_modif","produitModif",new Produit());
 	}
-	
+	/**
+	 * Permet de modifier un produit présent dans la base de données
+	 * 
+	 * @param modele Le modèle MVC de la page contenant le formulaire de modification de produit.
+	 * @param produit : Un objet de type produit contenant toutes les informations. Infos stockées dans produitModif
+	 * @return : La page d'accueil à partir de laquelle les admins ont accès aux différentes fonctionnalités 
+	 * @see affichageFormulaireModification
+	 */
 	@RequestMapping(value="modifierProduit",method=RequestMethod.POST)
 	public String soumissionFormulaireModification(Model modele,@ModelAttribute("produitModif") Produit produit){
 		Produit produitModif = serviceProduit.modifierProduit(produit);

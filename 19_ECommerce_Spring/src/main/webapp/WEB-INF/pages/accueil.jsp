@@ -14,5 +14,36 @@
 <body>
 	<h2><a href="${pageContext.request.contextPath}/admin">page admin</a></h2>
 	<h2><a href="${pageContext.request.contextPath}/client">page client</a></h2>
+	
+		<table class="table table-bordered">
+		<thead>Recapitulatif Produits
+		</thead>
+
+		<tr>
+
+			<th>Désignation</th>
+			<th>Description</th>
+			<th>Prix</th>
+			<th>Quantité</th>
+			<th>Image</th>
+		</tr>
+
+		<c:forEach var="produit" items="${listeProduit}">
+		
+			<tr>
+				<th>${produit.designation}</th>
+				<th>${produit.description}</th>
+				<th>${produit.prix}</th>
+				<th>${produit.quantite}</th>
+				<th>Placeholder</th>
+			</tr>
+
+
+
+		</c:forEach>
+
+	</table>
+	
+	
 </body>
 </html>
