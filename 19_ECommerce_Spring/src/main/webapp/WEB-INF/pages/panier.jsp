@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Client</title>
+	<title>Panier</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -14,6 +14,6 @@
 <body>
 	<h2><a href="${pageContext.request.contextPath}/accueil">accueil</a></h2>
 	<br/>
-	<h1>${message}</h1>
+	<h1>Panier</h1>
 </body>
 </html>

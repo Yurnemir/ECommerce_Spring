@@ -25,13 +25,11 @@ public class PortailController {
 		return "accueil";
 	}
 	@RequestMapping(value="/admin", method=RequestMethod.GET)
-	public String afficherPageAdmin(ModelMap model) {
-		model.addAttribute("message", "Bonjour Admin");
+	public String afficherLogin(ModelMap model) {
 		return "admin";
 	}
-	@RequestMapping(value="/client", method=RequestMethod.GET)
-	public String afficherPageClient(ModelMap model) {
-		model.addAttribute("message", "Bonjour Client");
-		return "client";
+	@RequestMapping(value="/panier", method=RequestMethod.GET)
+	public String afficherPanier(ModelMap model) {
+		return "panier";
 	}
 }
