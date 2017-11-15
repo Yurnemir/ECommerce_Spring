@@ -2,7 +2,7 @@ package fr.adaming.dao;
 
 import java.util.List;
 
-import org.primefaces.model.UploadedFile;
+
 
 import fr.adaming.modele.Produit;
 
