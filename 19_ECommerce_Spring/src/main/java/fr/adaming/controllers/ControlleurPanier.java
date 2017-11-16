@@ -1,12 +1,16 @@
 package fr.adaming.controllers;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.cfg.CreateKeySecondPass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -216,7 +220,7 @@ public class ControlleurPanier {
 			panierSession.setListeLignesCommande(listeLigneCommande);
 
 		 }
-		
+
 		//On ajoute le panier dans la session
 		session.setAttribute("panier", panierSession);
 		
@@ -268,7 +272,15 @@ public class ControlleurPanier {
 			document.add(paraPrixTotal);
 			
 			document.close();
-		
+			//C:\Program Files (x86)\Adobe\Acrobat Reader DC\Reader\AcroRd32.exe
+			//Ouvrir le fichier PDF.
+			System.out.println("On essaye d'ouvrir le fichier PDF qui a été généré");
+			try {
+				Desktop.getDesktop().open(new File("C:\\Users\\inti0236\\Desktop\\Facture2.pdf"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (FileNotFoundException | DocumentException e) {
 
 			e.printStackTrace();
