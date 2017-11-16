@@ -9,17 +9,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 /**
- * Classe qui représente une commande effectuée par le client.
- * Elle possède deux attributs :
+ * Classe qui reprï¿½sente une commande effectuï¿½e par le client.
+ * Elle possï¿½de deux attributs :
  * <ul>
- * <li> idCommande : id de la commande dans la base de données
- * <li>	dateCommande : date à laquelle la commande a été effectuée
+ * <li> idCommande : id de la commande dans la base de donnï¿½es
+ * <li>	dateCommande : date ï¿½ laquelle la commande a ï¿½tï¿½ effectuï¿½e
  * <ul>
- * Elle est aussi en association avec une liste de ligne commande permettant de connaitre les détails des produits commandés.
+ * Elle est aussi en association avec une liste de ligne commande permettant de connaitre les dï¿½tails des produits commandï¿½s.
  * @author inti0236
  *
  */
@@ -35,8 +36,8 @@ public class Commande{
 	private Date dateCommande ;
 	
 	// Association avec LigneCommande 
-	//(Ligne commande n'est pas stocké dans la base de données pas besoin de stocker l'attribut de l'association)
-	@Transient
+	//(Ligne commande n'est pas stockï¿½ dans la base de donnï¿½es pas besoin de stocker l'attribut de l'association)
+	@OneToMany(mappedBy="commande")
 	private List<LigneCommande> listeLigneCommande;
 	// Association avec un client
 	
@@ -89,6 +90,11 @@ public class Commande{
 		return "Commande [idCommande=" + idCommande + ", dateCommande=" + dateCommande + "]";
 	}
 	
+	public void addLigne(LigneCommande ligne){
+		if (ligne != null){
+			this.listeLigneCommande.add(ligne);
+		}
+	}
 	
 }
  

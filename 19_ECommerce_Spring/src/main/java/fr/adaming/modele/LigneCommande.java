@@ -1,28 +1,41 @@
 package fr.adaming.modele;
 
-import javax.persistence.Transient;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 /**
- * Classe qui représente la quantité et le prix total commandé par le client pour un produit données.
+ * Classe qui reprï¿½sente la quantitï¿½ et le prix total commandï¿½ par le client pour un produit donnï¿½es.
  * Elle contient deux attributs : 
  * <ul>
- * <li> quantite : qui représente le nombre d'objets commandé
- * <li> prix : représente le prix total demandé pour ces objets
+ * <li> quantite : qui reprï¿½sente le nombre d'objets commandï¿½
+ * <li> prix : reprï¿½sente le prix total demandï¿½ pour ces objets
  * <ul>
- * Elle est aussi en association avec un produit représentant le produit acheté.
+ * Elle est aussi en association avec un produit reprï¿½sentant le produit achetï¿½.
  * @author inti0236
  *
  */
+@Entity
+@Table(name="lignesCommande")
 public class LigneCommande {
 	
 	// attributs
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long idLigne;
 	private int quantite ; 
 	private double prix ;
 	
-	//Association avec produits (Ligne commande n'est pas stocké dans la base de données)
-	@Transient
+	//Association avec produits (Ligne commande n'est pas stockï¿½ dans la base de donnï¿½es)
+	@ManyToOne
+	@JoinColumn(name="produit_id", referencedColumnName="idProduit")
 	private Produit produit;
-	//Association avec Commande (Ligne commande n'est pas stocké dans la base de données)	
-	@Transient
+	//Association avec Commande (Ligne commande n'est pas stockï¿½ dans la base de donnï¿½es)	
+	@ManyToOne
+	@JoinColumn(name="commande_id", referencedColumnName="idCommande")
 	private Commande commande;
 	
 	
@@ -84,8 +97,5 @@ public class LigneCommande {
 	@Override
 	public String toString() {
 		return "LigneCommande [quantite=" + quantite + ", prix=" + prix + "]";
-	} 
-	
-	
-	
+	}
 }

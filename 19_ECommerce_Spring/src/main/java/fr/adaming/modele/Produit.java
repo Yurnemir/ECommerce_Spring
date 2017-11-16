@@ -10,25 +10,26 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 /**
  * 
  * @author inti0236
- * Classe représentant un produit proposé par le magasin.
- * Un produit est défini  par les attributs suivants : 
+ * Classe reprï¿½sentant un produit proposï¿½ par le magasin.
+ * Un produit est dï¿½fini  par les attributs suivants : 
  * <ul>
- * <li> Un id qui permet de l'identifier dans une base de données
+ * <li> Un id qui permet de l'identifier dans une base de donnï¿½es
  * <li> Une designation (son nom)
- * <li> Une description plus ou mois détaillé.
+ * <li> Une description plus ou mois dï¿½taillï¿½.
  * <li> Un prix
- * <li> Une quantité qui représente le stock disponible
+ * <li> Une quantitï¿½ qui reprï¿½sente le stock disponible
  * <li>	Le nom de son image
- * <li> Une image représenté par un tableau de byte
+ * <li> Une image reprï¿½sentï¿½ par un tableau de byte
  * </ul>
  *
- *Elle est associée avec une catégorie représentant la catégorie à laquelle appartient ce produit et 
- *à une ligne de commande représentant la commande de ce produit
+ *Elle est associï¿½e avec une catï¿½gorie reprï¿½sentant la catï¿½gorie ï¿½ laquelle appartient ce produit et 
+ *ï¿½ une ligne de commande reprï¿½sentant la commande de ce produit
  */
 @Entity
 @Table(name="produits")
@@ -43,11 +44,11 @@ public class Produit {
 	 */
 	private int idProduit;
 	/**
-	 * Le nom utilisé dans le magasin pour nommer le produit. Modifiable
+	 * Le nom utilisï¿½ dans le magasin pour nommer le produit. Modifiable
 	 */
 	private String designation;
 	/**
-	 * Une description plus ou mois détaillé du produit. Modifiable
+	 * Une description plus ou mois dï¿½taillï¿½ du produit. Modifiable
 	 */
 	private String description;
 	/**
@@ -55,7 +56,7 @@ public class Produit {
 	 */
 	private double prix;
 	/**
-	 * Nombre d'unité du produit en stock. Modifiable
+	 * Nombre d'unitï¿½ du produit en stock. Modifiable
 	 */
 	private int quantite;
 	private String image;
@@ -63,18 +64,18 @@ public class Produit {
 	private boolean selectionne;
 	@Lob
 	/**
-	 * Image représentant le produit vendu comme un tableau de byte. Modifiable
+	 * Image reprï¿½sentant le produit vendu comme un tableau de byte. Modifiable
 	 */
 	private byte[] imageFichier;
 	
-	// Association avec la catégorie
+	// Association avec la catï¿½gorie
 	@ManyToOne
 	@JoinColumn(name="id_categorie",referencedColumnName="id_Categorie")
 	private Categorie categorie;
 	
 	// Association avec ligne de commande
-	//(Ligne commande n'est pas stocké dans la base de données il ne faut pas stocker l'attribut de l'association)
-	@Transient
+	//(Ligne commande n'est pas stockï¿½ dans la base de donnï¿½es il ne faut pas stocker l'attribut de l'association)
+	@OneToMany(mappedBy="produit")
 	private List<LigneCommande> listeLigneCommande;
 	
 	
