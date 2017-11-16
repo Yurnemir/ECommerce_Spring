@@ -12,52 +12,47 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+	<!-- =========================== Barre Navigation =========================== -->
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#">Ecommerce</a>
 			</div>
 			<ul class="nav navbar-nav">
+				<c:if test="${sessionScope.role.nomRole == 'ROLE_ADMIN_CATEGORIE'}">
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Categories
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="${pageContext.request.contextPath}/admin/categorie/recap">Recap</a></li>
+							<li><a href="${pageContext.request.contextPath}/admin/categorie/ajout">Ajout</a></li>
+							<li><a href="${pageContext.request.contextPath}/admin/categorie/modif">Modification</a></li>
+							<li><a href="${pageContext.request.contextPath}/admin/categorie/suppr">Suppression</a></li>
+						</ul>
+					</li>
+				</c:if>
 				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Produits
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href="#">Page 1-1</a></li>
-						<li><a href="#">Page 1-2</a></li>
-						<li><a href="#">Page 1-3</a></li>
-					</ul>
-				</li>
-				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 2
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Page 2-1</a></li>
-						<li><a href="#">Page 2-2</a></li>
-						<li><a href="#">Page 2-3</a></li>
+						<li><a href="${pageContext.request.contextPath}/admin/produit/recap">Recap</a></li>
+						<li><a href="${pageContext.request.contextPath}/admin/produit/ajout">Ajout</a></li>
+						<li><a href="${pageContext.request.contextPath}/admin/produit/modif">Modification</a></li>
+						<li><a href="${pageContext.request.contextPath}/admin/produit/suppr">Suppression</a></li>
 					</ul>
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-				<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+				<li><a href='<c:url value="/deconnexion"/>'><span class="glyphicon glyphicon-log-out"></span>Deconnexion</a></li>
 			</ul>
 		</div>
 	</nav>
+	<br/><br/>
 	
-	<h2><a href='<c:url value="/deconnexion"/>'>deconnexion</a></h2>
-	<br/>
-	<h1>Categories</h1>
-	<h2><a href="${pageContext.request.contextPath}/admin/categorie/recap">recap</a></h2>
-	<h2><a href="${pageContext.request.contextPath}/admin/categorie/ajout">ajout</a></h2>
-	<h2><a href="${pageContext.request.contextPath}/admin/categorie/modif">modif</a></h2>
-	<h2><a href="${pageContext.request.contextPath}/admin/categorie/suppr">suppr</a></h2>
-	<br/>
-	<h1>Produits</h1>
-	<h2><a href="${pageContext.request.contextPath}/admin/produit/recap">recap</a></h2>
-	<h2><a href="${pageContext.request.contextPath}/admin/produit/ajout">ajout</a></h2>
-	<h2><a href="${pageContext.request.contextPath}/admin/produit/modif">modif</a></h2>
-	<h2><a href="${pageContext.request.contextPath}/admin/produit/suppr">suppr</a></h2>
+	<!-- =========================== Contenu Page =========================== -->
+	<br/><br/><br/>
+	<h1 align="center">Espace Administrateur</h1>
 </body>
 </html>
