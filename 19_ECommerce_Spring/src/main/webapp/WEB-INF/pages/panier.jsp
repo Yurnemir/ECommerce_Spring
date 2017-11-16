@@ -22,7 +22,7 @@
 	<br />
 	<h1>Panier</h1>
 
-	<h3><a>Imprimer la facture</a></h3>
+	<h3><a href="${pageContext.request.contextPath}/panier/facturePDF">Imprimer la facture</a></h3>
 	<div align="center">
 		<table class="table table-bordered">
 

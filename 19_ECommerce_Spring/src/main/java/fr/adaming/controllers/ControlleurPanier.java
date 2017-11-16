@@ -1,5 +1,7 @@
 package fr.adaming.controllers;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,6 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import fr.adaming.modele.LigneCommande;
 import fr.adaming.modele.Panier;
@@ -100,5 +108,46 @@ public class ControlleurPanier {
 		return new ModelAndView("panier","panierAffiche",panierSession);
 		
 	}
-	
+	@RequestMapping(value="/facturePDF")
+	public ModelAndView facturePDF(HttpSession session){
+		Panier panierSession = (Panier) session.getAttribute("panier");
+		List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
+		Document document = new Document();
+		try {
+			PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream("C:\\Users\\inti0236\\Desktop\\Facture2.pdf"));
+			document.open();
+		
+			//Ecrire la facture dans le pdf.
+			// Entête du tableau
+			String[] enteteTableau ={"Produit","Description","Quantité","Prix"};
+			PdfPTable table = new PdfPTable(enteteTableau.length);
+			//Création de l'entete du tableau
+			for(String caseEntete : enteteTableau){
+				Paragraph celluleEnteteTemp = new Paragraph();
+				celluleEnteteTemp.add(caseEntete);
+				table.addCell(celluleEnteteTemp);
+			}
+			//On ajoute les lignes de commandes.
+			for(LigneCommande ligne : listeLigneCommande){
+				Object[] ligneFacture ={ligne.getProduit().getDesignation(),ligne.getProduit().getDescription(),ligne.getQuantite(),ligne.getPrix()};
+				for (Object objet:ligneFacture){
+					Paragraph paragrapheTemp = new Paragraph();
+					paragrapheTemp.add(objet.toString());
+					table.addCell(paragrapheTemp);
+				}
+				
+			}
+			
+			document.add(table);
+			
+			document.close();
+		
+		} catch (FileNotFoundException | DocumentException e) {
+
+			e.printStackTrace();
+		}
+		
+		return new ModelAndView("panier","panierAffiche",panierSession);
+
+	}
 }
