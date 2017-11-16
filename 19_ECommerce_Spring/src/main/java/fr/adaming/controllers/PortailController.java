@@ -26,7 +26,6 @@ public class PortailController {
 	}
 	@RequestMapping(value="/admin/connexion", method=RequestMethod.GET)
 	public String afficherPageAdmin(ModelMap model) {
-		model.addAttribute("message", "Bonjour Admin");
 		return "admin";
 	}
 	@RequestMapping(value="/login")

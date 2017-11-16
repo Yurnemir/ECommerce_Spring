@@ -12,11 +12,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-
-	<h2><a href='<c:url value="/deconnexion"/>'>accueil</a></h2>
-	<br/>
-	<h1>${message}</h1>
-	<br/>
+	<h2><a href='<c:url value="/deconnexion"/>'>deconnexion</a></h2>
 	<br/>
 	<h1>Categories</h1>
 	<h2><a href="${pageContext.request.contextPath}/admin/categorie/recap">recap</a></h2>
