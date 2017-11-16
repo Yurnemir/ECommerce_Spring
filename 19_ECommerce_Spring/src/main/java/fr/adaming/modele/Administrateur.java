@@ -74,11 +74,22 @@ public class Administrateur {
 	public void setMdp(String mdp) {
 		this.mdp = mdp;
 	}
-	//toString
-	@Override
-	public String toString() {
-		return "Administrateur [idAdmin=" + idAdmin + ", identifiant=" + identifiant + ", mdp=" + mdp + "]";
+	public boolean isActif() {
+		return actif;
+	}
+	public void setActif(boolean actif) {
+		this.actif = actif;
+	}
+	public List<Role> getListeRoles() {
+		return listeRoles;
+	}
+	public void setListeRoles(List<Role> listeRoles) {
+		this.listeRoles = listeRoles;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "Administrateur [idAdmin=" + idAdmin + ", identifiant="
+				+ identifiant + ", mdp=" + mdp + ", actif=" + actif + "]";
+	}
 }

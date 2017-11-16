@@ -2,22 +2,36 @@ package fr.adaming.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import fr.adaming.modele.Administrateur;
 import fr.adaming.modele.LigneCommande;
 import fr.adaming.modele.Panier;
 import fr.adaming.modele.Produit;
+import fr.adaming.modele.Role;
 import fr.adaming.service.IProduitService;
+import fr.adaming.service.IRoleService;
+import fr.adaming.service.IServiceAdmin;
 
 @Controller
 public class PortailController {
 	@Autowired
 	private IProduitService serviceProduit;
+	@Autowired
+	private IServiceAdmin serviceAdmin;
+	@Autowired
+	private IRoleService serviceRole;
 	
 	@RequestMapping(value="/accueil", method=RequestMethod.GET)
 	public String afficherAccueil(Model modele, HttpSession session) {
@@ -36,8 +50,12 @@ public class PortailController {
 		return "accueil";
 	}
 	@RequestMapping(value="/admin/connexion", method=RequestMethod.GET)
-	public String afficherPageAdmin(ModelMap model) {
-		return "admin";
+	public ModelAndView afficherPageAdmin(ModelMap model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Administrateur admin = serviceAdmin.getAdminByName(auth.getName());
+		Role role = serviceRole.getRoleByAdmin(admin);
+		System.out.println("Role admin logged : " + role);
+		return new ModelAndView("admin", "role", role);
 	}
 	@RequestMapping(value="/login")
 	public String afficherFormulaireConnexion(){

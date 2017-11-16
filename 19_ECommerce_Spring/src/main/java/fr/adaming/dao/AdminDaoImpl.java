@@ -8,24 +8,24 @@ import org.springframework.stereotype.Repository;
 
 import fr.adaming.modele.Administrateur;
 
-/**
- * Interaction avec les administrateurs de la db
- * @author inti
- */
 @Repository
 public class AdminDaoImpl implements IAdminDao{
-
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	
-	//Setters de l'injection
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
-
-
+	@Override
+	public Administrateur getAdminByName(String name) {
+		Session session = sessionFactory.getCurrentSession();
+		String req ="FROM Administrateur admin WHERE admin.identifiant=:pIdentifiant";
+		Query query = session.createQuery(req);
+		query.setParameter("pIdentifiant", name);
+		Administrateur administrateurRecup = (Administrateur) query.uniqueResult();
+		return administrateurRecup;
+	}
 	@Override
 	public Administrateur connexionAdmin(Administrateur administrateur) {
 		//Instanciation de la session
@@ -40,6 +40,5 @@ public class AdminDaoImpl implements IAdminDao{
 		Administrateur administrateurRecup = (Administrateur) query.uniqueResult();
 		
 		return administrateurRecup;
-	}
-
+}
 }
