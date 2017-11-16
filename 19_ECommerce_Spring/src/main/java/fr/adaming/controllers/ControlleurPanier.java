@@ -110,9 +110,12 @@ public class ControlleurPanier {
 	}
 	@RequestMapping(value="/facturePDF")
 	public ModelAndView facturePDF(HttpSession session){
+		double prixTotal = 0;
+		Document document = new Document();
+
+		
 		Panier panierSession = (Panier) session.getAttribute("panier");
 		List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
-		Document document = new Document();
 		try {
 			PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream("C:\\Users\\inti0236\\Desktop\\Facture2.pdf"));
 			document.open();
@@ -129,7 +132,9 @@ public class ControlleurPanier {
 			}
 			//On ajoute les lignes de commandes.
 			for(LigneCommande ligne : listeLigneCommande){
+				prixTotal = prixTotal + ligne.getProduit().getPrix();
 				Object[] ligneFacture ={ligne.getProduit().getDesignation(),ligne.getProduit().getDescription(),ligne.getQuantite(),ligne.getPrix()};
+			
 				for (Object objet:ligneFacture){
 					Paragraph paragrapheTemp = new Paragraph();
 					paragrapheTemp.add(objet.toString());
@@ -138,7 +143,12 @@ public class ControlleurPanier {
 				
 			}
 			
+			
 			document.add(table);
+			
+			//Ajout du prix total.
+			Paragraph paraPrixTotal = new Paragraph("Prix Total : " +prixTotal + "€");
+			document.add(paraPrixTotal);
 			
 			document.close();
 		
