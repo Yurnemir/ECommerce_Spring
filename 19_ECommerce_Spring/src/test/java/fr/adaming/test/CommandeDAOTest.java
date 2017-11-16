@@ -68,6 +68,7 @@ public class CommandeDAOTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testEnregistrementCommande(){
 		clientDAO.createClient(clientIn);
 		produitDAO.ajouterProduit(produitIn);
@@ -84,6 +85,7 @@ public class CommandeDAOTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testGetCommandeById(){
 		commandeDAO.enregistrementCommande(commandeIn);
 		

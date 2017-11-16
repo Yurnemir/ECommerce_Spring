@@ -3,6 +3,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Accueil</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -11,9 +12,12 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+
 <body>
 	<h2><a href="${pageContext.request.contextPath}/admin/connexion">page admin</a></h2>
 	<h2><a href="${pageContext.request.contextPath}/panier">Panier</a></h2>
+	<h2><a href="${pageContext.request.contextPath}/panier/affichagePanier">Accès au panier</a></h2>
+	
 	<h1>Recapitulatif Produits</h1>
 	<br/>
 	<table class="table table-bordered">

@@ -91,4 +91,14 @@ public class ControlleurPanier {
 		return new ModelAndView("accueil","listeProduit",listeProduit);
 	}
 	
+	@RequestMapping(value="/affichagePanier")
+	public ModelAndView affichagePanier(HttpSession session){
+		//Récupération du panier
+		
+		Panier panierSession = (Panier) session.getAttribute("panier");
+		//panierSession.getListeLignesCommande().get(0).get
+		return new ModelAndView("panier","panierAffiche",panierSession);
+		
+	}
+	
 }
