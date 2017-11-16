@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,7 +25,7 @@ import fr.adaming.modele.Panier;
 import fr.adaming.modele.Produit;
 import fr.adaming.service.IProduitService;
 @Controller
-@RequestMapping("/panier")
+//@RequestMapping("/panier")
 public class ControlleurPanier {
 
 	@Autowired
@@ -46,9 +47,8 @@ public class ControlleurPanier {
 		//On récupère le panier depuis le modele.
 		Panier panierSession = (Panier) session.getAttribute("panier");
 		List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
-		
 		for(LigneCommande ligne:listeLigneCommande){
-			System.out.println("Id de la ligne"+ligne.getProduit().getIdProduit() + "vs produit demandé" + idProduit);
+			System.out.println("Id du produit dans de la ligne"+ligne.getProduit().getIdProduit() + "vs produit demandé" + idProduit);
 			if(ligne.getProduit().getIdProduit()==idProduit){
 				System.out.println("Produit déjà dans la commande il faut modifier la ligne");
 				verifLigne = true;
@@ -60,6 +60,7 @@ public class ControlleurPanier {
 				verifLigne=false;
 				
 			}
+
 		}
 		
 		if(verifLigne == true){
@@ -99,7 +100,74 @@ public class ControlleurPanier {
 		return new ModelAndView("accueil","listeProduit",listeProduit);
 	}
 	
-	@RequestMapping(value="/affichagePanier")
+	//Panier avec formulaire
+	@RequestMapping(value="/ajouterProduitPanierViaFormulaire", method=RequestMethod.GET)
+	public String ajoutPanierParLigneAvecForm(Model model,@RequestParam("identifiantProduit") int idProduit,@RequestParam("quantite") int quantite, HttpSession session){
+		boolean verifExistenceLigne =false;
+		LigneCommande ligneCommandeTemp = new LigneCommande();
+		System.out.println(idProduit + " " + quantite);
+		//Récupérer le produit
+		Produit produitTemp = new Produit();
+		produitTemp.setIdProduit(idProduit);
+		Produit produitDemande = serviceProduit.rechercherProduitAvecId(produitTemp);
+		
+		//Récupérer le panier depuis la session et la liste des lignes 
+		Panier panierSession = (Panier) session.getAttribute("panier");
+		List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
+		for(LigneCommande ligne:listeLigneCommande){
+			int i ;
+			System.out.println("Id du produit actuel" +ligne.getProduit().getIdProduit()+"vs celui demandé"+idProduit);
+			if(ligne.getProduit().getIdProduit()==idProduit){
+				verifExistenceLigne = true;
+				ligneCommandeTemp = ligne;
+
+				break;
+			}else{
+				verifExistenceLigne = false;
+			}
+		}
+		
+		if(verifExistenceLigne==true){
+			System.out.println("Ce produit a déjà une ligne. Il faut actualiser la ligne");
+			int quantiteNouvelle = ligneCommandeTemp.getQuantite()+quantite;
+			double prixNouveau = ligneCommandeTemp.getPrix()+produitDemande.getPrix()*quantite;
+			if(produitDemande.getQuantite()<quantiteNouvelle){
+				System.out.println("Trop de produit commandé. La commande ne sera pas mise à jour.");
+			}else{
+				ligneCommandeTemp.setQuantite(quantiteNouvelle);
+				ligneCommandeTemp.setPrix(prixNouveau);
+			}
+		}else{
+			System.out.println("Aucune ligne associé à ce produit on peut en créer une nouvelle.");
+
+			if(produitDemande.getQuantite()<quantite){
+				System.out.println("Trop de produit commandé. On ne peut pas ajouter le produit");
+			}else{
+				ligneCommandeTemp.setProduit(produitDemande);
+				ligneCommandeTemp.setPrix(quantite*produitDemande.getPrix());
+				ligneCommandeTemp.setQuantite(quantite);
+				listeLigneCommande.add(ligneCommandeTemp);
+				panierSession.setListeLignesCommande(listeLigneCommande);
+				System.out.println("Vous achetez" + ligneCommandeTemp.getQuantite()+"unité pour un prix total de" + ligneCommandeTemp.getPrix());
+			}
+
+		}
+		
+		
+		
+		//Ajout du panier dans la session
+		session.setAttribute("panier", panierSession);
+		//Lister l'ensembles des produits 
+		List<Produit> listeProduit = serviceProduit.listerProduits();
+		
+		
+		model.addAttribute("listeProduit", listeProduit);
+		return "accueil";
+	}
+	
+	
+	
+	@RequestMapping(value="/panier/affichagePanier")
 	public ModelAndView affichagePanier(HttpSession session){
 		//Récupération du panier
 		
@@ -108,6 +176,9 @@ public class ControlleurPanier {
 		return new ModelAndView("panier","panierAffiche",panierSession);
 		
 	}
+	
+	
+	
 	@RequestMapping(value="/facturePDF")
 	public ModelAndView facturePDF(HttpSession session){
 		double prixTotal = 0;

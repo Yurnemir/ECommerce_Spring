@@ -40,11 +40,14 @@ public class PortailController {
 		modele.addAttribute("listeProduit",listeProduit);
 		Panier panier = (Panier) session.getAttribute("panier");
 		if (panier == null) {
+			System.out.println("Panier vide");
 			panier = new Panier();
 			List<LigneCommande> lcs = new ArrayList<LigneCommande>();
 			panier.setListeLignesCommande(lcs);
 			session.setAttribute("panier", panier);
 			System.out.println("panier==null");
+		}else {
+			System.out.println("Panier non vide");
 		}
 		return "accueil";
 	}

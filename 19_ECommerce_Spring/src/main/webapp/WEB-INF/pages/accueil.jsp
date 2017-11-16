@@ -41,6 +41,8 @@
 			<th>Prix</th>
 			<th>Quantité</th>
 			<th>Image</th>
+			<th>Ajouter (lien)</th>
+			<th>Ajouter (form)</th>
 		</tr>
 		<c:forEach var="produit" items="${listeProduit}">
 			<tr>
@@ -49,7 +51,13 @@
 				<th>${produit.prix}</th>
 				<th>${produit.quantite}</th>
 				<th>Placeholder</th>
-				<th><a href="${pageContext.request.contextPath}/panier/ajoutViaLien?pIdProduit=${produit.idProduit}">Ajouter</a><th>
+				<th><a href="${pageContext.request.contextPath}/ajoutViaLien?pIdProduit=${produit.idProduit}">Ajouter</a><th>
+				<th><form method="GET" action="ajouterProduitPanierViaFormulaire" >
+					<input type="hidden" name="identifiantProduit" value="${produit.idProduit}">
+					<input type="number" name="quantite">
+					<input type="submit">
+				</form>		
+				</th>
 			</tr>
 		</c:forEach>
 	</table>

@@ -56,7 +56,7 @@
 	<h1 align="center">Ajout de produit</h1>
 	<br/>
 	<form:form class="form-horizontal" method="POST"
-		action="ajouterProduit" modelAttribute="produitAjoute">
+		action="ajouterProduit" modelAttribute="produitAjoute" >
 		<div class="form-group">
 			<form:label path="designation" class="col-sm-2 control-label">Designation du produit</form:label>
 			<div class="col-sm-4">
