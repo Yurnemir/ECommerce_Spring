@@ -1,19 +1,20 @@
 package fr.adaming.modele;
 
 /**
- * Classe représentant un client qui sera enregistré dans la base.
- * Elle possède les attributs suivants : 
+ * Classe reprï¿½sentant un client qui sera enregistrï¿½ dans la base.
+ * Elle possï¿½de les attributs suivants : 
  * <ul>
- * <li> idClient : Un identifiant dans la base de données. int
+ * <li> idClient : Un identifiant dans la base de donnï¿½es. int
  * <li> nomClient : Le nom du client String
  * <li> adresse : L'adresse du client String
  * <li> email : L'adresse mail du client String
- * <li> tel : Le numéro de téléphine du client. String
+ * <li> tel : Le numï¿½ro de tï¿½lï¿½phine du client. String
  * <li> codePerso : Un code personel fourni par le site au client pour ses commandes futures String
  * </ul>
  */
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

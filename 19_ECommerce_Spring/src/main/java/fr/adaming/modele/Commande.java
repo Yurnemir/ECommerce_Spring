@@ -3,6 +3,7 @@ package fr.adaming.modele;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,7 +38,7 @@ public class Commande{
 	
 	// Association avec LigneCommande 
 	//(Ligne commande n'est pas stock� dans la base de donn�es pas besoin de stocker l'attribut de l'association)
-	@OneToMany(mappedBy="commande")
+	@OneToMany(mappedBy="commande",cascade=CascadeType.ALL)
 	private List<LigneCommande> listeLigneCommande;
 	// Association avec un client
 	

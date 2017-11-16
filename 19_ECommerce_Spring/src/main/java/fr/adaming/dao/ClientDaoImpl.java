@@ -42,7 +42,7 @@ public class ClientDaoImpl implements IClientDao{
 
 	@Override
 	public Client getClientByInfo(Client c) {
-		String req = "FROM Client c WERE c.email=:pEmail AND c.codePerso=pPass";
+		String req = "FROM Client c WHERE c.email=:pEmail AND c.codePerso=:pPass";
 		Query query = sf.getCurrentSession().createQuery(req);
 		query.setParameter("pEmail", c.getEmail());
 		query.setParameter("pPass", c.getCodePerso());

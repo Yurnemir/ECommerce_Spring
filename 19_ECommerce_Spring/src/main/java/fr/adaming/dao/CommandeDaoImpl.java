@@ -50,5 +50,14 @@ public class CommandeDaoImpl implements ICommandeDao {
 		List<Commande> liste = (List<Commande>)query.list();
 		return liste;
 	}
+	
+	@Override
+	public List<Commande> getAllCommandes(){
+		String req = "FROM Commande";
+		Query query = sessionFactory.getCurrentSession().createQuery(req);
+		List<Commande> liste = query.list();
+		System.out.println(liste);
+		return liste;
+	}
 
 }
