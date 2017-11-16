@@ -16,37 +16,43 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<h2>
-		<a href="${pageContext.request.contextPath}/accueil">accueil</a>
-	</h2>
-	<br />
+	<!-- =========================== Barre Navigation =========================== -->
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Ecommerce</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="${pageContext.request.contextPath}/accueil">Accueil</a></li>
+				<li class="active"><a href="#">Panier</a></li>
+				
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="${pageContext.request.contextPath}/admin/connexion"><span class="glyphicon glyphicon-log-in"></span>Connexion</a></li>
+			</ul>
+		</div>
+	</nav>
+	<br/><br/>
+	
+	<!-- =========================== Contenu Page =========================== -->
 	<h1>Panier</h1>
 
 	<h3><a href="${pageContext.request.contextPath}/panier/facturePDF">Imprimer la facture</a></h3>
 	<div align="center">
 		<table class="table table-bordered">
-
 			<tr>
-
 				<th>Désignation</th>
 				<th>Description</th>
 				<th>Prix</th>
 				<th>Quantité</th>
-
 			</tr>
-			
 			<c:forEach var="ligneCommande" items="${panierAffiche.listeLignesCommande}">
 				<tr>
-
 					<th>${ligneCommande.produit.designation}</th>
 					<th>${ligneCommande.produit.description}</th>
 					<th>${ligneCommande.prix}</th>
 					<th>${ligneCommande.quantite}</th>
-
-
 			</c:forEach>
-
-
 		</table>
 	</div>
 
