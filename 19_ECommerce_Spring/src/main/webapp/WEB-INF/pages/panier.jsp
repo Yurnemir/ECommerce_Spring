@@ -38,13 +38,16 @@
 	<h1>Panier</h1>
 
 	<h3><a href="${pageContext.request.contextPath}/panier/facturePDF">Imprimer la facture</a></h3>
+	<h3><a href="${pageContext.request.contextPath}/panier/viderPanier">Vider le panier</a></h3>
 	<div align="center">
 		<table class="table table-bordered">
 			<tr>
+
 				<th>Désignation</th>
 				<th>Description</th>
 				<th>Prix</th>
 				<th>Quantité</th>
+				<th>Retirer du panier</th>
 			</tr>
 			<c:forEach var="ligneCommande" items="${panierAffiche.listeLignesCommande}">
 				<tr>
@@ -52,6 +55,7 @@
 					<th>${ligneCommande.produit.description}</th>
 					<th>${ligneCommande.prix}</th>
 					<th>${ligneCommande.quantite}</th>
+					<th><a href="${pageContext.request.contextPath}/panier/retirerPanier?pIdSuppression=${ligneCommande.produit.idProduit}">Retirer</a></th>
 			</c:forEach>
 		</table>
 	</div>

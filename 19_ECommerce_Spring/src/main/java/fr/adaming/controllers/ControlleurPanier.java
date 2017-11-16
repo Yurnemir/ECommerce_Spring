@@ -2,6 +2,7 @@ package fr.adaming.controllers;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -81,9 +82,12 @@ public class ControlleurPanier {
 
 		}
 		
-		
+		//Ligne de commande à ajouter
 		if(verifLigne==false){
 			LigneCommande ligneCommande = new LigneCommande();
+			//System.out.println(listeLigneCommande.size());
+			//ligneCommande.setPositionTableau(listeLigneCommande.size()-1);
+			//ligneCommande.setIdLigne(liste);
 			ligneCommande.setProduit(produitDemande);
 			ligneCommande.setQuantite(1);
 			ligneCommande.setPrix(ligneCommande.getQuantite()*produitDemande.getPrix());
@@ -176,10 +180,52 @@ public class ControlleurPanier {
 		return new ModelAndView("panier","panierAffiche",panierSession);
 		
 	}
+	@RequestMapping(value="/panier/viderPanier")
+	public ModelAndView viderPanier(HttpSession session){
+		// Création d'un nouveau panier ne contenant aucune ligne de commande
+		Panier nouveauPanier = new Panier();
+		List<LigneCommande> nouvelleListeLigneCommande = new ArrayList<>();
+		nouveauPanier.setListeLignesCommande(nouvelleListeLigneCommande);
+		
+		//On ajoute le panier dans la session.
+		session.setAttribute("panier", nouveauPanier);
+		
+		// On revient à la page du panier
+		return new ModelAndView("panier","panierAffiche",nouveauPanier);
+		//return "p";
+	}
+	
+	@RequestMapping(value="/panier/retirerPanier")
+	public ModelAndView retireProduitPanier(HttpSession session,@RequestParam("pIdSuppression") long idSuppression){
+		LigneCommande ligneASupprimer = new LigneCommande();
+		Panier panierSession = (Panier) session.getAttribute("panier");
+		boolean ligneTrouvee = false;
+		List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
+		
+		System.out.println(idSuppression);
+		//On récupère la ligne de commande
+		for(LigneCommande ligne:listeLigneCommande){
+			if(ligne.getProduit().getIdProduit()==idSuppression){
+				System.out.println("Ligne trouvée");
+				ligneASupprimer=ligne;
+				ligneTrouvee = true;
+			}
+		}
+		 if (ligneTrouvee ==true){
+			 listeLigneCommande.remove(ligneASupprimer);
+			panierSession.setListeLignesCommande(listeLigneCommande);
+
+		 }
+		
+		//On ajoute le panier dans la session
+		session.setAttribute("panier", panierSession);
+		
+		
+		return new ModelAndView ("panier","panierAffiche",panierSession);
+	}
 	
 	
-	
-	@RequestMapping(value="/facturePDF")
+	@RequestMapping(value="/panier/facturePDF")
 	public ModelAndView facturePDF(HttpSession session){
 		double prixTotal = 0;
 		Document document = new Document();
