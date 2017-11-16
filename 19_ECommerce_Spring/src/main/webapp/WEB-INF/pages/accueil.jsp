@@ -21,8 +21,7 @@
 			</div>
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="#">Accueil</a></li>
-				<li><a href="${pageContext.request.contextPath}/panier">Panier</a></li>
-				<li><a href="${pageContext.request.contextPath}/panier/affichagePanier">Affichage Panier</a></li>
+				<li><a href="${pageContext.request.contextPath}/panier/affichagePanier">Panier</a></li>
 				
 			</ul>
 			<ul class="nav navbar-nav navbar-right">

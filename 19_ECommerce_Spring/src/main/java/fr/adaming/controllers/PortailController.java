@@ -35,6 +35,7 @@ public class PortailController {
 	
 	@RequestMapping(value="/accueil", method=RequestMethod.GET)
 	public String afficherAccueil(Model modele, HttpSession session) {
+
 		List<Produit> listeProduit = serviceProduit.listerProduits();
 		modele.addAttribute("listeProduit",listeProduit);
 		Panier panier = (Panier) session.getAttribute("panier");
@@ -44,8 +45,6 @@ public class PortailController {
 			panier.setListeLignesCommande(lcs);
 			session.setAttribute("panier", panier);
 			System.out.println("panier==null");
-		} else {
-			System.out.println("panier!=null : " + panier.getListeLignesCommande().get(0));
 		}
 		return "accueil";
 	}
