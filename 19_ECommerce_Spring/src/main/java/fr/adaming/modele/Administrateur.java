@@ -10,6 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * Classe représentant les informations d'un administrateur c'est à dire une personne chargée de la 
+ * gestion du site.
+ * Elle possède les attributs suivant : 
+ * idAdmin : id de l'admin dans la base de données
+ * identifiant : pseudo utilisé par l'utilisateur pour ce connecté
+ * mdp : mot de passe utilisé pour se connecter
+ * actif : permet de vérifier si l'utilisateur est considéré comme actif au sens de Spring Security.
+ * @author inti0236
+ *Elle possède aussi une liste de role permettant de savoir quel role (au sens de Spring Security) joue cet administrateur.
+ */
 @Entity
 @Table(name="administrateurs")
 public class Administrateur {

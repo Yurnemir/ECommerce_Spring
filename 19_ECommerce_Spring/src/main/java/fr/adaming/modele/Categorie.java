@@ -14,7 +14,19 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-
+/**
+ * 
+ * Cette classe représente une catégorie de produit c'est à dire un type de produit proposé au client.
+ * Elle possède les attributs suivants :
+ * <ul>
+ * <li> idCategorie : Il s'agit de l'id de la catégorie dans la base de données
+ * <li>	nomCategorie : Le nom de la catégorie tel qu'affiché sur le site
+ * <li> description : Une description plus ou moins détaillée de la catégorie
+ * </ul>
+ * Elle est aussi en association avec une liste de Produit représentant l'ensemble des produits appartenant à cette catégorie.
+ * @author inti0236
+ *
+ */
 @Entity
 @Table(name="categories")
 public class Categorie {

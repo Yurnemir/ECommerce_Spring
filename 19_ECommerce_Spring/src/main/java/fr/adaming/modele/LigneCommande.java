@@ -1,7 +1,17 @@
 package fr.adaming.modele;
 
 import javax.persistence.Transient;
-
+/**
+ * Classe qui représente la quantité et le prix total commandé par le client pour un produit données.
+ * Elle contient deux attributs : 
+ * <ul>
+ * <li> quantite : qui représente le nombre d'objets commandé
+ * <li> prix : représente le prix total demandé pour ces objets
+ * <ul>
+ * Elle est aussi en association avec un produit représentant le produit acheté.
+ * @author inti0236
+ *
+ */
 public class LigneCommande {
 	
 	// attributs

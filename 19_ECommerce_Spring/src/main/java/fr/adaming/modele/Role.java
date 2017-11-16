@@ -8,7 +8,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+/**
+ * 
+ * @author inti0236
+ * Classe qui permet de décrire les rôles de Spring Security.
+ * Classe contenant kes attributs suivants : 
+ * <ul>
+ * 	<li> Un id qui n'est pas modifiable
+ * 	<li> Le nom du role qui est utilisé par Spring Security. Non modifiable
+ * </ul>
+ * 
+ * Elle est aussi en instanciation avec un admistrateur. Cela permet de déterminer quel administrateur a quel role.
+ */
 @Entity
 @Table(name="roles")
 public class Role {

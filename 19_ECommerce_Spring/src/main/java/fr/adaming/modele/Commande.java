@@ -12,6 +12,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+/**
+ * Classe qui représente une commande effectuée par le client.
+ * Elle possède deux attributs :
+ * <ul>
+ * <li> idCommande : id de la commande dans la base de données
+ * <li>	dateCommande : date à laquelle la commande a été effectuée
+ * <ul>
+ * Elle est aussi en association avec une liste de ligne commande permettant de connaitre les détails des produits commandés.
+ * @author inti0236
+ *
+ */
 
 @Entity
 @Table(name="commandes")

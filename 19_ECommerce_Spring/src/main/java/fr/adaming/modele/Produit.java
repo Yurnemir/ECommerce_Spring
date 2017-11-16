@@ -27,6 +27,8 @@ import javax.persistence.Transient;
  * <li> Une image représenté par un tableau de byte
  * </ul>
  *
+ *Elle est associée avec une catégorie représentant la catégorie à laquelle appartient ce produit et 
+ *à une ligne de commande représentant la commande de ce produit
  */
 @Entity
 @Table(name="produits")
