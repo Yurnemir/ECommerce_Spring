@@ -13,6 +13,7 @@
 </head>
 <body>
 	<h1 align="center">Liste des categories :</h1>
+	<br/>
 	<div align="center">
 		<table class="table table-bordered">
 			<tr>

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Ajout Categorie</title>
+	<title>Ajout de Categorie</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -13,22 +13,28 @@
 </head>
 <body>
 	<h1 align="center">Ajout d'une catégorie :</h1>
+	<br/>
 	<form:form class="form-horizontal" method="POST" action="ajouterCategorie" modelAttribute="categorie">
 		<div class="form-group">
 			<form:label path="nomCategorie" class="col-sm-2 control-label">Nom : </form:label>
-			<div class="col-sm-10">
+			<div class="col-sm-4">
 				<form:input path="nomCategorie" />
 				<form:errors path="nomCategorie" />
 			</div>
 		</div>
 		<div class="form-group">
 			<form:label path="description" class="col-sm-2 control-label">Description : </form:label>
-			<div class="col-sm-10">
+			<div class="col-sm-4">
 				<form:input path="description" />
 				<form:errors path="description" />
 			</div>
 		</div>
-		<input type="submit" value="Ajouter Categorie" class="btn btn-primary" />
+		<br/>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-4">
+				<input type="submit" value="Ajouter Categorie" class="btn btn-primary" />
+			</div>
+		</div>
 	</form:form>
 </body>
 </html>

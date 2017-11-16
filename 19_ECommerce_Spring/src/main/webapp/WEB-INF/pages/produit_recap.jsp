@@ -13,7 +13,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<h1>Recapitulatif Produits</h1>
+	<h1 align="center">Recapitulatif Produits</h1>
+	<br/>
 	<table class="table table-bordered">
 		<tr>
 			<th>ID</th>

@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Modification Produit</title>
+	<title>Modification de Produit</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -13,37 +13,50 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<h1>Modification de produit</h1>
-	<form:form class="form-horizontal" action="modifierProduit"
-		modelAttribute="produitModif" method="POST">
-
+	<h1 align="center">Modification de produit</h1>
+	<br/>
+	<form:form class="form-horizontal" action="modifierProduit" modelAttribute="produitModif" method="POST">
 		<div class="form-group">
 			<form:label path="idProduit" class="col-sm-2 control-label">Id du Produit</form:label>
-			<form:input path="idProduit" />
+			<div class="col-sm-4">
+				<form:input path="idProduit" />
+				<form:errors path="idProduit" />
+			</div>
 		</div>
-
 		<div class="form-group">
 			<form:label path="designation" class="col-sm-2 control-label">Designation du produit</form:label>
-			<form:input path="designation" />
+			<div class="col-sm-4">
+				<form:input path="designation" />
+				<form:errors path="designation" />
+			</div>
 		</div>
-
 		<div class="form-group">
 			<form:label path="description" class="col-sm-2 control-label">Description du produit</form:label>
-			<form:input path="description" />
+			<div class="col-sm-4">
+				<form:input path="description" />
+				<form:errors path="description" />
+			</div>
 		</div>
-
 		<div class="form-group">
 			<form:label path="prix" class="col-sm-2 control-label">Prix du produit</form:label>
-			<form:input path="prix" />
+			<div class="col-sm-4">
+				<form:input path="prix" />
+				<form:errors path="prix" />
+			</div>
 		</div>
-		
 		<div class="form-group">
 			<form:label path="quantite" class="col-sm-2 control-label">Quantite du produit</form:label>
-			<form:input path="quantite" />
+			<div class="col-sm-4">
+				<form:input path="quantite" />
+				<form:errors path="quantite" />
+			</div>
 		</div>
-		
-		<input type="submit" value="Modifier le produit"
-			class="btn btn-default">
+		<br/>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-4">
+				<input type="submit" value="Modifier le produit" class="btn btn-primary">
+			</div>
+		</div>
 	</form:form>
 </body>
 </html>

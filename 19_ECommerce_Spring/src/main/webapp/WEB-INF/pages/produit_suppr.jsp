@@ -16,16 +16,22 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-
-	<h1>Formulaire de suppression</h1>
-
+	<h1 align="center">Suppression de Produit</h1>
+	<br/>
 	<form:form class="form-horizontal" method="POST" action="supprimerProduit" modelAttribute="produitSuppression">
-		<form:label path="idProduit" class="col-sm-2 control-label">Id du Produit</form:label>
-		<form:input path="idProduit"/>
-		<input type="submit" value="Supprimer le produit"
-			class="btn btn-default">
-
+		<div class="form-group">
+			<form:label path="idProduit" class="col-sm-2 control-label">Id du Produit</form:label>
+			<div class="col-sm-4">
+				<form:input path="idProduit"/>
+				<form:errors path="idProduit"/>
+			</div>
+		</div>
+		<br/>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-4">
+				<input type="submit" value="Supprimer le produit" class="btn btn-primary">
+			</div>
+		</div>
 	</form:form>
-
 </body>
 </html>
