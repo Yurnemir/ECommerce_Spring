@@ -28,5 +28,4 @@ public class RoleDaoImpl implements IRoleDao {
 		Role role = (Role) query.uniqueResult();
 		return role;
 	}
-
 }

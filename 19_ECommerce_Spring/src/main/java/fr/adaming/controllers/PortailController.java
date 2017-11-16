@@ -50,12 +50,12 @@ public class PortailController {
 		return "accueil";
 	}
 	@RequestMapping(value="/admin/connexion", method=RequestMethod.GET)
-	public ModelAndView afficherPageAdmin(ModelMap model) {
+	public String afficherPageAdmin(HttpSession session) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Administrateur admin = serviceAdmin.getAdminByName(auth.getName());
 		Role role = serviceRole.getRoleByAdmin(admin);
-		System.out.println("Role admin logged : " + role);
-		return new ModelAndView("admin", "role", role);
+		session.setAttribute("role", role);
+		return "admin";
 	}
 	@RequestMapping(value="/login")
 	public String afficherFormulaireConnexion(){
