@@ -27,7 +27,6 @@ public class PortailController {
 		if (panier == null) {
 			panier = new Panier();
 			List<LigneCommande> lcs = new ArrayList<LigneCommande>();
-			lcs.add(new LigneCommande(15, 45.2));
 			panier.setListeLignesCommande(lcs);
 			session.setAttribute("panier", panier);
 			System.out.println("panier==null");

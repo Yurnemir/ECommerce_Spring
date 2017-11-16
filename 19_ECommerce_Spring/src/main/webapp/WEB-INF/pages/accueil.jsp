@@ -31,6 +31,7 @@
 				<th>${produit.prix}</th>
 				<th>${produit.quantite}</th>
 				<th>Placeholder</th>
+				<th><a href="${pageContext.request.contextPath}/panier/ajoutViaLien?pIdProduit=${produit.idProduit}">Ajouter</a><th>
 			</tr>
 		</c:forEach>
 	</table>
