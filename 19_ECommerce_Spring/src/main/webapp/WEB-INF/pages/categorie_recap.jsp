@@ -72,5 +72,6 @@
 			</c:forEach>
 		</table>
 	</div>
+	<a href="${pageContext.request.contextPath}/admin/categorie/recap/pdf">Export pdf</a>
 </body>
 </html>
