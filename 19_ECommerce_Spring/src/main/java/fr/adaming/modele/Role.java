@@ -29,7 +29,6 @@ public class Role {
 	@Column(name="id_role")
 	private int id;
 	private String nomRole;
-		
 	@ManyToOne
 	@JoinColumn(name="id_admin")
 	private Administrateur administrateur;
@@ -58,6 +57,15 @@ public class Role {
 	public void setNomRole(String nomRole) {
 		this.nomRole = nomRole;
 	}
+	public Administrateur getAdministrateur() {
+		return administrateur;
+	}
+	public void setAdministrateur(Administrateur administrateur) {
+		this.administrateur = administrateur;
+	}
 	
-	
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", nomRole=" + nomRole + "]";
+	}
 }

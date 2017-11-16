@@ -20,9 +20,11 @@ public class AdminServiceImpl implements IServiceAdmin{
 	
 	//Méthodes propres
 	@Override
+	public Administrateur getAdminByName(String name) {
+		return daoAdmin.getAdminByName(name);
+	}
+	@Override
 	public Administrateur connexionAdmin(Administrateur administrateur) {
 		return daoAdmin.connexionAdmin(administrateur);
 	}
-	
-	
 }
