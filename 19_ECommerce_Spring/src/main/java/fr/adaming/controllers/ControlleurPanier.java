@@ -27,8 +27,11 @@ public class ControlleurPanier {
 	public ModelAndView ajoutPanierParLigne(Model modele ,@RequestParam("pIdProduit")int idProduit, HttpSession session){
 		Produit produitTemp = new Produit();
 		produitTemp.setIdProduit(idProduit);
+		LigneCommande ligneAModifier = new LigneCommande();
+		boolean verifLigne =false;;
 		
 		Produit produitDemande = serviceProduit.rechercherProduitAvecId(produitTemp);
+		
 		//On récupère le panier de la session.
 		
 		//System.out.println(produitDemande);
@@ -36,12 +39,48 @@ public class ControlleurPanier {
 		Panier panierSession = (Panier) session.getAttribute("panier");
 		List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
 		
-		LigneCommande ligneCommande = new LigneCommande();
-		ligneCommande.setProduit(produitDemande);
-		ligneCommande.setQuantite(12);
-		ligneCommande.setPrix(ligneCommande.getQuantite()*produitDemande.getPrix());
-		listeLigneCommande.add(ligneCommande);
-		panierSession.setListeLignesCommande(listeLigneCommande);
+		for(LigneCommande ligne:listeLigneCommande){
+			System.out.println("Id de la ligne"+ligne.getProduit().getIdProduit() + "vs produit demandé" + idProduit);
+			if(ligne.getProduit().getIdProduit()==idProduit){
+				System.out.println("Produit déjà dans la commande il faut modifier la ligne");
+				verifLigne = true;
+				// Si la ligne existe déjà on la récupère
+				ligneAModifier = ligne;
+				break;
+			}else {
+				System.out.println("Le produit n'existe pas on peut donc créer une ligne de commande et l'ajouter dans le panier");
+				verifLigne=false;
+				
+			}
+		}
+		
+		if(verifLigne == true){
+			
+			System.out.println("On paye initialement "+ligneAModifier.getPrix()+"pour"+ligneAModifier.getQuantite()+"unités");
+
+			double nouveauPrix = ligneAModifier.getPrix()+produitDemande.getPrix();
+			int nouvelleQuantite = ligneAModifier.getQuantite() + 1;
+			if(produitDemande.getQuantite()<nouvelleQuantite){
+				System.out.println("Trop de produit demandé");
+				System.out.println("La ligne de commande pour ce produit ne sera pas modifiée");
+			}else {
+				ligneAModifier.setPrix(nouveauPrix);
+				ligneAModifier.setQuantite(nouvelleQuantite);
+				System.out.println("On paye désormais "+ligneAModifier.getPrix()+"pour"+ligneAModifier.getQuantite()+"unités");
+
+			}
+
+		}
+		
+		
+		if(verifLigne==false){
+			LigneCommande ligneCommande = new LigneCommande();
+			ligneCommande.setProduit(produitDemande);
+			ligneCommande.setQuantite(1);
+			ligneCommande.setPrix(ligneCommande.getQuantite()*produitDemande.getPrix());
+			listeLigneCommande.add(ligneCommande);
+			panierSession.setListeLignesCommande(listeLigneCommande);
+		}
 		
 		System.out.println(panierSession.getListeLignesCommande().size());
 		 
