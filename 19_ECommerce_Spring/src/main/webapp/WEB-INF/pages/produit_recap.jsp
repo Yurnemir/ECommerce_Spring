@@ -62,6 +62,7 @@
 			<th>Description</th>
 			<th>Prix</th>
 			<th>Quantité</th>
+			<th>Catégorie</th>
 			<th>Image</th>
 			<th>Operation</th>
 		</tr>
@@ -73,6 +74,7 @@
 				<th>${produit.prix}</th>
 				<th>${produit.quantite}</th>
 				<th>Placeholder</th>
+				<th>${produit.categorie.idCategorie}</th>
 				<td><a href="${pageContext.request.contextPath}/admin/produit/supprViaLien/${produit.idProduit}">Supprimer</a></td>
 			</tr>
 		</c:forEach>

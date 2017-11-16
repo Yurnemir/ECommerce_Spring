@@ -85,6 +85,14 @@
 				<form:errors path="quantite" />
 			</div>
 		</div>
+		<div class="form-group">
+			<form:label path="categorie.idCategorie" class="col-sm-2 control-label">Quantite du produit</form:label>
+			<div class="col-sm-4">
+				<form:input path="categorie.idCategorie" />
+				<form:errors path="categorie.idCategorie" />
+			</div>
+		</div>
+		
 		<br/>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-4">
