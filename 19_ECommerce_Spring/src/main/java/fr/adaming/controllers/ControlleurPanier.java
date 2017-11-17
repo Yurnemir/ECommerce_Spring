@@ -1,12 +1,27 @@
 package fr.adaming.controllers;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+
 import java.awt.Desktop;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.http.HttpSession;
 
@@ -29,6 +44,7 @@ import fr.adaming.modele.LigneCommande;
 import fr.adaming.modele.Panier;
 import fr.adaming.modele.Produit;
 import fr.adaming.service.IProduitService;
+
 @Controller
 //@RequestMapping("/panier")
 public class ControlleurPanier {
@@ -288,5 +304,54 @@ public class ControlleurPanier {
 		
 		return new ModelAndView("panier","panierAffiche",panierSession);
 
+	}
+	
+	@RequestMapping(value="/panier/envoiMail", method=RequestMethod.GET)
+	public String envoyerMail() {
+		final String to = "h.boizard@laposte.net";
+		final String username = "thezadzad@gmail.com";
+		final String password = "adaming44";
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+		Session session = Session.getInstance(props, new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+		try {
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(username));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			message.setSubject("Commande Ecommerce");
+			
+			// Message du mail
+			StringBuilder sb = new StringBuilder();
+			sb.append("Test");
+//			String nom = "Boizard";
+//			sb.append("Mme/Mr. " + nom + ",\n\n");
+//			sb.append("Vous avez passé une commande pour :\n");
+//			String[] items = {"item 1", "item 2", "item 3"};
+//			for (int i=0; i<items.length; i++) {
+//				sb.append("  - " + items[i] + "\n");
+//			}
+//			Calendar calendar = Calendar.getInstance();
+//			calendar.setTime(new Date());
+//			calendar.add(Calendar.DAY_OF_YEAR, 12);
+//			sb.append("\nLa date de réception est prévue au " + calendar.getTime());
+			message.setText(sb.toString());
+			
+			// Pdf en piece jointe
+//			DataSource pieceJointe = new FileDataSource(System.getProperty("user.home") + "\\Desktop\\test.pdf");
+//			message.setDataHandler(new DataHandler(pieceJointe));
+//			message.setFileName("recapitulatif_commande.pdf");
+			Transport.send(message);
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+		return "panier";
 	}
 }
