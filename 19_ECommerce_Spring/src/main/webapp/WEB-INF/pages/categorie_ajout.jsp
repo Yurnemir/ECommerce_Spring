@@ -72,7 +72,28 @@
 		<br/>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-4">
-				<input type="submit" value="Ajouter Categorie" class="btn btn-primary" />
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fenetreAjoutCategorie">Ajouter la catégorie</button>
+				<!-- =========================== Fenetre confirmation ajout =========================== -->
+				<div id="fenetreAjoutCategorie" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Confirmation Ajout Categorie</h4>
+							</div>
+							<div class="modal-body">
+								<p align="center">Etes-vous certain de vouloir ajouter cette catégorie ?</p>
+								<div align="center">
+									<input type="submit" value="Oui" class="btn btn-primary">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Non</button>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" data-dismiss="modal">Annuler</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</form:form>
