@@ -62,22 +62,47 @@
 			<th>Description</th>
 			<th>Prix</th>
 			<th>Quantité</th>
-			<th>Catégorie</th>
 			<th>Image</th>
+			<th>Catégorie</th>
 			<th>Operation</th>
 		</tr>
 		<c:forEach var="produit" items="${listeProduit}">
 			<tr>
-				<th>${produit.idProduit}</th>
-				<th>${produit.designation}</th>
-				<th>${produit.description}</th>
-				<th>${produit.prix}</th>
-				<th>${produit.quantite}</th>
-				<th>Placeholder</th>
-				<th>${produit.categorie.idCategorie}</th>
-				<td><a href="${pageContext.request.contextPath}/admin/produit/supprViaLien/${produit.idProduit}">Supprimer</a></td>
+				<td>${produit.idProduit}</td>
+				<td>${produit.designation}</td>
+				<td>${produit.description}</td>
+				<td>${produit.prix}</td>
+				<td>${produit.quantite}</td>
+				<td>Placeholder</td>
+				<td>${produit.categorie.idCategorie}</td>
+				<td>
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fenetreSupprProduit">Supprimer</button>
+					<!-- =========================== Fenetre confirmation suppression =========================== -->
+					<div id="fenetreSupprProduit" class="modal fade" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title">Confirmation Suppression Produit</h4>
+								</div>
+								<div class="modal-body">
+									<p align="center">Etes-vous certain de vouloir supprimer ce produit ?</p>
+									<div align="center">
+										<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/produit/supprViaLien/${produit.idProduit}">Oui</a>
+										<button type="button" class="btn btn-primary" data-dismiss="modal">Non</button>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>
+	
+	
 </body>
 </html>
