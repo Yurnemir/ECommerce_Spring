@@ -25,20 +25,34 @@
 			<ul class="nav navbar-nav">
 				<li><a href="${pageContext.request.contextPath}/accueil">Accueil</a></li>
 				<li class="active"><a href="#">Panier</a></li>
-				
+
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="${pageContext.request.contextPath}/admin/connexion"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+				<li><a
+					href="${pageContext.request.contextPath}/admin/connexion"><span
+						class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
 			</ul>
 		</div>
 	</nav>
-	<br/><br/>
-	
+	<br />
+	<br />
+
 	<!-- =========================== Contenu Page =========================== -->
 	<h1>Panier</h1>
 
-	<h3><a href="${pageContext.request.contextPath}/panier/facturePDF">Imprimer la facture</a></h3>
-	<h3><a href="${pageContext.request.contextPath}/panier/viderPanier">Vider le panier</a></h3>
+	<h3>
+		<a href="${pageContext.request.contextPath}/panier/facturePDF">Imprimer
+			la facture</a>
+	</h3>
+	<h3>
+		<a href="${pageContext.request.contextPath}/panier/viderPanier">Vider
+			le panier</a>
+	</h3>
+	<h3>
+		<a href="${pageContext.request.contextPath}/panier/envoiMail">Envoie
+			facture par mail ()</a>
+	</h3>
+
 	<div align="center">
 		<table class="table table-bordered">
 			<tr>
@@ -49,16 +63,39 @@
 				<th>Quantité</th>
 				<th>Retirer du panier</th>
 			</tr>
-			<c:forEach var="ligneCommande" items="${panierAffiche.listeLignesCommande}">
+			<c:forEach var="ligneCommande"
+				items="${panierAffiche.listeLignesCommande}">
 				<tr>
 					<th>${ligneCommande.produit.designation}</th>
 					<th>${ligneCommande.produit.description}</th>
 					<th>${ligneCommande.prix}</th>
 					<th>${ligneCommande.quantite}</th>
-					<th><a href="${pageContext.request.contextPath}/panier/retirerPanier?pIdSuppression=${ligneCommande.produit.idProduit}">Retirer</a></th>
+					<th><a
+						href="${pageContext.request.contextPath}/panier/retirerPanier?pIdSuppression=${ligneCommande.produit.idProduit}">Retirer</a></th>
 			</c:forEach>
 		</table>
 	</div>
+
+	<h3>Valider la commande</h3>
+	<form:form class="form-horizontal" action="validationCommandePuisEnregistrement" method="POST"
+		modelAttribute="clientAAjouter">
+		
+		Nom : <form:input path="nomClient" />
+		Adresse :<form:input path="adresse" />
+		Telephone : <form:input path="tel" />
+		Mail : <form:input path="email" />
+		<input type="submit" value="Soumettre le formulaire">
+		</form:form>
+	
+	<form:form class="form-horizontal" action="validationCommandeClientDansBase" method="POST"
+		modelAttribute="clientDejaDansBase">
+				
+			Nom : <form:input path="nomClient" />
+			Mail : <form:input path="email" />
+			Mot de Passe : <form:input path="codePerso" />
+		
+		</form:form>
+
 
 </body>
 </html>

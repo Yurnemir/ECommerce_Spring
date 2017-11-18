@@ -38,7 +38,7 @@ public class Commande{
 	
 	// Association avec LigneCommande 
 	//(Ligne commande n'est pas stock� dans la base de donn�es pas besoin de stocker l'attribut de l'association)
-	@OneToMany(mappedBy="commande",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="commande",cascade=CascadeType.REMOVE)
 	private List<LigneCommande> listeLigneCommande;
 	// Association avec un client
 	

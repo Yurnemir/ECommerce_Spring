@@ -20,15 +20,19 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.cfg.CreateKeySecondPass;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,10 +44,16 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import fr.adaming.modele.Client;
+import fr.adaming.modele.Commande;
 import fr.adaming.modele.LigneCommande;
 import fr.adaming.modele.Panier;
 import fr.adaming.modele.Produit;
+import fr.adaming.service.IClientService;
+import fr.adaming.service.ICommandeService;
+import fr.adaming.service.ILigneCommandeService;
 import fr.adaming.service.IProduitService;
+
 
 @Controller
 //@RequestMapping("/panier")
@@ -51,7 +61,12 @@ public class ControlleurPanier {
 
 	@Autowired
 	private IProduitService serviceProduit;
-
+	@Autowired
+	private IClientService serviceClient;
+	@Autowired
+	private ICommandeService serviceCommande;
+	@Autowired
+	private ILigneCommandeService serviceLigneCommande;
 	
 	@RequestMapping(value="/ajoutViaLien")
 	public ModelAndView ajoutPanierParLigne(Model modele ,@RequestParam("pIdProduit")int idProduit, HttpSession session){
@@ -134,7 +149,6 @@ public class ControlleurPanier {
 		Produit produitTemp = new Produit();
 		produitTemp.setIdProduit(idProduit);
 		Produit produitDemande = serviceProduit.rechercherProduitAvecId(produitTemp);
-		
 		//Récupérer le panier depuis la session et la liste des lignes 
 		Panier panierSession = (Panier) session.getAttribute("panier");
 		List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
@@ -197,8 +211,13 @@ public class ControlleurPanier {
 		
 		Panier panierSession = (Panier) session.getAttribute("panier");
 		//panierSession.getListeLignesCommande().get(0).get
-		return new ModelAndView("panier","panierAffiche",panierSession);
+		ModelAndView modeleVue = new ModelAndView("panier","clientAAjouter",new Client());
+		modeleVue.addObject("clientDejaDansBase", new Client());
+		modeleVue.addObject("panierAffiche", panierSession);
 		
+		//clientDejaDansBase
+		//return new ModelAndView("panier","panierAffiche",panierSession);
+		return modeleVue;
 	}
 	@RequestMapping(value="/panier/viderPanier")
 	public ModelAndView viderPanier(HttpSession session){
@@ -244,6 +263,64 @@ public class ControlleurPanier {
 		return new ModelAndView ("panier","panierAffiche",panierSession);
 	}
 	
+	@RequestMapping(value="/panier/validationCommandePuisEnregistrement")
+	public ModelAndView enregistreClient(HttpSession session, @ModelAttribute("clientAAjouter") Client client){
+		double prix = 0;
+		System.out.println("Il faut enregistrer le client suivant :");
+		System.out.println(client);
+		
+		//Génération du code Perso.
+		String caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		StringBuilder code = new StringBuilder();
+		int max=caracteres.length()-1;
+		for (int i = 1; i < 10; i++) {
+			int emplacementCarac = (int) Math.floor(max * Math.random());
+			char caracTemp = caracteres.charAt(emplacementCarac);
+			code.append(caracTemp);
+		}
+		
+		
+		client.setCodePerso(code.toString());
+		Client clientEnregistre = serviceClient.createClient(client);
+		
+		Panier panierSession = (Panier) session.getAttribute("panier");
+		List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
+		//Calcul du prix total
+		for(LigneCommande ligne:listeLigneCommande){
+			prix = prix +ligne.getPrix();
+		}
+		System.out.println(prix);
+		
+		// Gestion du stock.
+		for(LigneCommande ligne : listeLigneCommande){
+			Produit produitModifStocke = ligne.getProduit();
+			int quantiteApres = produitModifStocke.getQuantite()-ligne.getQuantite();
+			produitModifStocke.setQuantite(quantiteApres);
+			serviceProduit.modifierProduit(produitModifStocke);
+		}
+
+		//Enregistrement de la commande.
+		Commande commande = new Commande();
+		Date dateCommande = new Date();
+		commande.setDateCommande(dateCommande);
+		commande.setClient(clientEnregistre);
+		commande.setListeLigneCommande(listeLigneCommande);
+		
+		commande = serviceCommande.enregistrementCommande(commande);
+		
+		//Enregistrement des lignes de commandes
+
+		for(LigneCommande ligne : listeLigneCommande){
+
+			ligne.setCommande(commande);
+			//Enregistrement proprement dit
+			serviceLigneCommande.enregistrerLigneCommande(ligne);
+		}
+		
+		return new ModelAndView("commandeValide","prix",prix);
+	}
+	
+	
 	
 	@RequestMapping(value="/panier/facturePDF")
 	public ModelAndView facturePDF(HttpSession session){
@@ -254,7 +331,7 @@ public class ControlleurPanier {
 		Panier panierSession = (Panier) session.getAttribute("panier");
 		List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
 		try {
-			PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream("C:\\Users\\inti0236\\Desktop\\Facture2.pdf"));
+			PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(System.getProperty("user.home") + "\\Desktop\\test.pdf"));
 			document.open();
 		
 			//Ecrire la facture dans le pdf.
@@ -292,7 +369,7 @@ public class ControlleurPanier {
 			//Ouvrir le fichier PDF.
 			System.out.println("On essaye d'ouvrir le fichier PDF qui a été généré");
 			try {
-				Desktop.getDesktop().open(new File("C:\\Users\\inti0236\\Desktop\\Facture2.pdf"));
+				Desktop.getDesktop().open(new File(System.getProperty("user.home") + "\\Desktop\\test.pdf"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -301,14 +378,15 @@ public class ControlleurPanier {
 
 			e.printStackTrace();
 		}
-		
-		return new ModelAndView("panier","panierAffiche",panierSession);
+		//ModelAndView modeleVue = new ModelAndView("panier","panierAffiche",panierSession);
+		//modeleVue.addObject("ClientAAjouter", new Client());
+		return new ModelAndView("commandeValide","prix",prixTotal);
 
 	}
 	
 	@RequestMapping(value="/panier/envoiMail", method=RequestMethod.GET)
-	public String envoyerMail() {
-		final String to = "h.boizard@laposte.net";
+	public String envoyerMail(HttpSession sessionHttp) {
+		final String to = "benj.henry@free.fr";
 		final String username = "thezadzad@gmail.com";
 		final String password = "adaming44";
 		Properties props = new Properties();
@@ -330,18 +408,30 @@ public class ControlleurPanier {
 			
 			// Message du mail
 			StringBuilder sb = new StringBuilder();
-			sb.append("Test");
+
 //			String nom = "Boizard";
 //			sb.append("Mme/Mr. " + nom + ",\n\n");
-//			sb.append("Vous avez passé une commande pour :\n");
-//			String[] items = {"item 1", "item 2", "item 3"};
-//			for (int i=0; i<items.length; i++) {
-//				sb.append("  - " + items[i] + "\n");
-//			}
-//			Calendar calendar = Calendar.getInstance();
-//			calendar.setTime(new Date());
-//			calendar.add(Calendar.DAY_OF_YEAR, 12);
-//			sb.append("\nLa date de réception est prévue au " + calendar.getTime());
+			sb.append("Cher client/Chère cliente" +"\n");
+			sb.append("Vous avez passé une commande pour :\n");
+
+			//On liste les produits dans le corps du mail.
+			double prix =0;
+			Panier panierSession = (Panier) sessionHttp.getAttribute("panier");
+			List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
+			for(LigneCommande ligne:listeLigneCommande){
+				String nomProduit = ligne.getProduit().getDesignation();
+				int quantite = ligne.getQuantite();
+				prix = prix + ligne.getPrix();
+				sb.append("  -  " +nomProduit +":" +quantite+" exemplaire(s)"+"\n");
+			}
+			sb.append("Le montant total de vos achats s'élèvent à" + prix);
+
+
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(new Date());
+			calendar.add(Calendar.DAY_OF_YEAR, 12);
+			sb.append("\nLa date de réception est prévue au " + calendar.getTime());
+			sb.append("Une facture plus détaillée se trouve jointe à ce mail.");
 			message.setText(sb.toString());
 			
 			// Pdf en piece jointe
