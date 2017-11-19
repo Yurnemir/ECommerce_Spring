@@ -1,5 +1,7 @@
 package fr.adaming.dao;
 
+import java.util.List;
+
 import fr.adaming.modele.Client;
 
 public interface IClientDao {
@@ -9,7 +11,8 @@ public interface IClientDao {
 	public Client createClient(Client c);
 	public Client modifClient(Client c);
 	public boolean deleteClient (Client c);
-	
+	public List<Client> listerClient();
+	public List<Client> rechercheClientMail(Client c);
 	
 	
 }

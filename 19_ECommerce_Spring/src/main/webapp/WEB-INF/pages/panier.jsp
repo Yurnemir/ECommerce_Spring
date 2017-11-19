@@ -77,7 +77,8 @@
 	</div>
 
 	<h3>Valider la commande</h3>
-	<form:form class="form-horizontal" action="validationCommandePuisEnregistrement" method="POST"
+	<form:form class="form-horizontal"
+		action="validationCommandePuisEnregistrement" method="POST"
 		modelAttribute="clientAAjouter">
 		
 		Nom : <form:input path="nomClient" />
@@ -85,17 +86,19 @@
 		Telephone : <form:input path="tel" />
 		Mail : <form:input path="email" />
 		<input type="submit" value="Soumettre le formulaire">
-		</form:form>
-	
-	<form:form class="form-horizontal" action="validationCommandeClientDansBase" method="POST"
+	</form:form>
+
+	<form:form class="form-horizontal"
+		action="validationCommandeClientDansBase" method="POST"
 		modelAttribute="clientDejaDansBase">
 				
 			Nom : <form:input path="nomClient" />
 			Mail : <form:input path="email" />
 			Mot de Passe : <form:input path="codePerso" />
-		
-		</form:form>
-
+		<input type="submit" value="Soumettre le formulaire">
+	</form:form>
+			<h2>${messageErreur}</h2>
+	
 
 </body>
 </html>

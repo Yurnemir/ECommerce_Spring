@@ -76,4 +76,22 @@ public class ClientDaoImpl implements IClientDao{
 			return false;
 		}
 	}
+
+	@Override
+	public List<Client> listerClient() {
+		String req ="From Client";
+		return sf.getCurrentSession().createQuery(req).list();
+	}
+
+	@Override
+	public List<Client> rechercheClientMail(Client c) {
+		
+		String req="FROM Client c WHERE c.email=:pEmail";
+		Query query = sf.getCurrentSession().createQuery(req);
+		query.setParameter("pEmail", c.getEmail());
+
+		return query.list();
+	}
+	
+
 }

@@ -52,4 +52,16 @@ public class ClientServiceImpl implements IClientService {
 		return clientDao.deleteClient(c);
 	}
 
+	@Override
+	public List<Client> listerClient() {
+		return clientDao.listerClient();
+	}
+
+	@Override
+	public List<Client> rechercheClientMail(Client c) {
+		return clientDao.rechercheClientMail(c);
+	}
+
+
+
 }
