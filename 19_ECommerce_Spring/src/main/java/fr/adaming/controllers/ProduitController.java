@@ -1,6 +1,11 @@
 package fr.adaming.controllers;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.adaming.modele.Categorie;
@@ -64,8 +71,19 @@ public class ProduitController {
 	 */
 	// Soumission du formulaire
 	@RequestMapping(value="/ajouterProduit" ,method=RequestMethod.POST)
-	public String soumettreFormulaireAjout(Model modele, @ModelAttribute("produitAjoute") Produit produit){
+	public String soumettreFormulaireAjout(Model modele, @ModelAttribute("produitAjoute") Produit produit, @RequestParam CommonsMultipartFile file, HttpSession session) throws Exception {
 		Produit produitAjoute = serviceProduit.ajouterProduit(produit);
+		String path = session.getServletContext().getRealPath("/images");
+		File imagesDir = new File(path);
+		if (!imagesDir.exists()) {
+			imagesDir.mkdir();
+		}
+		byte[] bytes = file.getBytes();
+		BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(
+				new File(path + File.separator + "produit_" + produitAjoute.getIdProduit() + ".jpg")));
+		stream.write(bytes);
+		stream.flush();
+		stream.close();
 		//On actualise la liste des produits
 		List<Produit> listeProduit = serviceProduit.listerProduits();
 		System.out.println(listeProduit.toString());
@@ -141,9 +159,21 @@ public class ProduitController {
 	 * @see affichageFormulaireModification
 	 */
 	@RequestMapping(value="modifierProduit",method=RequestMethod.POST)
-	public String soumissionFormulaireModification(Model modele,@ModelAttribute("produitModif") Produit produit){
+	public String soumissionFormulaireModification(Model modele,@ModelAttribute("produitModif") Produit produit, @RequestParam CommonsMultipartFile file, HttpSession session) throws Exception {
 		Produit produitModif = serviceProduit.modifierProduit(produit);
-		
+		String path = session.getServletContext().getRealPath("/images");
+		File imagesDir = new File(path);
+		if (!imagesDir.exists()) {
+			imagesDir.mkdir();
+		}
+		byte[] bytes = file.getBytes();
+		BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(
+				new File(path + File.separator + "produit_" + produitModif.getIdProduit() + ".jpg")));
+		stream.write(bytes);
+		stream.flush();
+		stream.close();
+		System.out.println("file.getOriginalFilename() = " + file.getOriginalFilename());
+		//On actualise la liste des produits
 		List<Produit> listeProduit = serviceProduit.listerProduits();
 		System.out.println(listeProduit.toString());
 		modele.addAttribute("listeProduit",listeProduit);
