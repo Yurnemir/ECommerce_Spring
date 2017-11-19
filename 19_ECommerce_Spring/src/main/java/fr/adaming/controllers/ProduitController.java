@@ -37,18 +37,19 @@ public class ProduitController {
 	@Autowired
 	private IServiceCategorie serviceCategorie;
 	
+	public void setServiceProduit(IProduitService serviceProduit) {
+		this.serviceProduit = serviceProduit;
+	}
+	public void setServiceCategorie(IServiceCategorie serviceCategorie) {
+		this.serviceCategorie = serviceCategorie;
+	}
+
+	/* ========================== Affichage ========================== */
 	@RequestMapping(value="/recap", method=RequestMethod.GET)
 	public ModelAndView afficherRecap() {
-		
 		List<Produit> listeProduit = serviceProduit.listerProduits();
-		System.out.println(listeProduit.toString());
-
-
-		return new ModelAndView("produit_recap","listeProduit",listeProduit);
+		return new ModelAndView("produit_recap", "listeProduit", listeProduit);
 	}
-	
-	//Méthodes du formulaire d'ajout
-	//Affichage formulaire d'ajout de produit
 	/**
 	 * Permet d'afficher le formulaire d'ajout d'un produit dans la base de données.
 	 * 
@@ -63,7 +64,30 @@ public class ProduitController {
 		model.addAttribute("produitAjoute", new Produit());
 		return "produit_ajout";
 	}
+	/**
+	 * Permet d'afficher le formulaire pour modifier un produit
+	 * @return Le modèle de la page contenant le formulaire de modification de produit.
+	 * Les informations sont stockées dans produitModif qui est une instance de la classe Produit.
+	 */
+	@RequestMapping(value="/modif", method = RequestMethod.GET)
+	public String affichageFormulaireModification(Model model) {
+		model.addAttribute("listeCategorie", serviceCategorie.listerCategorie());
+		model.addAttribute("produitModif", new Produit());
+		return "produit_modif";
+	}
+	/**
+	 *  Permet d'afficher le formaulaire permettant de supprimer un produit de la base de données.
+	 * 
+	 * @return Le modèle de la page contenant le formulaire de suppression d'un produit de la base de données.
+	 * Les informations sont stockées dans produitSuppression qui est une instance de la classe Produit.
+	 */
+	@RequestMapping(value="/suppr", method = RequestMethod.GET)
+	public ModelAndView affichageFormulaireSuppression(){
+		return new ModelAndView("produit_suppr", "produitSuppression", new Produit());
+	}
 	
+
+	/* ========================== Actions ========================== */
 	/**
 	 * Permet d'ajouter un produit contenant les informations dans la base de données.
 	 * Les informations sont fournis par l'utilisateur à travers le formulaire d'ajout.
@@ -72,9 +96,8 @@ public class ProduitController {
 	 * @param produit : Un objet de type produit (il s'agit de produitAjoute du formulaire affiché par affichageFormulaireAjout) qui contient les infos nécessaire à l'ajout dans la base de données
 	 * @return : La page où l'on 
 	 */
-	// Soumission du formulaire
 	@RequestMapping(value="/ajouterProduit" ,method=RequestMethod.POST)
-	public String soumettreFormulaireAjout(Model modele, @ModelAttribute("produitAjoute") Produit produit, @RequestParam CommonsMultipartFile file, HttpSession session) throws Exception {
+	public ModelAndView soumettreFormulaireAjout(Model modele, @ModelAttribute("produitAjoute") Produit produit, @RequestParam CommonsMultipartFile file, HttpSession session) throws Exception {
 		Produit produitAjoute = serviceProduit.ajouterProduit(produit);
 		String path = session.getServletContext().getRealPath("/images");
 		File imagesDir = new File(path);
@@ -87,25 +110,33 @@ public class ProduitController {
 		stream.write(bytes);
 		stream.flush();
 		stream.close();
-		//On actualise la liste des produits
-		List<Produit> listeProduit = serviceProduit.listerProduits();
-		System.out.println(listeProduit.toString());
-		modele.addAttribute("listeProduit",listeProduit);
-		return "admin";
+		return new ModelAndView("produit_recap", "listeProduit", serviceProduit.listerProduits());
 	}
 	/**
-	 *  Permet d'afficher le formaulaire permettant de supprimer un produit de la base de données.
+	 * Permet de modifier un produit présent dans la base de données
 	 * 
-	 * @return Le modèle de la page contenant le formulaire de suppression d'un produit de la base de données.
-	 * Les informations sont stockées dans produitSuppression qui est une instance de la classe Produit.
+	 * @param modele Le modèle MVC de la page contenant le formulaire de modification de produit.
+	 * @param produit : Un objet de type produit contenant toutes les informations. Infos stockées dans produitModif
+	 * @return : La page d'accueil à partir de laquelle les admins ont accès aux différentes fonctionnalités 
+	 * @see affichageFormulaireModification
 	 */
-	
-	//Méthodes du formulaire de suppression
-	@RequestMapping(value="/suppr", method = RequestMethod.GET)
-	public ModelAndView affichageFormulaireSuppression(){
-		return new ModelAndView("produit_suppr","produitSuppression",new Produit());
+	@RequestMapping(value="modifierProduit",method=RequestMethod.POST)
+	public ModelAndView soumissionFormulaireModification(Model modele,@ModelAttribute("produitModif") Produit produit, @RequestParam CommonsMultipartFile file, HttpSession session) throws Exception {
+		Produit produitModif = serviceProduit.modifierProduit(produit);
+		String path = session.getServletContext().getRealPath("/images");
+		File imagesDir = new File(path);
+		if (!imagesDir.exists()) {
+			imagesDir.mkdir();
+		}
+		byte[] bytes = file.getBytes();
+		BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(
+				new File(path + File.separator + "produit_" + produitModif.getIdProduit() + ".jpg")));
+		stream.write(bytes);
+		stream.flush();
+		stream.close();
+		System.out.println("file.getOriginalFilename() = " + file.getOriginalFilename());
+		return new ModelAndView("produit_recap", "listeProduit", serviceProduit.listerProduits());
 	}
-
 	/**
 	 * Permet de supprimer un produit contenu dans la base de données.
 	 * Les informations sont fournis par l'utilisateur à travers le formulaire de suppression.
@@ -115,17 +146,29 @@ public class ProduitController {
 	 * @return : La page d'accueil à partir de laquelle les admins ont accès aux différentes fonctionnalités 
 	 * @see affichageFormulaireSuppression
 	 */
-	
-	//Suppression du produit
 	@RequestMapping(value="/supprimerProduit",method=RequestMethod.POST)
-	public String soumissionFormulaireSuppression(Model modele,@ModelAttribute("produitSuppression") Produit produit){
+	public ModelAndView soumissionFormulaireSuppression(Model modele,@ModelAttribute("produitSuppression") Produit produit){
 		serviceProduit.supprimerProduit(produit);
-		//On actualise la liste des produits
-		List<Produit> listeProduit = serviceProduit.listerProduits();
-		System.out.println(listeProduit.toString());
-		modele.addAttribute("listeProduit",listeProduit);
-		return "admin";
-
+		return new ModelAndView("produit_recap", "listeProduit", serviceProduit.listerProduits());
+	}
+	
+	
+	/* ========================== Actions via lien ========================== */
+	/**
+	 * Permet de modifier un produit contenu dans la base de données via un lien sur la page récapitulative.
+	 * 
+	 * @param modele : Modele MVC de la page modification de produit
+	 * @param id : id du produit à modifier
+	 * @return : la page récapitulative des produits après suppression du produit
+	 */
+	@RequestMapping(value="/modifViaLien/{pId}", method=RequestMethod.GET)
+	public String affichageFormulaireModificationViaLien(Model model, @PathVariable("pId") int id) {
+		Produit pIn = new Produit();
+		pIn.setIdProduit(id);
+		pIn = serviceProduit.rechercherProduitAvecId(pIn);
+		model.addAttribute("listeCategorie", serviceCategorie.listerCategorie());
+		model.addAttribute("produitModif", pIn);
+		return "produit_modif";
 	}
 	/**
 	 * Permet de supprimer un produit contenu dans la base de données via un lien sur la page récapitulative.
@@ -143,61 +186,5 @@ public class ProduitController {
 		List<Produit> listeProduit = serviceProduit.listerProduits();
 		modele.addAttribute("listeProduit",listeProduit);
 		return "produit_recap";
-	}
-	/**
-	 * Permet d'afficher le formulaire pour modifier un produit
-	 * @return Le modèle de la page contenant le formulaire de modification de produit.
-	 * Les informations sont stockées dans produitModif qui est une instance de la classe Produit.
-	 */
-	@RequestMapping(value="/modif", method = RequestMethod.GET)
-	public String affichageFormulaireModification(Model model){
-		model.addAttribute("listeCategorie", serviceCategorie.listerCategorie());
-		model.addAttribute("produitModif", new Produit());
-		return "produit_modif";
-	}
-	/**
-	 * Permet de modifier un produit présent dans la base de données
-	 * 
-	 * @param modele Le modèle MVC de la page contenant le formulaire de modification de produit.
-	 * @param produit : Un objet de type produit contenant toutes les informations. Infos stockées dans produitModif
-	 * @return : La page d'accueil à partir de laquelle les admins ont accès aux différentes fonctionnalités 
-	 * @see affichageFormulaireModification
-	 */
-	@RequestMapping(value="modifierProduit",method=RequestMethod.POST)
-	public String soumissionFormulaireModification(Model modele,@ModelAttribute("produitModif") Produit produit, @RequestParam CommonsMultipartFile file, HttpSession session) throws Exception {
-		Produit produitModif = serviceProduit.modifierProduit(produit);
-		String path = session.getServletContext().getRealPath("/images");
-		File imagesDir = new File(path);
-		if (!imagesDir.exists()) {
-			imagesDir.mkdir();
-		}
-		byte[] bytes = file.getBytes();
-		BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(
-				new File(path + File.separator + "produit_" + produitModif.getIdProduit() + ".jpg")));
-		stream.write(bytes);
-		stream.flush();
-		stream.close();
-		System.out.println("file.getOriginalFilename() = " + file.getOriginalFilename());
-		//On actualise la liste des produits
-		List<Produit> listeProduit = serviceProduit.listerProduits();
-		System.out.println(listeProduit.toString());
-		modele.addAttribute("listeProduit",listeProduit);
-		return "admin";
-	}
-	/**
-	 * Permet de modifier un produit contenu dans la base de données via un lien sur la page récapitulative.
-	 * 
-	 * @param modele : Modele MVC de la page modification de produit
-	 * @param id : id du produit à modifier
-	 * @return : la page récapitulative des produits après suppression du produit
-	 */
-	@RequestMapping(value="/modifViaLien/{pId}", method=RequestMethod.GET)
-	public String affichageFormulaireModificationViaLien(Model model, @PathVariable("pId") int id) {
-		Produit pIn = new Produit();
-		pIn.setIdProduit(id);
-		pIn = serviceProduit.rechercherProduitAvecId(pIn);
-		model.addAttribute("listeCategorie", serviceCategorie.listerCategorie());
-		model.addAttribute("produitModif", pIn);
-		return "produit_modif";
 	}
 }

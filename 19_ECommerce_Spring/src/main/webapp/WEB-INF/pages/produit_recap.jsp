@@ -17,7 +17,7 @@
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Ecommerce</a>
+				<a class="navbar-brand" href="${pageContext.request.contextPath}/admin/connexion">Portail Admin</a>
 			</div>
 			<ul class="nav navbar-nav">
 				<c:if test="${sessionScope.role.nomRole == 'ROLE_ADMIN_CATEGORIE'}">
@@ -73,7 +73,9 @@
 				<td>${produit.description}</td>
 				<td>${produit.prix}</td>
 				<td>${produit.quantite}</td>
-				<td>Placeholder</td>
+				<td>
+					<img width="128" height="128" alt="img_produit" src="${pageContext.request.contextPath}/images/produit_${produit.idProduit}.jpg">
+				</td>
 				<td>${produit.categorie.idCategorie}</td>
 				<td>
 					<a href="${pageContext.request.contextPath}/admin/produit/modifViaLien/${produit.idProduit}">Modification</a>

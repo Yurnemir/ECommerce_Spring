@@ -39,7 +39,7 @@ public class Categorie {
 	private String description;
 	
 	//Association avec la liste de produits
-	@OneToMany(mappedBy="categorie",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="categorie",cascade=CascadeType.ALL)
 	//@OneToMany(mappedBy="categorie")
 	private List<Produit> listeProduits;
 	

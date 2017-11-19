@@ -24,7 +24,7 @@ public class CategorieController {
 		this.categrieService = categrieService;
 	}
 	
-	/****************************** Affichage ******************************/
+	/* ========================== Affichage ========================== */
 	@RequestMapping(value="/recap", method=RequestMethod.GET)
 	public ModelAndView afficherRecap() {
 		List<Categorie> categories = categrieService.listerCategorie();
@@ -42,8 +42,8 @@ public class CategorieController {
 	public ModelAndView afficherFormSuppr() {
 		return new ModelAndView("categorie_suppr", "categorie", new Categorie());
 	}
-	
-	/****************************** Actions ******************************/
+
+	/* ========================== Actions ========================== */
 	@RequestMapping(value="/ajouterCategorie", method=RequestMethod.POST)
 	public String soumettreFormAjout(Model model, @ModelAttribute("categorie") Categorie categorie) {
 		Categorie cOut = categrieService.ajouterCategorie(categorie);
@@ -79,7 +79,7 @@ public class CategorieController {
 		}
 	}
 
-	/****************************** Actions via lien ******************************/
+	/* ========================== Actions via lien ========================== */
 	@RequestMapping(value="/supprViaLien/{pId}", method=RequestMethod.GET)
 	public String supprViaLink(Model model, @PathVariable("pId") int id) {
 		Categorie cIn = new Categorie();
