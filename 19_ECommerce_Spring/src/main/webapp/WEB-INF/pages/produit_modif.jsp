@@ -55,7 +55,7 @@
 	<!-- =========================== Contenu Page =========================== -->
 	<h1 align="center">Modification de produit</h1>
 	<br/>
-	<form:form class="form-horizontal" action="modifierProduit" modelAttribute="produitModif" method="POST">
+	<form:form class="form-horizontal" action="modifierProduit" modelAttribute="produitModif" method="POST" enctype="multipart/form-data">
 		<div class="form-group">
 			<form:label path="idProduit" class="col-sm-2 control-label">Id du Produit</form:label>
 			<div class="col-sm-4">
@@ -91,7 +91,19 @@
 				<form:errors path="quantite" />
 			</div>
 		</div>
-		<br/>
+		<div class="form-group">
+			<form:label path="categorie.idCategorie" class="col-sm-2 control-label">Id de la categorie</form:label>
+			<div class="col-sm-4">
+				<form:input path="categorie.idCategorie" />
+				<form:errors path="categorie.idCategorie" />
+			</div>
+		</div>
+		<div class="form-group">
+			<form:label path="imageFichier" class="col-sm-2 control-label">Image</form:label>
+			<div class="col-sm-4">
+				<input type="file" name="file" />
+			</div>
+		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-4">
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fenetreModifProduit">Modifier le produit</button>

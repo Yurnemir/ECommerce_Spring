@@ -120,26 +120,8 @@ public class ProduitDaoImpl implements IProduitDao{
 	@Override
 	public Produit modifierProduit(Produit produit) {
 		Session session = sessionFactory.getCurrentSession();
-		//Requ�te SQL 
-		String req = "FROM Produit prod WHERE prod.idProduit=:pIdProduit";
-		Query query = session.createQuery(req);
-		//Passage du param�tre
-		query.setParameter("pIdProduit", produit.getIdProduit());
-		Produit produitCherche = (Produit) query.uniqueResult();
-
-		
-		//Remplacement des attributs: 
-		produitCherche.setDescription(produit.getDescription());
-		produitCherche.setDesignation(produit.getDesignation());
-		produitCherche.setIdProduit(produit.getIdProduit());
-		produitCherche.setPrix(produit.getPrix());
-		produitCherche.setQuantite(produit.getQuantite());
-		produitCherche.setImage(produit.getImage());
-		produitCherche.setCategorie(produit.getCategorie());
-		
-		session.saveOrUpdate(produitCherche);
-		
-		return produitCherche;
+		session.saveOrUpdate(produit);
+		return produit;
 	}
 
 

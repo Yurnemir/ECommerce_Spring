@@ -50,7 +50,9 @@
 				<th>${produit.description}</th>
 				<th>${produit.prix}</th>
 				<th>${produit.quantite}</th>
-				<th>Placeholder</th>
+				<th>
+					<img width="128" height="128" alt="img_produit" src="${pageContext.request.contextPath}/images/produit_${produit.idProduit}.jpg">
+				</th>
 				<th><a href="${pageContext.request.contextPath}/ajoutViaLien?pIdProduit=${produit.idProduit}">Ajouter</a><th>
 				<th><form method="GET" action="ajouterProduitPanierViaFormulaire" >
 					<input type="hidden" name="identifiantProduit" value="${produit.idProduit}">

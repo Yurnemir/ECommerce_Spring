@@ -56,7 +56,7 @@
 	<h1 align="center">Ajout de produit</h1>
 	<br/>
 	<form:form class="form-horizontal" method="POST"
-		action="ajouterProduit" modelAttribute="produitAjoute" >
+		action="ajouterProduit" modelAttribute="produitAjoute" enctype="multipart/form-data">
 		<div class="form-group">
 			<form:label path="designation" class="col-sm-2 control-label">Designation du produit</form:label>
 			<div class="col-sm-4">
@@ -86,10 +86,16 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<form:label path="categorie.idCategorie" class="col-sm-2 control-label">Quantite du produit</form:label>
+			<form:label path="categorie.idCategorie" class="col-sm-2 control-label">Id de la categorie</form:label>
 			<div class="col-sm-4">
 				<form:input path="categorie.idCategorie" />
 				<form:errors path="categorie.idCategorie" />
+			</div>
+		</div>
+		<div class="form-group">
+			<form:label path="imageFichier" class="col-sm-2 control-label">Image</form:label>
+			<div class="col-sm-4">
+				<input type="file" name="file" />
 			</div>
 		</div>
 		
