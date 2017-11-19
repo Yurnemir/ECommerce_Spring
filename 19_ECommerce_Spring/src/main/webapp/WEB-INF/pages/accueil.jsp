@@ -32,8 +32,34 @@
 	<br/><br/>
 	
 	<!-- =========================== Contenu Page =========================== -->
-	<h1>Recapitulatif Produits</h1>
-	<br/>
+	<div class="panel-group" id="accordion">
+	<c:forEach var="categorie" items="${listeCategorie}">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapse${categorie.idCategorie}">${categorie.nomCategorie} : ${categorie.description}</a>
+				</h4>
+			</div>
+			<div id="collapse${categorie.idCategorie}" class="panel-collapse collapse">
+				<c:forEach var="produit" items="${listeProduit}">
+					<c:if test="${produit.categorie.idCategorie == categorie.idCategorie}">
+						<div class="panel-body">
+							<div class="col-sm-2">
+								<img width="128" height="128" alt="img_produit" src="${pageContext.request.contextPath}/images/produit_${produit.idProduit}.jpg">
+							</div>
+							<div class="col-sm-4">
+								<h4>Designation : ${produit.designation}</h4>
+								<h4>Description : ${produit.description}</h4>
+								<h4>Prix : ${produit.prix}</h4>
+								<h4>Quantite : ${produit.quantite}</h4>
+							</div>
+						</div>
+					</c:if>
+				</c:forEach>
+			</div>
+		</div>
+	</c:forEach>
+	</div>
 	<table class="table table-bordered">
 		<tr>
 			<th>Désignation</th>

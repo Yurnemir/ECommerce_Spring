@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.adaming.modele.Administrateur;
+import fr.adaming.modele.Categorie;
 import fr.adaming.modele.LigneCommande;
 import fr.adaming.modele.Panier;
 import fr.adaming.modele.Produit;
@@ -23,11 +24,14 @@ import fr.adaming.modele.Role;
 import fr.adaming.service.IProduitService;
 import fr.adaming.service.IRoleService;
 import fr.adaming.service.IServiceAdmin;
+import fr.adaming.service.IServiceCategorie;
 
 @Controller
 public class PortailController {
 	@Autowired
 	private IProduitService serviceProduit;
+	@Autowired
+	private IServiceCategorie serviceCategorie;
 	@Autowired
 	private IServiceAdmin serviceAdmin;
 	@Autowired
@@ -35,19 +39,16 @@ public class PortailController {
 	
 	@RequestMapping(value="/accueil", method=RequestMethod.GET)
 	public String afficherAccueil(Model modele, HttpSession session) {
-
 		List<Produit> listeProduit = serviceProduit.listerProduits();
 		modele.addAttribute("listeProduit",listeProduit);
+		List<Categorie> listeCategorie = serviceCategorie.listerCategorie();
+		modele.addAttribute("listeCategorie",listeCategorie);
 		Panier panier = (Panier) session.getAttribute("panier");
 		if (panier == null) {
-			System.out.println("Panier vide");
 			panier = new Panier();
 			List<LigneCommande> lcs = new ArrayList<LigneCommande>();
 			panier.setListeLignesCommande(lcs);
 			session.setAttribute("panier", panier);
-			System.out.println("panier==null");
-		}else {
-			System.out.println("Panier non vide");
 		}
 		return "accueil";
 	}
