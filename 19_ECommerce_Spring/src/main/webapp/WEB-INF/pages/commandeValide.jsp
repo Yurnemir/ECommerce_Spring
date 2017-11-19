@@ -49,22 +49,22 @@
 	</table>
 
 
-	<div class="col-sm-8 control-label">
+	<div align="center">
 		<h3>Prix Total à payer ${prix}</h3>
 	</div>
 	<br/>
-	<div class="col-sm-8 control-label">
-	<h3>
+	<div>
+	<h3 style="text-align: left;">
 		<a href="${pageContext.request.contextPath}/panier/facturePDF">Imprimer
 			la facture</a>
 	</h3>
 	
-		<h3>
-		<a href="${pageContext.request.contextPath}/panier/envoiMail">Envoie
-			facture par mail ()</a>
+		<h3 style="text-align: right;">
+		<a href="${pageContext.request.contextPath}/panier/envoiMail">Envoi mail de confirmation</a>
 	</h3>
-	
 	</div>
+	
+	<h4 style="text-align: center;"><a href="${pageContext.request.contextPath}/retourAccueil" >Retourner à l'accueil</a> </h4>
 	
 </body>
 </html>

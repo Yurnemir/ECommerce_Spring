@@ -20,40 +20,49 @@
 
 	<!-- =========================== Barre Navigation =========================== -->
 	<nav class="navbar navbar-inverse">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Ecommerce</a>
-			</div>
-			<ul class="nav navbar-nav">
-				<li><a href="${pageContext.request.contextPath}/accueil">Accueil</a></li>
-				<li><a href="${pageContext.request.contextPath}/panier/affichagePanier">Panier</a></li>
-				<li class="active"><a href="${pageContext.request.contextPath}/afficheClient">Client</a></li>
-				
-				
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="${pageContext.request.contextPath}/admin/connexion"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
-			</ul>
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">Ecommerce</a>
 		</div>
+		<ul class="nav navbar-nav">
+			<li><a href="${pageContext.request.contextPath}/accueil">Accueil</a></li>
+			<li><a
+				href="${pageContext.request.contextPath}/panier/affichagePanier">Panier</a></li>
+			<li class="active"><a
+				href="${pageContext.request.contextPath}/afficheClient">Client</a></li>
+
+
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="${pageContext.request.contextPath}/admin/connexion"><span
+					class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+		</ul>
+	</div>
 	</nav>
-	<br/><br/>
+	<br />
+	<br />
 
 
 
 
 	<h1>${messageErreur}</h1>
+	<div align="center">
+		<h3>Indiquer vos identifiants pour savoir quelles commandes vous avez effectué</h3>
+		<form:form class="form-horizontal" action="affichageCommande"
+			method="POST" modelAttribute="clientChercheCommande">
+			<div class="form-group">
 
-	<form:form class="form-horizontal" action="affichageCommande"
-		method="POST" modelAttribute="clientChercheCommande">
-	
-Mail  : <form:input path="email" />
-Code Personnel : <form:input path="codePerso" />
-		<input type="submit" value="Soumettre le formulaire">
-
-	</form:form>
-
+				Mail :
+				<form:input path="email" />
+				Code Personnel :
+				<form:input path="codePerso" />
+				<input type="submit" value="Soumettre le formulaire">
+			</div>
+		</form:form>
+	</div>
 	<c:forEach var="commande" items="${listeCommande}">
-		<h1>Commande du ${commande.dateCommande}</h1>
+		<h1 align="center" style="color: red">Commande du
+			${commande.dateCommande}</h1>
 		<table class="table table-bordered">
 			<tr>
 				<th>Produit</th>
@@ -62,7 +71,7 @@ Code Personnel : <form:input path="codePerso" />
 				<th>Prix Total</th>
 
 			</tr>
-			
+
 			<c:forEach var="ligneCommande" items="${commande.listeLigneCommande}">
 				<tr>
 					<th>${ligneCommande.produit.designation}</th>

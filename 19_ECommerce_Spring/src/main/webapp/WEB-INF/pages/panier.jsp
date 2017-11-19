@@ -23,33 +23,27 @@
 				<a class="navbar-brand" href="#">Ecommerce</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li ><a href="${pageContext.request.contextPath}/accueil">Accueil</a></li>
+				<li><a href="${pageContext.request.contextPath}/accueil">Accueil</a></li>
 				<li class="active"><a href="#">Panier</a></li>
 				<li><a href="${pageContext.request.contextPath}/afficheClient">Client</a></li>
-				
-				
+
+
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="${pageContext.request.contextPath}/admin/connexion"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+				<li><a
+					href="${pageContext.request.contextPath}/admin/connexion"><span
+						class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
 			</ul>
 		</div>
 	</nav>
-	<br/><br/>
+	<br />
+	<br />
 
 	<!-- =========================== Contenu Page =========================== -->
 	<h1>Panier</h1>
-
-	<h3>
-		<a href="${pageContext.request.contextPath}/panier/facturePDF">Imprimer
-			la facture</a>
-	</h3>
 	<h3>
 		<a href="${pageContext.request.contextPath}/panier/viderPanier">Vider
 			le panier</a>
-	</h3>
-	<h3>
-		<a href="${pageContext.request.contextPath}/panier/envoiMail">Envoie
-			facture par mail ()</a>
 	</h3>
 
 	<div align="center">
@@ -74,30 +68,47 @@
 			</c:forEach>
 		</table>
 	</div>
+	<div align="center">
 
-	<h3>Valider la commande</h3>
-	<form:form class="form-horizontal"
-		action="validationCommandePuisEnregistrement" method="POST"
+	<form:form action="validationCommandePuisEnregistrement" method="POST"
 		modelAttribute="clientAAjouter">
-		
-		Nom : <form:input path="nomClient" />
-		Adresse :<form:input path="adresse" />
-		Telephone : <form:input path="tel" />
-		Mail : <form:input path="email" />
-		<input type="submit" value="Soumettre le formulaire">
+		<div class="form-group">
+			<h3>Valider la commande en créeant un compte</h3>
+			Nom :
+			<form:input path="nomClient" />
+			Adresse :
+			<form:input path="adresse" />
+			Telephone :
+			<form:input path="tel" />
+			Mail :
+			<form:input path="email" type="email" />
+			<button type="submit" class="btn btn-default">Valider la
+				commande</button>
+		</div>
 	</form:form>
+	</div>
+	<br/>
+	<br/>	
+	<br/>
+	<div align="center">
+		<form:form action="validationCommandeClientDansBase" method="POST"
+			modelAttribute="clientDejaDansBase">
+			<div class="form-group">
+				<h3>Utiliser un compte déjà existant pour valider la commande</h3>
 
-	<form:form class="form-horizontal"
-		action="validationCommandeClientDansBase" method="POST"
-		modelAttribute="clientDejaDansBase">
-				
-			Nom : <form:input path="nomClient" />
-			Mail : <form:input path="email" />
-			Mot de Passe : <form:input path="codePerso" />
-		<input type="submit" value="Soumettre le formulaire">
-	</form:form>
-			<h2>${messageErreur}</h2>
-	
+				Mail :
+				<form:input path="email" />
+				Mot de Passe :
+				<form:input path="codePerso" type="password" />
+				<button type="submit" class="btn btn-default">Valider la
+					commande</button>
+			</div>
+
+		</form:form>
+
+	</div>
+	<h2>${messageErreur}</h2>
+
 
 </body>
 </html>

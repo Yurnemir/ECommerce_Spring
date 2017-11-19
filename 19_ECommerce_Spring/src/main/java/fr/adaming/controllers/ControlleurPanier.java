@@ -44,6 +44,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import fr.adaming.modele.Categorie;
 import fr.adaming.modele.Client;
 import fr.adaming.modele.Commande;
 import fr.adaming.modele.LigneCommande;
@@ -53,6 +54,7 @@ import fr.adaming.service.IClientService;
 import fr.adaming.service.ICommandeService;
 import fr.adaming.service.ILigneCommandeService;
 import fr.adaming.service.IProduitService;
+import fr.adaming.service.IServiceCategorie;
 /**
  * 
  * @author inti0236
@@ -69,6 +71,9 @@ public class ControlleurPanier {
 	private ICommandeService serviceCommande;
 	@Autowired
 	private ILigneCommandeService serviceLigneCommande;
+	@Autowired
+	private IServiceCategorie serviceCategorie;
+	
 
 	/**
 	 * Méthode permettant d'ajouter exactement un exemplaire du produit en cliquant sur le lien. 
@@ -263,8 +268,11 @@ public class ControlleurPanier {
 		session.setAttribute("panier", nouveauPanier);
 
 		// On revient à la page du panier
-		return new ModelAndView("panier", "panierAffiche", nouveauPanier);
+		ModelAndView modeleVue = new ModelAndView("panier", "clientAAjouter", new Client());
+		modeleVue.addObject("clientDejaDansBase", new Client());
+		modeleVue.addObject("panierAffiche", nouveauPanier);
 
+		return modeleVue;
 	}
 	/**
 	 * 
@@ -471,8 +479,123 @@ public class ControlleurPanier {
 		List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
 		try {
 			PdfWriter pdfWriter = PdfWriter.getInstance(document,
-					new FileOutputStream(System.getProperty("user.home") + "\\Desktop\\test.pdf"));
+					new FileOutputStream(System.getProperty("user.home") + "\\Desktop\\factureEcommerce.pdf"));
 			document.open();
+			document.add(new Paragraph("Facture détaillée de la commande"));
+			// Ecrire la facture dans le pdf.
+			// Entête du tableau
+			String[] enteteTableau = { "Produit", "Description", "Quantité", "Prix" };
+			PdfPTable table = new PdfPTable(enteteTableau.length);
+			// Création de l'entete du tableau
+			for (String caseEntete : enteteTableau) {
+				Paragraph celluleEnteteTemp = new Paragraph();
+				celluleEnteteTemp.add(caseEntete);
+				table.addCell(celluleEnteteTemp);
+			}
+			// On ajoute les lignes de commandes.
+			for (LigneCommande ligne : listeLigneCommande) {
+				prixTotal = prixTotal + ligne.getProduit().getPrix();
+				Object[] ligneFacture = { ligne.getProduit().getDesignation(), ligne.getProduit().getDescription(),
+						ligne.getQuantite(), ligne.getPrix() };
+
+				for (Object objet : ligneFacture) {
+					Paragraph paragrapheTemp = new Paragraph();
+					paragrapheTemp.add(objet.toString());
+					table.addCell(paragrapheTemp);
+				}
+
+			}
+
+			document.add(table);
+
+			// Ajout du prix total.
+			Paragraph paraPrixTotal = new Paragraph("Prix Total : " + prixTotal + "€");
+			document.add(paraPrixTotal);
+
+			document.close();
+			System.out.println("On essaye d'ouvrir le fichier PDF qui a été généré");
+			try {
+				Desktop.getDesktop().open(new File(System.getProperty("user.home") + "\\Desktop\\factureEcommerce.pdf"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException | DocumentException e) {
+
+			e.printStackTrace();
+		}
+		return new ModelAndView("commandeValide", "prix", prixTotal);
+
+	}
+	
+	
+	
+	
+	/**
+	 * Envoi d'un mail au client. Facture PDF jointe.
+	 * @param sessionHttp Session Http contenant le panier
+	 * @return On reste sur la page facture.
+	 */
+	@RequestMapping(value = "/panier/envoiMail", method = RequestMethod.GET)
+	public String envoyerMail(HttpSession sessionHttp) {
+		final String to = "benj.henry@free.fr";
+		final String username = "thezadzad@gmail.com";
+		final String password = "adaming44";
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+		Session session = Session.getInstance(props, new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+		try {
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(username));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			
+
+			
+			message.setSubject("Commande Ecommerce");
+			System.out.println("Sujet");
+			// Message du mail
+			StringBuilder sb = new StringBuilder();
+
+			// String nom = "Boizard";
+			// sb.append("Mme/Mr. " + nom + ",\n\n");
+			sb.append("Cher client/Chère cliente" + "\n");
+			sb.append("Vous avez passé une commande pour :\n");
+
+			// On liste les produits dans le corps du mail.
+			double prix = 0;
+			Panier panierSession = (Panier) sessionHttp.getAttribute("panier");
+			List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
+			for (LigneCommande ligne : listeLigneCommande) {
+				String nomProduit = ligne.getProduit().getDesignation();
+				int quantite = ligne.getQuantite();
+				prix = prix + ligne.getPrix();
+				sb.append("  -  " + nomProduit + ":" + quantite + " exemplaire(s)" + "\n");
+			}
+			sb.append("Le montant total de vos achats s'élèvent à " + prix+" euros");
+
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(new Date());
+			calendar.add(Calendar.DAY_OF_YEAR, 12);
+			sb.append("\nLa date de réception est prévue au " + calendar.getTime());
+			sb.append("Une facture plus détaillée se trouve jointe à ce mail.");
+			message.setText(sb.toString());
+			System.out.println("Corps de texte");
+			// Pdf en piece jointe
+			double prixTotal =0;
+			Document document = new Document();
+
+			PdfWriter pdfWriter = PdfWriter.getInstance(document,
+					new FileOutputStream(System.getProperty("user.home") + "\\Desktop\\factureEcommerce.pdf"));
+			document.open();
+			document.add(new Paragraph("Facture détaillée de la commande"));
 
 			// Ecrire la facture dans le pdf.
 			// Entête du tableau
@@ -505,91 +628,32 @@ public class ControlleurPanier {
 			document.add(paraPrixTotal);
 
 			document.close();
-			// C:\Program Files (x86)\Adobe\Acrobat Reader
-			// DC\Reader\AcroRd32.exe
-			// Ouvrir le fichier PDF.
 			System.out.println("On essaye d'ouvrir le fichier PDF qui a été généré");
-			try {
-				Desktop.getDesktop().open(new File(System.getProperty("user.home") + "\\Desktop\\test.pdf"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException | DocumentException e) {
 
-			e.printStackTrace();
-		}
-		// ModelAndView modeleVue = new
-		// ModelAndView("panier","panierAffiche",panierSession);
-		// modeleVue.addObject("ClientAAjouter", new Client());
-		return new ModelAndView("commandeValide", "prix", prixTotal);
-
-	}
-	
-	/**
-	 * Envoi d'un mail au client. Facture PDF jointe.
-	 * @param sessionHttp Session Http contenant le panier
-	 * @return On reste sur la page facture.
-	 */
-	@RequestMapping(value = "/panier/envoiMail", method = RequestMethod.GET)
-	public String envoyerMail(HttpSession sessionHttp) {
-		final String to = "benj.henry@free.fr";
-		final String username = "thezadzad@gmail.com";
-		final String password = "adaming44";
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
-		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-		Session session = Session.getInstance(props, new Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
-			}
-		});
-		try {
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(username));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-			message.setSubject("Commande Ecommerce");
-
-			// Message du mail
-			StringBuilder sb = new StringBuilder();
-
-			// String nom = "Boizard";
-			// sb.append("Mme/Mr. " + nom + ",\n\n");
-			sb.append("Cher client/Chère cliente" + "\n");
-			sb.append("Vous avez passé une commande pour :\n");
-
-			// On liste les produits dans le corps du mail.
-			double prix = 0;
-			Panier panierSession = (Panier) sessionHttp.getAttribute("panier");
-			List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
-			for (LigneCommande ligne : listeLigneCommande) {
-				String nomProduit = ligne.getProduit().getDesignation();
-				int quantite = ligne.getQuantite();
-				prix = prix + ligne.getPrix();
-				sb.append("  -  " + nomProduit + ":" + quantite + " exemplaire(s)" + "\n");
-			}
-			sb.append("Le montant total de vos achats s'élèvent à" + prix);
-
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(new Date());
-			calendar.add(Calendar.DAY_OF_YEAR, 12);
-			sb.append("\nLa date de réception est prévue au " + calendar.getTime());
-			sb.append("Une facture plus détaillée se trouve jointe à ce mail.");
-			message.setText(sb.toString());
-
-			// Pdf en piece jointe
-			// DataSource pieceJointe = new
-			// FileDataSource(System.getProperty("user.home") +
-			// "\\Desktop\\test.pdf");
+			
+			
+			// DataSource pieceJointe = new FileDataSource(System.getProperty("user.home") + "\\Desktop\\factureEcommerce.pdf");
 			// message.setDataHandler(new DataHandler(pieceJointe));
 			// message.setFileName("recapitulatif_commande.pdf");
+
 			Transport.send(message);
-		} catch (MessagingException e) {
+		} catch (MessagingException | FileNotFoundException | DocumentException e) {
 			throw new RuntimeException(e);
 		}
 		return "commandeValide";
+	}
+	@RequestMapping(value="/retourAccueil")
+	private ModelAndView retourAccueil(HttpSession session){
+		Panier panierSession =(Panier) session.getAttribute("panier");
+		panierSession.setListeLignesCommande(new ArrayList<>());
+		session.setAttribute("panier", panierSession);
+		
+		List<Produit> listeProduit = serviceProduit.listerProduits();
+		List<Categorie> listeCategorie = serviceCategorie.listerCategorie();
+
+		ModelAndView modeleVue = new ModelAndView("accueil","listeProduit",listeProduit);
+		modeleVue.addObject("listeCategorie",listeCategorie);
+		//Retour à l'accueil
+		return modeleVue;
 	}
 }

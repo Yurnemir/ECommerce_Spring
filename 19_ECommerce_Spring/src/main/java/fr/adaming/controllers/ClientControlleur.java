@@ -1,5 +1,7 @@
 package fr.adaming.controllers;
-
+/**
+ * Controleur pour la consultation des infos par le client
+ */
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,11 +32,19 @@ public class ClientControlleur {
 	@Autowired
 	private ILigneCommandeService serviceLigneCommande;
 	
-	
+	/**
+	 * Affichage du formulaire pour que le client puisse voir toutes ses commandes
+	 * @return Page du formulaire
+	 */
 	@RequestMapping(value="/afficheClient")
 	public ModelAndView affichageFormCommandeClient(){
 		return new ModelAndView("client","clientChercheCommande",new Client());
 	}
+	/**
+	 * Méthodes pour envoyer l'ensemble des commandes du client sur la page
+	 * @param client Client qui cherche à connaitre ses commandes
+	 * @return On reste sur la même page mais le modele contient maitenant l'ensemble des commandes du client
+	 */
 	@RequestMapping(value="affichageCommande")
 	private ModelAndView affichageCommande(@ModelAttribute("clientChercheCommande")Client client){
 		//On reste toujours sur cette page.
@@ -62,13 +72,19 @@ public class ClientControlleur {
 		modeleVue.addObject("listeCommande",listeCommande);
 		return modeleVue;
 	}
-	
+	/**
+	 * On liste tous les clients enregistré
+	 * @return
+	 */
 	@RequestMapping(value="/admin/categorie/clients/recap")
 	private ModelAndView listeClientPourAdmin(){
 		List<Client> listeClients = serviceClient.listerClient();
 		return new ModelAndView("client_liste","listeClient",listeClients);
 	}
-	
+	/**
+	 *  On liste tous les clients enregistré et on leur associe leurs commandes.
+	 * @return 
+	 */
 	
 	@RequestMapping(value="/admin/categorie/clients/recapCommande")
 	private ModelAndView listeCommandesClients(){
