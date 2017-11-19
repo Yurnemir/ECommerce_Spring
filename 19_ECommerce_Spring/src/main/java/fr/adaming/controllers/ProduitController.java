@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
-import fr.adaming.modele.Categorie;
 import fr.adaming.modele.Produit;
 import fr.adaming.service.IProduitService;
 import fr.adaming.service.IServiceCategorie;
@@ -30,6 +28,7 @@ import fr.adaming.service.IServiceCategorie;
  * proposées.
  *
  */
+
 @Controller
 @RequestMapping(value="/admin/produit")
 public class ProduitController {
@@ -63,7 +62,6 @@ public class ProduitController {
 		model.addAttribute("listeCategorie", serviceCategorie.listerCategorie());
 		model.addAttribute("produitAjoute", new Produit());
 		return "produit_ajout";
-//		return new ModelAndView("produit_ajout","produitAjoute",new Produit());
 	}
 	
 	/**
@@ -152,8 +150,10 @@ public class ProduitController {
 	 * Les informations sont stockées dans produitModif qui est une instance de la classe Produit.
 	 */
 	@RequestMapping(value="/modif", method = RequestMethod.GET)
-	public ModelAndView affichageFormulaireModification(){
-		return new ModelAndView("produit_modif","produitModif",new Produit());
+	public String affichageFormulaireModification(Model model){
+		model.addAttribute("listeCategorie", serviceCategorie.listerCategorie());
+		model.addAttribute("produitModif", new Produit());
+		return "produit_modif";
 	}
 	/**
 	 * Permet de modifier un produit présent dans la base de données
