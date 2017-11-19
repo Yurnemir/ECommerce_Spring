@@ -1,11 +1,19 @@
 package fr.adaming.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -32,95 +40,108 @@ public class CommandeDAOTest {
 	@Autowired
 	private ICommandeDao commandeDAO;
 	
-	@Autowired
-	private IProduitDao produitDAO;
+	private Produit produitIn1;
+	private Client clientIn;
+	private Commande commandeIn;
+	private Date dateIn;
 	
-	@Autowired
-	private IClientDao clientDAO;
-	
-	private static Produit produitIn;
-	private static Client clientIn;
-	private static LigneCommande ligneIn;
-	private static Commande commandeIn;
-	
-	@BeforeClass
-	public static void init(){
-		produitIn = new Produit(
-				"testDesignation",
-				"testDescription",
-				1.0,
-				2,
-				"test",
-				true,
-				new byte[]{1,2,3,4,5,6,7,8,9,0});		
-		
-		ligneIn = new LigneCommande();
-		ligneIn.setProduit(produitIn);
-		ligneIn.setQuantite(10);
-		
+	@SuppressWarnings("deprecation")
+	@Before
+	public void init(){
+		produitIn1 = new Produit(
+				"testProduitDesignation1",
+				"testProduitDescription1",
+				123.4,
+				456,
+				"testProduitImage1",
+				false,
+				null);
 		
 		clientIn = new Client(1, "testClientNom", "testClientAdresse", "testClient@mail", "testClientTel","testClientPassword");
 
-		commandeIn = new Commande();
+		dateIn = new Date();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			dateIn = dateFormat.parse("2017-11-11");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		
-		commandeIn.setListeLigneCommande(new ArrayList<LigneCommande>());
-		commandeIn.addLigne(ligneIn);
+		
+		commandeIn = new Commande(1,
+				dateIn);
 	}
 	
 	@Test
-	@Ignore
 	public void testEnregistrementCommande(){
-		clientDAO.createClient(clientIn);
-		produitDAO.ajouterProduit(produitIn);
-		ligneIn.setProduit(produitIn);
-		commandeIn.getListeLigneCommande().add(ligneIn);
-		commandeIn.setClient(clientIn);
+		Date dateAdd = new Date();
+		commandeIn.setDateCommande(dateAdd);
+		Commande commandeOut = commandeDAO.enregistrementCommande(new Commande(dateAdd));
 		
-		Commande commandeOut = commandeDAO.enregistrementCommande(commandeIn);
+		//on verifie que la commande a bien été enregistrée
+		assertNotNull(commandeOut.getIdCommande());
 		
-		assertEquals(produitIn,commandeOut.getListeLigneCommande().get(0).getProduit());
-		assertEquals(10, commandeOut.getListeLigneCommande().get(0).getQuantite());
-		assertEquals(clientIn,commandeOut.getClient());
+		assertEquals(commandeIn.getDateCommande(),commandeOut.getDateCommande());
 		
 	}
 	
 	@Test
-	@Ignore
 	public void testGetCommandeById(){
-		commandeDAO.enregistrementCommande(commandeIn);
 		
-		Commande commandeEmpty = new Commande();
-		commandeEmpty.setIdCommande(commandeIn.getIdCommande());
+		Commande commandeOut = commandeDAO.getCommandeById(new Commande(1,
+				(Date)dateIn.clone()));
 		
-		Commande commandeOut = commandeDAO.getCommandeById(commandeEmpty);
-		
-		assertEquals(produitIn,commandeOut.getListeLigneCommande().get(0).getProduit());
-		assertEquals(10, commandeOut.getListeLigneCommande().get(0).getQuantite());
-		assertEquals(clientIn,commandeOut.getClient());
+		assertEquals(commandeIn.getIdCommande(),commandeOut.getIdCommande());
+		assertEquals(commandeIn.getDateCommande(),commandeOut.getDateCommande());
 		
 	}
-	@Ignore
+	
+	
+	@Test
+	public void testGetAllCommandes(){
+		
+		List<Commande> liste = commandeDAO.getAllCommandes();
+		
+		int in = liste.size();
+		assertEquals(1, in);
+		
+		assertEquals(commandeIn.getIdCommande(),liste.get(0).getIdCommande());
+		assertEquals(commandeIn.getDateCommande(),liste.get(0).getDateCommande());
+	}
+	
+	
+	@Test
+	public void testGetCommandesByClient(){
+		
+		List<Commande> liste = commandeDAO.getCommandesByClient(clientIn);
+		
+		int in = liste.size();
+		assertEquals(1, in);
+		
+		assertEquals(commandeIn.getIdCommande(),liste.get(0).getIdCommande());
+		assertEquals(commandeIn.getDateCommande(),liste.get(0).getDateCommande());
+	}
+	
 	@Test
 	public void testDeleteCommande(){
-		clientDAO.createClient(clientIn);
-		produitDAO.ajouterProduit(produitIn);
-		ligneIn.setProduit(produitIn);
-		commandeIn.getListeLigneCommande().add(ligneIn);
-		commandeIn.setClient(clientIn);
 		
-		commandeDAO.enregistrementCommande(commandeIn);
+		int in = commandeDAO.getAllCommandes().size();
 		
-		System.out.println(commandeDAO.getCommandeById(commandeIn));
+		Commande commandeSuppr = commandeDAO.getCommandeById(commandeIn);
 		
-		int commandesIn = commandeDAO.getAllCommandes().size();
+		boolean deleted = commandeDAO.deleteCommande(commandeSuppr);
 		
-		commandeDAO.deleteCommande(commandeIn);
+		assertTrue(deleted);
 		
-		int commandesOut = commandeDAO.getAllCommandes().size();
+		int out = commandeDAO.getAllCommandes().size();
 		
-		assertEquals(commandesIn-1,commandesOut);
+		assertEquals(in-1,out);
 		
-		assertNull(commandeDAO.getCommandeById(commandeIn));
+		commandeSuppr = commandeDAO.getCommandeById(commandeIn);
+		
+		assertNull(commandeSuppr);
+		
 	}
+	
 
 }

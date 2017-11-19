@@ -43,8 +43,6 @@ public class ProduitDAOTest {
 	
 	@Test
 	@Transactional
-	@Ignore
-
 	public void testAjouterProduit(){
 		//on cree un nouvea produit, on l'ajoute
 		Produit produitAdd = new Produit(
@@ -71,8 +69,6 @@ public class ProduitDAOTest {
 	
 	@Test
 	@Transactional
-	@Ignore
-
 	public void testGetProduitById(){
 		//on recupere un produit connu
 		
@@ -91,8 +87,6 @@ public class ProduitDAOTest {
 	
 	@Test
 	@Transactional
-	@Ignore
-
 	public void testModifierProduit(){
 		
 		//on recupere un produit connu
@@ -114,8 +108,6 @@ public class ProduitDAOTest {
 	
 	@Test
 	@Transactional
-	@Ignore
-
 	public void testListerProduits(){
 		//on compte le nombre de produits avant ajout
 		int produitsIn = produitDAO.listerProduits().size();
@@ -135,8 +127,6 @@ public class ProduitDAOTest {
 	
 	@Test
 	@Transactional
-	@Ignore
-
 	public void testSupprimerProduit(){
 		
 		//on determine le nombre de produits (normalement, 1)
@@ -160,8 +150,6 @@ public class ProduitDAOTest {
 	
 	@Test
 	@Transactional
-	@Ignore
-
 	public void testGetProduitByCategorie(){
 		//on recupere une liste de produits dont on connait la categorie
 		Categorie c = new Categorie(1, "testCategorieNom", "testCategorieDescription");
@@ -174,8 +162,6 @@ public class ProduitDAOTest {
 	
 	@Test
 	@Transactional
-	@Ignore
-
 	public void testSelectedProduit(){
 		//on recupere une liste de produits selected
 
@@ -187,8 +173,6 @@ public class ProduitDAOTest {
 	
 	@Test
 	@Transactional
-	@Ignore
-
 	public void testgetProduitsByMot(){
 		//on recupere une liste de produits contenant un mot clé
 

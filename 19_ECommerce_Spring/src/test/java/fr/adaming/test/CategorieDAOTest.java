@@ -27,38 +27,20 @@ import fr.adaming.modele.Produit;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="file:src/test/resources/application-context.xml")
+@Transactional
 public class CategorieDAOTest {
 	
 	@Autowired
 	private ICategorieDao categorieDAO;
 	
 	private Categorie categorieIn;
-//	private List<Produit> liste;
-//	private Produit produit1;
-//	private Produit produit2;
-//	private LigneCommande ligneCommande1;
-//	private LigneCommande ligneCommande2;
-//	private Commande commande;
-//	private Client client;
 	
 	@Before
-	
 	public void init(){
 		categorieIn= new Categorie(1,"testCategorieNom","testCategorieDescription");
-//		produit1 = new Produit(1, "testProduitDesignation1", "testProduitDescription1", 123.4, 456, "testProduitImage1", false, null);
-//		produit1.setCategorie(categorieIn);
-//		
-//		
-//		produit2 = new Produit(2, "testProduitDesignation2", "testProduitDescription2", 345.6, 789, "testProduitImage2", true, null);
-//		produit2.setCategorie(categorieIn);
-//		liste = new ArrayList<Produit>();
-//		categorieIn.setListeProduits(liste);
 	}
 	
 	@Test
-	@Transactional
-	@Ignore
-
 	public void testGetCategorieById(){
 		//Utilisation d'une bdd connue, contenant une categorie
 		//On verifie si le getById renvoie la même catégorie
@@ -77,9 +59,6 @@ public class CategorieDAOTest {
 	
 
 	@Test
-	@Transactional
-	@Ignore
-
 	public void testAjoutCategorie (){
 		
 		Categorie categorieOut = categorieDAO.ajouterCategorie(new Categorie("Test","Categorie de Test"));
@@ -93,9 +72,6 @@ public class CategorieDAOTest {
 	}
 	
 	@Test
-	@Transactional
-	@Ignore
-
 	public void testModifCategorie(){
 		//On modifie une categorie existante
 		Categorie categorieModif = categorieDAO.rechercherCategorieParId(categorieIn);
@@ -114,9 +90,6 @@ public class CategorieDAOTest {
 
 	
 	@Test
-	@Transactional
-	@Ignore
-
 	public void testListerCategorie(){
 		//on obtient la quantité de départ d'entités dans la base
 		int categoriesIn = categorieDAO.listerCategorie().size();
@@ -135,9 +108,6 @@ public class CategorieDAOTest {
 	}
 	
 	@Test
-	@Transactional
-	@Ignore
-
 	public void testSupprimerCategories(){
 		// on recupere le nombre d'elements au depart
 		

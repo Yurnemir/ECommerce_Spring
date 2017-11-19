@@ -19,6 +19,7 @@ import fr.adaming.modele.Role;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="file:src/test/resources/application-context.xml")
+@Transactional
 public class RoleDAOTest {
 
 	@Autowired
@@ -35,9 +36,6 @@ public class RoleDAOTest {
 	}
 	
 	@Test
-	@Transactional
-	@Ignore
-
 	public void testGetRoleByAdmin(){
 		//on recupere un role d'un admin connu
 		Role roleGet = roleDao.getRoleByAdmin(admin);

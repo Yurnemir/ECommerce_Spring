@@ -16,15 +16,13 @@ import fr.adaming.modele.Administrateur;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="file:src/test/resources/application-context.xml")
+@Transactional
 public class AdminDAOTest {
 	
 	@Autowired
 	private IAdminDao adminDAO;
 	
 	@Test
-	@Transactional
-	@Rollback(true)
-	@Ignore
 	public void testConnexionAdmin(){
 		Administrateur adminIn = new Administrateur("a@a","a");
 		Administrateur adminOut = adminDAO.connexionAdmin(adminIn);
