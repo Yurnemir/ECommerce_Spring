@@ -67,7 +67,32 @@
 					<td>${categorie.idCategorie}</td>
 					<td>${categorie.nomCategorie}</td>
 					<td>${categorie.description}</td>
-					<td><a href="${pageContext.request.contextPath}/admin/categorie/supprViaLien/${categorie.idCategorie}">Supprimer</a></td>
+					<td>
+						<a href="${pageContext.request.contextPath}/admin/categorie/modifViaLien/${categorie.idCategorie}">Modification</a>
+						<br/>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fenetreSupprCategorie_${categorie.idCategorie}">Supprimer</button>
+						<!-- =========================== Fenetre confirmation suppression =========================== -->
+						<div id="fenetreSupprCategorie_${categorie.idCategorie}" class="modal fade" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">Confirmation Suppression Categorie</h4>
+									</div>
+									<div class="modal-body">
+										<p align="center">Etes-vous certain de vouloir supprimer cette catégorie ?</p>
+										<div align="center">
+											<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/categorie/supprViaLien/${categorie.idCategorie}">Oui</a>
+											<button type="button" class="btn btn-primary" data-dismiss="modal">Non</button>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary" data-dismiss="modal">Annuler</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
 				</tr>
 			</c:forEach>
 		</table>

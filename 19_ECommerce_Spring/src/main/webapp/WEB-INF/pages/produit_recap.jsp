@@ -80,9 +80,9 @@
 				<td>
 					<a href="${pageContext.request.contextPath}/admin/produit/modifViaLien/${produit.idProduit}">Modification</a>
 					<br/>
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fenetreSupprProduit">Supprimer</button>
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fenetreSupprProduit_${produit.idProduit}">Supprimer</button>
 					<!-- =========================== Fenetre confirmation suppression =========================== -->
-					<div id="fenetreSupprProduit" class="modal fade" role="dialog">
+					<div id="fenetreSupprProduit_${produit.idProduit}" class="modal fade" role="dialog">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">

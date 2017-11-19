@@ -184,7 +184,7 @@ public class ProduitController {
 		pIn = serviceProduit.rechercherProduitAvecId(pIn);
 		serviceProduit.supprimerProduit(pIn);
 		List<Produit> listeProduit = serviceProduit.listerProduits();
-		modele.addAttribute("listeProduit",listeProduit);
+		modele.addAttribute("listeProduit", listeProduit);
 		return "produit_recap";
 	}
 }
