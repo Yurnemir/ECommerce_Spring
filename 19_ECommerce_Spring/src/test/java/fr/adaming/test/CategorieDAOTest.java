@@ -42,6 +42,7 @@ public class CategorieDAOTest {
 //	private Client client;
 	
 	@Before
+	
 	public void init(){
 		categorieIn= new Categorie(1,"testCategorieNom","testCategorieDescription");
 //		produit1 = new Produit(1, "testProduitDesignation1", "testProduitDescription1", 123.4, 456, "testProduitImage1", false, null);
@@ -56,6 +57,8 @@ public class CategorieDAOTest {
 	
 	@Test
 	@Transactional
+	@Ignore
+
 	public void testGetCategorieById(){
 		//Utilisation d'une bdd connue, contenant une categorie
 		//On verifie si le getById renvoie la même catégorie
@@ -75,6 +78,8 @@ public class CategorieDAOTest {
 
 	@Test
 	@Transactional
+	@Ignore
+
 	public void testAjoutCategorie (){
 		
 		Categorie categorieOut = categorieDAO.ajouterCategorie(new Categorie("Test","Categorie de Test"));
@@ -89,6 +94,8 @@ public class CategorieDAOTest {
 	
 	@Test
 	@Transactional
+	@Ignore
+
 	public void testModifCategorie(){
 		//On modifie une categorie existante
 		Categorie categorieModif = categorieDAO.rechercherCategorieParId(categorieIn);
@@ -108,6 +115,8 @@ public class CategorieDAOTest {
 	
 	@Test
 	@Transactional
+	@Ignore
+
 	public void testListerCategorie(){
 		//on obtient la quantité de départ d'entités dans la base
 		int categoriesIn = categorieDAO.listerCategorie().size();
@@ -127,6 +136,8 @@ public class CategorieDAOTest {
 	
 	@Test
 	@Transactional
+	@Ignore
+
 	public void testSupprimerCategories(){
 		// on recupere le nombre d'elements au depart
 		

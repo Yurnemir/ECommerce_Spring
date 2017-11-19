@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ public class RoleDAOTest {
 	
 	@Test
 	@Transactional
+	@Ignore
+
 	public void testGetRoleByAdmin(){
 		//on recupere un role d'un admin connu
 		Role roleGet = roleDao.getRoleByAdmin(admin);

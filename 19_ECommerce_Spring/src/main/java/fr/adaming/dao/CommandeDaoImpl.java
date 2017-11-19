@@ -45,8 +45,9 @@ public class CommandeDaoImpl implements ICommandeDao {
 
 	@Override
 	public List<Commande> getCommandesByClient(Client client) {
-		String req = "FROM Commande comm WHERE comm.client=:pClient";
+		String req = "FROM Commande comm WHERE comm.client.idClient=:pClient";
 		Query query = sessionFactory.getCurrentSession().createQuery(req);
+		query.setParameter("pClient", client.getIdClient());
 		List<Commande> liste = (List<Commande>)query.list();
 		return liste;
 	}

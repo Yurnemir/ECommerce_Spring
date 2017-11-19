@@ -23,19 +23,18 @@
 				<a class="navbar-brand" href="#">Ecommerce</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li><a href="${pageContext.request.contextPath}/accueil">Accueil</a></li>
+				<li ><a href="${pageContext.request.contextPath}/accueil">Accueil</a></li>
 				<li class="active"><a href="#">Panier</a></li>
-
+				<li><a href="${pageContext.request.contextPath}/afficheClient">Client</a></li>
+				
+				
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a
-					href="${pageContext.request.contextPath}/admin/connexion"><span
-						class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+				<li><a href="${pageContext.request.contextPath}/admin/connexion"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
 			</ul>
 		</div>
 	</nav>
-	<br />
-	<br />
+	<br/><br/>
 
 	<!-- =========================== Contenu Page =========================== -->
 	<h1>Panier</h1>
