@@ -184,4 +184,20 @@ public class ProduitController {
 		modele.addAttribute("listeProduit",listeProduit);
 		return "admin";
 	}
+	/**
+	 * Permet de modifier un produit contenu dans la base de données via un lien sur la page récapitulative.
+	 * 
+	 * @param modele : Modele MVC de la page modification de produit
+	 * @param id : id du produit à modifier
+	 * @return : la page récapitulative des produits après suppression du produit
+	 */
+	@RequestMapping(value="/modifViaLien/{pId}", method=RequestMethod.GET)
+	public String affichageFormulaireModificationViaLien(Model model, @PathVariable("pId") int id) {
+		Produit pIn = new Produit();
+		pIn.setIdProduit(id);
+		pIn = serviceProduit.rechercherProduitAvecId(pIn);
+		model.addAttribute("listeCategorie", serviceCategorie.listerCategorie());
+		model.addAttribute("produitModif", pIn);
+		return "produit_modif";
+	}
 }

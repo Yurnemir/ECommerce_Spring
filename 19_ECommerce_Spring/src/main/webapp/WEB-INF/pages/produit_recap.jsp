@@ -76,6 +76,8 @@
 				<td>Placeholder</td>
 				<td>${produit.categorie.idCategorie}</td>
 				<td>
+					<a href="${pageContext.request.contextPath}/admin/produit/modifViaLien/${produit.idProduit}">Modification</a>
+					<br/>
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fenetreSupprProduit">Supprimer</button>
 					<!-- =========================== Fenetre confirmation suppression =========================== -->
 					<div id="fenetreSupprProduit" class="modal fade" role="dialog">

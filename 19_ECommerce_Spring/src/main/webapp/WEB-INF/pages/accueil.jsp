@@ -32,6 +32,8 @@
 	<br/><br/>
 	
 	<!-- =========================== Contenu Page =========================== -->
+	<h1>Interface avec filtrage par catégorie</h1>
+	<br/>
 	<div class="panel-group" id="accordion">
 	<c:forEach var="categorie" items="${listeCategorie}">
 		<div class="panel panel-default">
@@ -53,6 +55,9 @@
 								<h4>Prix : ${produit.prix}</h4>
 								<h4>Quantite : ${produit.quantite}</h4>
 							</div>
+							<div class="col-sm-6">
+								<h1>Ajout au panier (TODO)</h1>
+							</div>
 						</div>
 					</c:if>
 				</c:forEach>
@@ -60,6 +65,11 @@
 		</div>
 	</c:forEach>
 	</div>
+	<br/>
+	<br/>
+	<br/>
+	<h1>Interface avec tableur</h1>
+	<br/>
 	<table class="table table-bordered">
 		<tr>
 			<th>Désignation</th>
