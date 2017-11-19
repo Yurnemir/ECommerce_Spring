@@ -42,7 +42,7 @@
 			error-page="/denied" />
 
 		<!-- Pour se déconnecter -->
-		<security:logout logout-success-url="/logout" logout-url="/deconnexion" invalidate-session="true"/>
+		<security:logout logout-success-url="/accueil" logout-url="/deconnexion" invalidate-session="true"/>
 	</security:http>
 
 
