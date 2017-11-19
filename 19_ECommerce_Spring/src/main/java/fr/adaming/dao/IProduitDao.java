@@ -19,10 +19,10 @@ public interface IProduitDao {
 	
 	public int assoicierImageProduit(Produit produit);
 
-	List<Produit> getProduitsByCategorie(Categorie c);
+	public List<Produit> getProduitsByCategorie(Categorie c);
 
-	List<Produit> getSelectedProduit();
+	public List<Produit> getSelectedProduit();
 
-	List<Produit> getProduitsByMot(String mot);
+	public List<Produit> getProduitsByMot(String mot);
 	
 }

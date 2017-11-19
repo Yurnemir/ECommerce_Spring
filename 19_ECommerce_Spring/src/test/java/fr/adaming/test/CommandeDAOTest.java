@@ -59,7 +59,7 @@ public class CommandeDAOTest {
 		ligneIn.setQuantite(10);
 		
 		
-		clientIn = new Client("testNom", "testAdresse", "testEmail", "0123456789");
+		clientIn = new Client(1, "testClientNom", "testClientAdresse", "testClient@mail", "testClientTel","testClientPassword");
 
 		commandeIn = new Commande();
 		

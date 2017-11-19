@@ -2,6 +2,7 @@ package fr.adaming.modele;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,14 +17,14 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 /**
  * 
- * Cette classe représente une catégorie de produit c'est à dire un type de produit proposé au client.
- * Elle possède les attributs suivants :
+ * Cette classe reprï¿½sente une catï¿½gorie de produit c'est ï¿½ dire un type de produit proposï¿½ au client.
+ * Elle possï¿½de les attributs suivants :
  * <ul>
- * <li> idCategorie : Il s'agit de l'id de la catégorie dans la base de données
- * <li>	nomCategorie : Le nom de la catégorie tel qu'affiché sur le site
- * <li> description : Une description plus ou moins détaillée de la catégorie
+ * <li> idCategorie : Il s'agit de l'id de la catï¿½gorie dans la base de donnï¿½es
+ * <li>	nomCategorie : Le nom de la catï¿½gorie tel qu'affichï¿½ sur le site
+ * <li> description : Une description plus ou moins dï¿½taillï¿½e de la catï¿½gorie
  * </ul>
- * Elle est aussi en association avec une liste de Produit représentant l'ensemble des produits appartenant à cette catégorie.
+ * Elle est aussi en association avec une liste de Produit reprï¿½sentant l'ensemble des produits appartenant ï¿½ cette catï¿½gorie.
  * @author inti0236
  *
  */
@@ -38,7 +39,7 @@ public class Categorie {
 	private String description;
 	
 	//Association avec la liste de produits
-	@OneToMany(mappedBy="categorie",fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="categorie",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	//@OneToMany(mappedBy="categorie")
 	private List<Produit> listeProduits;
 	

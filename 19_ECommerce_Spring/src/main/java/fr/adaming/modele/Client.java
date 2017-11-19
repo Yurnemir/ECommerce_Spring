@@ -48,22 +48,25 @@ public class Client {
 		super();
 	}
 	
-	public Client(String nomClient, String adresse, String email, String tel) {
+	public Client(String nomClient, String adresse, String email, String tel, String codePerso) {
 		super();
 		this.nomClient = nomClient;
 		this.adresse = adresse;
 		this.email = email;
 		this.tel = tel;
+		this.codePerso = codePerso;
 	}
 	
-	public Client(int idClient, String nomClient, String adresse, String email, String tel) {
+	public Client(int idClient, String nomClient, String adresse, String email, String tel, String codePerso) {
 		super();
 		this.idClient = idClient;
 		this.nomClient = nomClient;
 		this.adresse = adresse;
 		this.email = email;
 		this.tel = tel;
+		this.codePerso = codePerso;
 	}
+
 	// Getters/Setters
 
 	public int getIdClient() {

@@ -2,6 +2,7 @@ package fr.adaming.modele;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -75,7 +76,7 @@ public class Produit {
 	
 	// Association avec ligne de commande
 	//(Ligne commande n'est pas stock� dans la base de donn�es il ne faut pas stocker l'attribut de l'association)
-	@OneToMany(mappedBy="produit")
+	@OneToMany(mappedBy="produit", cascade=CascadeType.ALL)
 	private List<LigneCommande> listeLigneCommande;
 	
 	

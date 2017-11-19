@@ -54,7 +54,7 @@ public class ProduitDaoImpl implements IProduitDao{
 
 	@Override
 	public List<Produit> getSelectedProduit() {
-		String req = "From Produit p WHERE p.selectionne:=true";
+		String req = "From Produit p WHERE p.selectionne=true";
 		
 		Query query = sessionFactory.getCurrentSession().createQuery(req);
 		
@@ -78,17 +78,19 @@ public class ProduitDaoImpl implements IProduitDao{
 	@Override
 	public List<Produit> getProduitsByMot(String mot) {
 		Session s = sessionFactory.getCurrentSession() ; 
-		String req = "SELECT prod FROM Produit prod WHERE prod.description LIKE :pDescription";
+		String req = "FROM Produit prod WHERE lower(prod.description) LIKE lower(:pDescription)";
 		Query query = s.createQuery(req) ; 
 
 		// Production du param�tre
 		StringBuilder intitule = new StringBuilder();
-		intitule.append('%');
+		intitule.append("%");
 		intitule.append(mot);
-		intitule.append('%');
+		intitule.append("%");
 		String intituleParam = intitule.toString();
+		System.out.println(intituleParam);
 		//Passage du param�tre
 		query.setParameter("pDescription", intituleParam);
+		System.out.println(query.getQueryString()+""+query.getNamedParameters());
 		@SuppressWarnings("unchecked")
 		List<Produit> liste = query.list();
 		
