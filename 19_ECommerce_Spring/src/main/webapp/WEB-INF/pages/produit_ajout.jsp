@@ -88,7 +88,9 @@
 		<div class="form-group">
 			<form:label path="categorie.idCategorie" class="col-sm-2 control-label">Id de la categorie</form:label>
 			<div class="col-sm-4">
-				<form:input path="categorie.idCategorie" />
+				<form:select path="categorie.idCategorie">
+					<form:options items="${listeCategorie}" itemValue="idCategorie" itemLabel="nomCategorie" />
+				</form:select>
 				<form:errors path="categorie.idCategorie" />
 			</div>
 		</div>

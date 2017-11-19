@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import fr.adaming.modele.Categorie;
 import fr.adaming.modele.Produit;
 import fr.adaming.service.IProduitService;
+import fr.adaming.service.IServiceCategorie;
 /**
  * 
  * @author Benjamin Henry
@@ -32,9 +33,10 @@ import fr.adaming.service.IProduitService;
 @Controller
 @RequestMapping(value="/admin/produit")
 public class ProduitController {
-	
 	@Autowired
 	private IProduitService serviceProduit;
+	@Autowired
+	private IServiceCategorie serviceCategorie;
 	
 	@RequestMapping(value="/recap", method=RequestMethod.GET)
 	public ModelAndView afficherRecap() {
@@ -57,8 +59,11 @@ public class ProduitController {
 	 * qui est une instance de la classe Produit.
 	 */
 	@RequestMapping(value="/ajout", method = RequestMethod.GET)
-	public ModelAndView affichageFormulaireAjout(){
-		return new ModelAndView("produit_ajout","produitAjoute",new Produit());
+	public String affichageFormulaireAjout(Model model){
+		model.addAttribute("listeCategorie", serviceCategorie.listerCategorie());
+		model.addAttribute("produitAjoute", new Produit());
+		return "produit_ajout";
+//		return new ModelAndView("produit_ajout","produitAjoute",new Produit());
 	}
 	
 	/**
