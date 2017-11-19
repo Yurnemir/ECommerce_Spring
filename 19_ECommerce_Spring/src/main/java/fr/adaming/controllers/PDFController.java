@@ -33,7 +33,7 @@ public class PDFController {
 	@Autowired
 	private IServiceCategorie categorieService;
 	
-	@RequestMapping(value="/categorie/recap/pdf", method=RequestMethod.GET )
+	@RequestMapping(value="/produit/pdf", method=RequestMethod.GET )
 	public void afficherPDFCategories(Model model, HttpServletResponse response){
 		List<Categorie> liste = categorieService.listerCategorie();
 		List<Produit> listeProduits = new ArrayList<Produit>();

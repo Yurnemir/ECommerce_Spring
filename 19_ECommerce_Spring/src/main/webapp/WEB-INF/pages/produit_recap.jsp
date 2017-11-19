@@ -29,7 +29,6 @@
 							<li><a href="${pageContext.request.contextPath}/admin/categorie/recap">Recap</a></li>
 							<li><a href="${pageContext.request.contextPath}/admin/categorie/ajout">Ajout</a></li>
 							<li><a href="${pageContext.request.contextPath}/admin/categorie/modif">Modification</a></li>
-							<li><a href="${pageContext.request.contextPath}/admin/categorie/suppr">Suppression</a></li>
 						</ul>
 					</li>
 				</c:if>
@@ -41,7 +40,6 @@
 						<li><a href="${pageContext.request.contextPath}/admin/produit/recap">Recap</a></li>
 						<li><a href="${pageContext.request.contextPath}/admin/produit/ajout">Ajout</a></li>
 						<li><a href="${pageContext.request.contextPath}/admin/produit/modif">Modification</a></li>
-						<li><a href="${pageContext.request.contextPath}/admin/produit/suppr">Suppression</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -78,7 +76,7 @@
 				</td>
 				<td>${produit.categorie.idCategorie}</td>
 				<td>
-					<a href="${pageContext.request.contextPath}/admin/produit/modifViaLien/${produit.idProduit}">Modification</a>
+					<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/produit/modifViaLien/${produit.idProduit}">Modification</a>
 					<br/>
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fenetreSupprProduit_${produit.idProduit}">Supprimer</button>
 					<!-- =========================== Fenetre confirmation suppression =========================== -->

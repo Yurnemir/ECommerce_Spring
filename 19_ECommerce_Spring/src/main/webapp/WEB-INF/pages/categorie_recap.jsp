@@ -28,7 +28,6 @@
 							<li><a href="${pageContext.request.contextPath}/admin/categorie/recap">Recap</a></li>
 							<li><a href="${pageContext.request.contextPath}/admin/categorie/ajout">Ajout</a></li>
 							<li><a href="${pageContext.request.contextPath}/admin/categorie/modif">Modification</a></li>
-							<li><a href="${pageContext.request.contextPath}/admin/categorie/suppr">Suppression</a></li>
 						</ul>
 					</li>
 				</c:if>
@@ -40,7 +39,6 @@
 						<li><a href="${pageContext.request.contextPath}/admin/produit/recap">Recap</a></li>
 						<li><a href="${pageContext.request.contextPath}/admin/produit/ajout">Ajout</a></li>
 						<li><a href="${pageContext.request.contextPath}/admin/produit/modif">Modification</a></li>
-						<li><a href="${pageContext.request.contextPath}/admin/produit/suppr">Suppression</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -68,7 +66,7 @@
 					<td>${categorie.nomCategorie}</td>
 					<td>${categorie.description}</td>
 					<td>
-						<a href="${pageContext.request.contextPath}/admin/categorie/modifViaLien/${categorie.idCategorie}">Modification</a>
+						<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/categorie/modifViaLien/${categorie.idCategorie}">Modification</a>
 						<br/>
 						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fenetreSupprCategorie_${categorie.idCategorie}">Supprimer</button>
 						<!-- =========================== Fenetre confirmation suppression =========================== -->
@@ -97,6 +95,5 @@
 			</c:forEach>
 		</table>
 	</div>
-	<a href="${pageContext.request.contextPath}/admin/categorie/recap/pdf">Export pdf</a>
 </body>
 </html>
