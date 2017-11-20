@@ -52,7 +52,7 @@
 					</li>
 				</c:if>
 				<li>
-					<a href="${pageContext.request.contextPath}/admin/produit/pdf"><i class="glyphicon glyphicon-print"></i> Export pdf</a>
+					<a href="${pageContext.request.contextPath}/admin/produit/pdf/recap"><i class="glyphicon glyphicon-print"></i> Export pdf</a>
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
