@@ -38,7 +38,6 @@
 				<li class="active"><a href="#"><i
 						class="glyphicon glyphicon-user"></i> Clients</a></li>
 			</c:if>
-
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href='<c:url value="/deconnexion"/>'><span
