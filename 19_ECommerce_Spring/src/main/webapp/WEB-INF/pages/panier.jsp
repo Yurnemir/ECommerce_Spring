@@ -40,12 +40,8 @@
 	<br />
 
 	<!-- =========================== Contenu Page =========================== -->
-	<h1>Panier</h1>
-	<h3>
-		<a href="${pageContext.request.contextPath}/panier/viderPanier">Vider
-			le panier</a>
-	</h3>
-
+	<h1 align="center">Panier</h1>
+	<br/>
 	<div align="center">
 		<table class="table table-bordered">
 			<tr>
@@ -75,24 +71,29 @@
 			</c:forEach>
 		</table>
 	</div>
+	<h3 align="right" style="margin-right:100px;">
+		<a href="${pageContext.request.contextPath}/panier/viderPanier">Vider
+			le panier</a>
+	</h3>
+	<br/>
+	<br/>
 	<div align="center">
-
-	<form:form action="validationCommandePuisEnregistrement" method="POST"
-		modelAttribute="clientAAjouter">
-		<div class="form-group">
-			<h3>Valider la commande en créant un compte</h3>
-			Nom :
-			<form:input path="nomClient" />
-			Adresse :
-			<form:input path="adresse" />
-			Telephone :
-			<form:input path="tel" />
-			Mail :
-			<form:input path="email" type="email" />
-			<button type="submit" class="btn btn-default">Valider la
-				commande</button>
-		</div>
-	</form:form>
+		<form:form action="validationCommandePuisEnregistrement" method="POST"
+			modelAttribute="clientAAjouter">
+			<div class="form-group">
+				<h3>Valider la commande en créant un compte</h3>
+				Nom :
+				<form:input path="nomClient" />
+				Adresse :
+				<form:input path="adresse" />
+				Telephone :
+				<form:input path="tel" />
+				Mail :
+				<form:input path="email" type="email" />
+				<button type="submit" class="btn btn-default">Valider la
+					commande</button>
+			</div>
+		</form:form>
 	</div>
 	<br/>
 	<br/>	

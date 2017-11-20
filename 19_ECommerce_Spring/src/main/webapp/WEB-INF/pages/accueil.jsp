@@ -34,8 +34,6 @@
 	<br/><br/>
 	
 	<!-- =========================== Contenu Page =========================== -->
-	<h1>Interface avec filtrage par catégorie</h1>
-	<br/>
 	<div class="panel-group" id="accordion">
 	<c:forEach var="categorie" items="${listeCategorie}">
 		<div class="panel panel-default">

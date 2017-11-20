@@ -61,7 +61,7 @@
 					<td>
 						<img width="128" height="128" alt="img_produit" src="${pageContext.request.contextPath}/images/produit_${produit.idProduit}.jpg">
 					</td>
-					<td>${produit.categorie.idCategorie}</td>
+					<td>${produit.categorie.nomCategorie}</td>
 					<td>
 						<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/produit/modifViaLien?pId=${produit.idProduit}">
 							<span class="glyphicon glyphicon-cog"></span>
