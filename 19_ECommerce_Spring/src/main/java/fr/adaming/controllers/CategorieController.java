@@ -38,10 +38,6 @@ public class CategorieController {
 	public ModelAndView afficherFormModif() {
 		return new ModelAndView("categorie_modif", "categorie", new Categorie());
 	}
-	@RequestMapping(value="/suppr", method=RequestMethod.GET)
-	public ModelAndView afficherFormSuppr() {
-		return new ModelAndView("categorie_suppr", "categorie", new Categorie());
-	}
 
 	/* ========================== Actions ========================== */
 	@RequestMapping(value="/ajouterCategorie", method=RequestMethod.POST)
@@ -63,18 +59,6 @@ public class CategorieController {
 			model.addAttribute("categories", categories);
 			return "admin";
 		} else {
-			return "redirect:ajout";
-		}
-	}
-	@RequestMapping(value="/supprimerCategorie", method=RequestMethod.POST)
-	public String soumettreFormSuppr(Model model, @ModelAttribute("categorie") Categorie categorie) {
-		int nbCategoriesBefore = categrieService.listerCategorie().size();
-		categrieService.supprimerCategorie(categorie);
-		if (categrieService.listerCategorie().size() != nbCategoriesBefore) {
-			List<Categorie> categories = categrieService.listerCategorie();
-			model.addAttribute("categories", categories);
-			return "admin";
-		}else {
 			return "redirect:ajout";
 		}
 	}

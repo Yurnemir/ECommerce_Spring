@@ -96,7 +96,7 @@ public class ProduitController {
 	 * @param produit : Un objet de type produit (il s'agit de produitAjoute du formulaire affiché par affichageFormulaireAjout) qui contient les infos nécessaire à l'ajout dans la base de données
 	 * @return : La page où l'on 
 	 */
-	@RequestMapping(value="/ajouterProduit" ,method=RequestMethod.POST)
+	@RequestMapping(value="/ajouterProduit", method=RequestMethod.POST)
 	public ModelAndView soumettreFormulaireAjout(Model modele, @ModelAttribute("produitAjoute") Produit produit, @RequestParam CommonsMultipartFile file, HttpSession session) throws Exception {
 		Produit produitAjoute = serviceProduit.ajouterProduit(produit);
 		String path = session.getServletContext().getRealPath("/images");
@@ -120,7 +120,7 @@ public class ProduitController {
 	 * @return : La page d'accueil à partir de laquelle les admins ont accès aux différentes fonctionnalités 
 	 * @see affichageFormulaireModification
 	 */
-	@RequestMapping(value="modifierProduit",method=RequestMethod.POST)
+	@RequestMapping(value="modifierProduit", method=RequestMethod.POST)
 	public ModelAndView soumissionFormulaireModification(Model modele,@ModelAttribute("produitModif") Produit produit, @RequestParam CommonsMultipartFile file, HttpSession session) throws Exception {
 		Produit produitModif = serviceProduit.modifierProduit(produit);
 		String path = session.getServletContext().getRealPath("/images");
@@ -135,20 +135,6 @@ public class ProduitController {
 		stream.flush();
 		stream.close();
 		System.out.println("file.getOriginalFilename() = " + file.getOriginalFilename());
-		return new ModelAndView("produit_recap", "listeProduit", serviceProduit.listerProduits());
-	}
-	/**
-	 * Permet de supprimer un produit contenu dans la base de données.
-	 * Les informations sont fournis par l'utilisateur à travers le formulaire de suppression.
-	 * 
-	 * @param modele : Modele MVC de la page supression de produit
-	 * @param produit : Un objet de type produit (il s'agit de produitSuppression du formulaire affiché la méthode affichageFormulaireSuppression) qui contient les infos nécessaire à l'ajout dans la base de données
-	 * @return : La page d'accueil à partir de laquelle les admins ont accès aux différentes fonctionnalités 
-	 * @see affichageFormulaireSuppression
-	 */
-	@RequestMapping(value="/supprimerProduit",method=RequestMethod.POST)
-	public ModelAndView soumissionFormulaireSuppression(Model modele,@ModelAttribute("produitSuppression") Produit produit){
-		serviceProduit.supprimerProduit(produit);
 		return new ModelAndView("produit_recap", "listeProduit", serviceProduit.listerProduits());
 	}
 	

@@ -20,7 +20,7 @@
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Portail Admin</a>
+				<a class="navbar-brand active" href="#">Portail Admin</a>
 			</div>
 			<ul class="nav navbar-nav">
 				<c:if test="${sessionScope.role.nomRole == 'ROLE_ADMIN_CATEGORIE'}">
@@ -42,12 +42,11 @@
 						<li><a href="${pageContext.request.contextPath}/admin/produit/modif">Modification</a></li>
 					</ul>
 				</li>
-				<li><a href="${pageContext.request.contextPath}/admin/produit/modif">Modification</a></li>
 				<c:if test="${sessionScope.role.nomRole == 'ROLE_ADMIN_CATEGORIE'}">
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> Clients<span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="${pageContext.request.contextPath}/client/recap">Liste des clients</a></li>
+							<li><a href="${pageContext.request.contextPath}/client/recap">Clients</a></li>
 						</ul>
 					</li>
 				</c:if>
@@ -66,6 +65,7 @@
 	<br />
 
 	<!-- =========================== Contenu Page =========================== -->
+	<br />
 	<br />
 	<br />
 	<br />

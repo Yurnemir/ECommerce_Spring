@@ -21,27 +21,12 @@
 			</div>
 			<ul class="nav navbar-nav">
 				<c:if test="${sessionScope.role.nomRole == 'ROLE_ADMIN_CATEGORIE'}">
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Categories
-							<span class="caret"></span>
-						</a>
-						<ul class="dropdown-menu">
-							<li><a href="${pageContext.request.contextPath}/admin/categorie/recap">Recap</a></li>
-							<li><a href="${pageContext.request.contextPath}/admin/categorie/ajout">Ajout</a></li>
-							<li><a href="${pageContext.request.contextPath}/admin/categorie/modif">Modification</a></li>
-						</ul>
-					</li>
+					<li><a href="${pageContext.request.contextPath}/admin/categorie/recap"><i class="glyphicon glyphicon-book"></i> Categories</a></li>
 				</c:if>
-				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Produits
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a href="${pageContext.request.contextPath}/admin/produit/recap">Recap</a></li>
-						<li><a href="${pageContext.request.contextPath}/admin/produit/ajout">Ajout</a></li>
-						<li><a href="${pageContext.request.contextPath}/admin/produit/modif">Modification</a></li>
-					</ul>
-				</li>
+				<li class="active"><a href="#"><i class="glyphicon glyphicon-barcode"></i> Produits</a></li>
+				<c:if test="${sessionScope.role.nomRole == 'ROLE_ADMIN_CATEGORIE'}">
+					<li><a href="${pageContext.request.contextPath}/client/recap"><i class="glyphicon glyphicon-user"></i> Clients</a></li>
+				</c:if>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href='<c:url value="/deconnexion"/>'><span class="glyphicon glyphicon-log-out"></span> Deconnexion</a></li>
@@ -53,58 +38,59 @@
 	<!-- =========================== Contenu Page =========================== -->
 	<h1 align="center">Recapitulatif Produits</h1>
 	<br/>
-	<table class="table table-bordered">
-		<tr>
-			<th>ID</th>
-			<th>Désignation</th>
-			<th>Description</th>
-			<th>Prix</th>
-			<th>Quantité</th>
-			<th>Image</th>
-			<th>Catégorie</th>
-			<th>Operation</th>
-		</tr>
-		<c:forEach var="produit" items="${listeProduit}">
+	<div align="center">
+		<table class="table table-bordered">
 			<tr>
-				<td>${produit.idProduit}</td>
-				<td>${produit.designation}</td>
-				<td>${produit.description}</td>
-				<td>${produit.prix}</td>
-				<td>${produit.quantite}</td>
-				<td>
-					<img width="128" height="128" alt="img_produit" src="${pageContext.request.contextPath}/images/produit_${produit.idProduit}.jpg">
-				</td>
-				<td>${produit.categorie.idCategorie}</td>
-				<td>
-					<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/produit/modifViaLien/${produit.idProduit}">Modification</a>
-					<br/>
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fenetreSupprProduit_${produit.idProduit}">Supprimer</button>
-					<!-- =========================== Fenetre confirmation suppression =========================== -->
-					<div id="fenetreSupprProduit_${produit.idProduit}" class="modal fade" role="dialog">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal">&times;</button>
-									<h4 class="modal-title">Confirmation Suppression Produit</h4>
-								</div>
-								<div class="modal-body">
-									<p align="center">Etes-vous certain de vouloir supprimer ce produit ?</p>
-									<div align="center">
-										<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/produit/supprViaLien/${produit.idProduit}">Oui</a>
-										<button type="button" class="btn btn-primary" data-dismiss="modal">Non</button>
+				<th>ID</th>
+				<th>Désignation</th>
+				<th>Description</th>
+				<th>Prix</th>
+				<th>Quantité</th>
+				<th>Image</th>
+				<th>Catégorie</th>
+				<th>Operation</th>
+			</tr>
+			<c:forEach var="produit" items="${listeProduit}">
+				<tr>
+					<td>${produit.idProduit}</td>
+					<td>${produit.designation}</td>
+					<td>${produit.description}</td>
+					<td>${produit.prix}</td>
+					<td>${produit.quantite}</td>
+					<td>
+						<img width="128" height="128" alt="img_produit" src="${pageContext.request.contextPath}/images/produit_${produit.idProduit}.jpg">
+					</td>
+					<td>${produit.categorie.idCategorie}</td>
+					<td>
+						<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/produit/modifViaLien/${produit.idProduit}">Modification</a>
+						<br/>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fenetreSupprProduit_${produit.idProduit}">Supprimer</button>
+						<!-- =========================== Fenetre confirmation suppression =========================== -->
+						<div id="fenetreSupprProduit_${produit.idProduit}" class="modal fade" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">Confirmation Suppression Produit</h4>
 									</div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-primary" data-dismiss="modal">Annuler</button>
+									<div class="modal-body">
+										<p align="center">Etes-vous certain de vouloir supprimer ce produit ?</p>
+										<div align="center">
+											<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/produit/supprViaLien/${produit.idProduit}">Oui</a>
+											<button type="button" class="btn btn-primary" data-dismiss="modal">Non</button>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary" data-dismiss="modal">Annuler</button>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</td>
-			</tr>
-		</c:forEach>
-	</table>
-	
+					</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
 	
 </body>
 </html>

@@ -20,27 +20,12 @@
 			</div>
 			<ul class="nav navbar-nav">
 				<c:if test="${sessionScope.role.nomRole == 'ROLE_ADMIN_CATEGORIE'}">
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Categories
-							<span class="caret"></span>
-						</a>
-						<ul class="dropdown-menu">
-							<li><a href="${pageContext.request.contextPath}/admin/categorie/recap">Recap</a></li>
-							<li><a href="${pageContext.request.contextPath}/admin/categorie/ajout">Ajout</a></li>
-							<li><a href="${pageContext.request.contextPath}/admin/categorie/modif">Modification</a></li>
-						</ul>
-					</li>
+					<li class="active"><a href="#"><i class="glyphicon glyphicon-book"></i> Categories</a></li>
 				</c:if>
-				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Produits
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a href="${pageContext.request.contextPath}/admin/produit/recap">Recap</a></li>
-						<li><a href="${pageContext.request.contextPath}/admin/produit/ajout">Ajout</a></li>
-						<li><a href="${pageContext.request.contextPath}/admin/produit/modif">Modification</a></li>
-					</ul>
-				</li>
+				<li><a href="${pageContext.request.contextPath}/admin/produit/recap"><i class="glyphicon glyphicon-barcode"></i> Produits</a></li>
+				<c:if test="${sessionScope.role.nomRole == 'ROLE_ADMIN_CATEGORIE'}">
+					<li><a href="${pageContext.request.contextPath}/client/recap"><i class="glyphicon glyphicon-user"></i> Clients</a></li>
+				</c:if>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href='<c:url value="/deconnexion"/>'><span class="glyphicon glyphicon-log-out"></span>Deconnexion</a></li>
@@ -50,7 +35,7 @@
 	<br/><br/>
 	
 	<!-- =========================== Contenu Page =========================== -->
-	<h1 align="center">Liste des categories :</h1>
+	<h1 align="center">Recapitulatif Categories</h1>
 	<br/>
 	<div align="center">
 		<table class="table table-bordered">
