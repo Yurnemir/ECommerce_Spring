@@ -45,8 +45,7 @@
 				</h4>
 			</div>
 			<div id="collapse${categorie.idCategorie}" class="panel-collapse collapse">
-				<c:forEach var="produit" items="${listeProduit}">
-					<c:if test="${produit.categorie.idCategorie == categorie.idCategorie}">
+				<c:forEach var="produit" items="${categorie.listeProduits}">
 						<div class="panel-body">
 							<div class="col-sm-2">
 								<img width="128" height="128" alt="img_produit" src="${pageContext.request.contextPath}/images/produit_${produit.idProduit}.jpg">
@@ -58,10 +57,14 @@
 								<h4>Quantite : ${produit.quantite}</h4>
 							</div>
 							<div class="col-sm-6">
-								<h1>Ajout au panier (TODO)</h1>
+								<!-- <a href="${pageContext.request.contextPath}/ajoutViaLien?pIdProduit=${produit.idProduit}">Ajouter</a> -->
+								<form method="GET" action="ajouterProduitPanierViaFormulaire">
+									<input type="hidden" name="identifiantProduit" value="${produit.idProduit}">
+									<input type="number" name="quantite">
+									<input type="submit" value="Ajouter">
+								</form>
 							</div>
 						</div>
-					</c:if>
 				</c:forEach>
 			</div>
 		</div>
@@ -70,7 +73,7 @@
 	<br/>
 	<br/>
 	<br/>
-	<h1>Interface avec tableur</h1>
+<!--	<h1>Interface avec tableur</h1>
 	<br/>
 	<table class="table table-bordered">
 		<tr>
@@ -100,6 +103,6 @@
 				</th>
 			</tr>
 		</c:forEach>
-	</table>
+	</table> -->
 </body>
 </html>

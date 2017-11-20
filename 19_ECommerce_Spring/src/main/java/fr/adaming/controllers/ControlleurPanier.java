@@ -58,7 +58,7 @@ import fr.adaming.service.IServiceCategorie;
 /**
  * 
  * @author inti0236
- *Cette classe est le controlleur de toutes les opérations liées au panier.
+ *Cette classe est le controlleur de toutes les opï¿½rations liï¿½es au panier.
  */
 @Controller
 public class ControlleurPanier {
@@ -76,16 +76,16 @@ public class ControlleurPanier {
 	
 
 	/**
-	 * Méthode permettant d'ajouter exactement un exemplaire du produit en cliquant sur le lien. 
-	 * Des vérifications sont effectuées permettant de ne garder qu'un seule Ligne de commande par produit et 
+	 * Mï¿½thode permettant d'ajouter exactement un exemplaire du produit en cliquant sur le lien. 
+	 * Des vï¿½rifications sont effectuï¿½es permettant de ne garder qu'un seule Ligne de commande par produit et 
 	 * de s'assurer que l'on peut pas commander plus que le stock disponible.
-	 * @param idProduit : id du produit dans la base de données.Permet de récupérer
-	 *  toutes les infos de celui-ci grâce à une méthode de DAO
+	 * @param idProduit : id du produit dans la base de donnï¿½es.Permet de rï¿½cupï¿½rer
+	 *  toutes les infos de celui-ci grï¿½ce ï¿½ une mï¿½thode de DAO
 	 * @param session Session HTTP (contient notamment le panier)
 	 * @return ModelAndView de la page principale contient le tableau des produits
 	 */
 	@RequestMapping(value = "/ajoutViaLien")
-	public ModelAndView ajoutPanierParLigne( @RequestParam("pIdProduit") int idProduit,
+	public String ajoutPanierParLigne( Model model, @RequestParam("pIdProduit") int idProduit,
 			HttpSession session) {
 		Produit produitTemp = new Produit();
 		produitTemp.setIdProduit(idProduit);
@@ -95,24 +95,24 @@ public class ControlleurPanier {
 
 		Produit produitDemande = serviceProduit.rechercherProduitAvecId(produitTemp);
 
-		// On récupère le panier de la session.
+		// On rï¿½cupï¿½re le panier de la session.
 
 		// System.out.println(produitDemande);
-		// On récupère le panier depuis le modele.
+		// On rï¿½cupï¿½re le panier depuis le modele.
 		Panier panierSession = (Panier) session.getAttribute("panier");
 		List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
 		for (LigneCommande ligne : listeLigneCommande) {
 			System.out.println("Id du produit dans de la ligne" + ligne.getProduit().getIdProduit()
-					+ "vs produit demandé" + idProduit);
+					+ "vs produit demandï¿½" + idProduit);
 			if (ligne.getProduit().getIdProduit() == idProduit) {
-				System.out.println("Produit déjà dans la commande il faut modifier la ligne");
+				System.out.println("Produit dï¿½jï¿½ dans la commande il faut modifier la ligne");
 				verifLigne = true;
-				// Si la ligne existe déjà on la récupère
+				// Si la ligne existe dï¿½jï¿½ on la rï¿½cupï¿½re
 				ligneAModifier = ligne;
 				break;
 			} else {
 				System.out.println(
-						"Le produit n'existe pas on peut donc créer une ligne de commande et l'ajouter dans le panier");
+						"Le produit n'existe pas on peut donc crï¿½er une ligne de commande et l'ajouter dans le panier");
 				verifLigne = false;
 
 			}
@@ -122,24 +122,24 @@ public class ControlleurPanier {
 		if (verifLigne == true) {
 
 			System.out.println("On paye initialement " + ligneAModifier.getPrix() + "pour"
-					+ ligneAModifier.getQuantite() + "unités");
+					+ ligneAModifier.getQuantite() + "unitï¿½s");
 
 			double nouveauPrix = ligneAModifier.getPrix() + produitDemande.getPrix();
 			int nouvelleQuantite = ligneAModifier.getQuantite() + 1;
 			if (produitDemande.getQuantite() < nouvelleQuantite) {
-				System.out.println("Trop de produit demandé");
-				System.out.println("La ligne de commande pour ce produit ne sera pas modifiée");
+				System.out.println("Trop de produit demandï¿½");
+				System.out.println("La ligne de commande pour ce produit ne sera pas modifiï¿½e");
 			} else {
 				ligneAModifier.setPrix(nouveauPrix);
 				ligneAModifier.setQuantite(nouvelleQuantite);
-				System.out.println("On paye désormais " + ligneAModifier.getPrix() + "pour"
-						+ ligneAModifier.getQuantite() + "unités");
+				System.out.println("On paye dï¿½sormais " + ligneAModifier.getPrix() + "pour"
+						+ ligneAModifier.getQuantite() + "unitï¿½s");
 
 			}
 
 		}
 
-		// Ligne de commande à ajouter
+		// Ligne de commande ï¿½ ajouter
 		if (verifLigne == false) {
 			LigneCommande ligneCommande = new LigneCommande();
 			// System.out.println(listeLigneCommande.size());
@@ -154,21 +154,23 @@ public class ControlleurPanier {
 
 		System.out.println(panierSession.getListeLignesCommande().size());
 
-		// Ajoute le panier à la session
+		// Ajoute le panier ï¿½ la session
 		session.setAttribute("panier", panierSession);
-		List<Produit> listeProduit = serviceProduit.listerProduits();
+		//List<Produit> listeProduit = serviceProduit.listerProduits();
+		List<Categorie> listeCategorie = serviceCategorie.listerCategorie();
 
-		return new ModelAndView("accueil", "listeProduit", listeProduit);
+		model.addAttribute("listeCategorie",listeCategorie);
+		return "accueil";
 	}
 
 	/**
 	 * Permet d'ajouter un nombre d'exemplaire quelconque de produit au panier.
-	 * Des vérifications sont effectuées permettant de ne garder qu'un seule Ligne de commande par produit et 
+	 * Des vï¿½rifications sont effectuï¿½es permettant de ne garder qu'un seule Ligne de commande par produit et 
 	 * de s'assurer que l'on peut pas commander plus que le stock disponible.
 
 	 * @param model : modele MVC de la page principale
-	 * @param idProduit Id du produit demandé
-	 * @param quantite Quantité demandée du produit
+	 * @param idProduit Id du produit demandï¿½
+	 * @param quantite Quantitï¿½ demandï¿½e du produit
 	 * @param session Session Http
 	 * @return String adresse de la page principale
 	 */
@@ -179,16 +181,16 @@ public class ControlleurPanier {
 		boolean verifExistenceLigne = false;
 		LigneCommande ligneCommandeTemp = new LigneCommande();
 		System.out.println(idProduit + " " + quantite);
-		// Récupérer le produit
+		// Rï¿½cupï¿½rer le produit
 		Produit produitTemp = new Produit();
 		produitTemp.setIdProduit(idProduit);
 		Produit produitDemande = serviceProduit.rechercherProduitAvecId(produitTemp);
-		// Récupérer le panier depuis la session et la liste des lignes
+		// Rï¿½cupï¿½rer le panier depuis la session et la liste des lignes
 		Panier panierSession = (Panier) session.getAttribute("panier");
 		List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
 		for (LigneCommande ligne : listeLigneCommande) {
 			System.out.println(
-					"Id du produit actuel" + ligne.getProduit().getIdProduit() + "vs celui demandé" + idProduit);
+					"Id du produit actuel" + ligne.getProduit().getIdProduit() + "vs celui demandï¿½" + idProduit);
 			if (ligne.getProduit().getIdProduit() == idProduit) {
 				verifExistenceLigne = true;
 				ligneCommandeTemp = ligne;
@@ -200,27 +202,27 @@ public class ControlleurPanier {
 		}
 
 		if (verifExistenceLigne == true) {
-			System.out.println("Ce produit a déjà une ligne. Il faut actualiser la ligne");
+			System.out.println("Ce produit a dï¿½jï¿½ une ligne. Il faut actualiser la ligne");
 			int quantiteNouvelle = ligneCommandeTemp.getQuantite() + quantite;
 			double prixNouveau = ligneCommandeTemp.getPrix() + produitDemande.getPrix() * quantite;
 			if (produitDemande.getQuantite() < quantiteNouvelle) {
-				System.out.println("Trop de produit commandé. La commande ne sera pas mise à jour.");
+				System.out.println("Trop de produit commandï¿½. La commande ne sera pas mise ï¿½ jour.");
 			} else {
 				ligneCommandeTemp.setQuantite(quantiteNouvelle);
 				ligneCommandeTemp.setPrix(prixNouveau);
 			}
 		} else {
-			System.out.println("Aucune ligne associé à ce produit on peut en créer une nouvelle.");
+			System.out.println("Aucune ligne associï¿½ ï¿½ ce produit on peut en crï¿½er une nouvelle.");
 
 			if (produitDemande.getQuantite() < quantite) {
-				System.out.println("Trop de produit commandé. On ne peut pas ajouter le produit");
+				System.out.println("Trop de produit commandï¿½. On ne peut pas ajouter le produit");
 			} else {
 				ligneCommandeTemp.setProduit(produitDemande);
 				ligneCommandeTemp.setPrix(quantite * produitDemande.getPrix());
 				ligneCommandeTemp.setQuantite(quantite);
 				listeLigneCommande.add(ligneCommandeTemp);
 				panierSession.setListeLignesCommande(listeLigneCommande);
-				System.out.println("Vous achetez" + ligneCommandeTemp.getQuantite() + "unité pour un prix total de"
+				System.out.println("Vous achetez" + ligneCommandeTemp.getQuantite() + "unitï¿½ pour un prix total de"
 						+ ligneCommandeTemp.getPrix());
 			}
 
@@ -229,37 +231,37 @@ public class ControlleurPanier {
 		// Ajout du panier dans la session
 		session.setAttribute("panier", panierSession);
 		// Lister l'ensembles des produits
-		List<Produit> listeProduit = serviceProduit.listerProduits();
-
-		model.addAttribute("listeProduit", listeProduit);
+		List<Categorie> listeCategorie = serviceCategorie.listerCategorie();
+		
+		model.addAttribute("listeCategorie", listeCategorie);
 		return "accueil";
 	}
 	/**
-	 * Méthode permettant d'afficher la page Panier à savoir les deux formulaires de validation et le contenu du panier.
+	 * Mï¿½thode permettant d'afficher la page Panier ï¿½ savoir les deux formulaires de validation et le contenu du panier.
 	 * 
 	 * @param session Session Http contenant le panier
 	 * @return Renvoi la page panier contenant tableau et formulaires
 	 */
 	@RequestMapping(value = "/panier/affichagePanier")
 	public ModelAndView affichagePanier(HttpSession session) {
-		// Récupération du panier
+		// Rï¿½cupï¿½ration du panier
 
 		Panier panierSession = (Panier) session.getAttribute("panier");
 		// panierSession.getListeLignesCommande().get(0).get
 		ModelAndView modeleVue = new ModelAndView("panier", "clientAAjouter", new Client());
 		modeleVue.addObject("clientDejaDansBase", new Client());
 		modeleVue.addObject("panierAffiche", panierSession);
-
+		modeleVue.addObject("ligneModifiee", new LigneCommande());
 		return modeleVue;
 	}
 	/**
-	 * Méthode permettant de vider l'intégralité du panier.
+	 * Mï¿½thode permettant de vider l'intï¿½gralitï¿½ du panier.
 	 * @param session Session Http contenant le panier
-	 * @return Renvoi vers la page panier avec un panier affiché vide.
+	 * @return Renvoi vers la page panier avec un panier affichï¿½ vide.
 	 */
 	@RequestMapping(value = "/panier/viderPanier")
 	public ModelAndView viderPanier(HttpSession session) {
-		// Création d'un nouveau panier ne contenant aucune ligne de commande
+		// Crï¿½ation d'un nouveau panier ne contenant aucune ligne de commande
 		Panier nouveauPanier = new Panier();
 		List<LigneCommande> nouvelleListeLigneCommande = new ArrayList<>();
 		nouveauPanier.setListeLignesCommande(nouvelleListeLigneCommande);
@@ -267,32 +269,44 @@ public class ControlleurPanier {
 		// On ajoute le panier dans la session.
 		session.setAttribute("panier", nouveauPanier);
 
-		// On revient à la page du panier
+		// On revient ï¿½ la page du panier
 		ModelAndView modeleVue = new ModelAndView("panier", "clientAAjouter", new Client());
 		modeleVue.addObject("clientDejaDansBase", new Client());
 		modeleVue.addObject("panierAffiche", nouveauPanier);
 
 		return modeleVue;
 	}
+	
+	@RequestMapping(value="/panier/modifierProduitPanierViaFormulaire")
+	public String modifierLigne(HttpSession session, Model model, @ModelAttribute("ligneModifiee") LigneCommande ligneMod){
+		
+		model.addAttribute("clientAAjouter", new Client());
+		model.addAttribute("clientDejaDansBase", new Client());
+		model.addAttribute("panierAffiche", session.getAttribute("panier"));
+		model.addAttribute("ligneModifiee", new LigneCommande());
+		
+		return "panier";
+	}
+	
 	/**
 	 * 
 	 * Permet de retirer une ligne de commande du panier.
 	 * @param session Session Http contenant le panier
-	 * @param idSuppression : id du produit à retirer du panier
-	 * @return Renvoi vers la page panier avec un affichage actualisé du panier
+	 * @param idSuppression : id du produit ï¿½ retirer du panier
+	 * @return Renvoi vers la page panier avec un affichage actualisï¿½ du panier
 	 */
-	@RequestMapping(value = "/panier/retirerPanier")
-	public ModelAndView retireProduitPanier(HttpSession session, @RequestParam("pIdSuppression") long idSuppression) {
+	@RequestMapping(value = "/panier/retirerPanier", method=RequestMethod.GET)
+	public String retireProduitPanier(Model model, HttpSession session, @RequestParam("pIdSuppression") long idSuppression) {
 		LigneCommande ligneASupprimer = new LigneCommande();
 		Panier panierSession = (Panier) session.getAttribute("panier");
 		boolean ligneTrouvee = false;
 		List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
 
 		System.out.println(idSuppression);
-		// On récupère la ligne de commande
+		// On rï¿½cupï¿½re la ligne de commande
 		for (LigneCommande ligne : listeLigneCommande) {
 			if (ligne.getProduit().getIdProduit() == idSuppression) {
-				System.out.println("Ligne trouvée");
+				System.out.println("Ligne trouvï¿½e");
 				ligneASupprimer = ligne;
 				ligneTrouvee = true;
 			}
@@ -305,22 +319,25 @@ public class ControlleurPanier {
 
 		// On ajoute le panier dans la session
 		session.setAttribute("panier", panierSession);
-
-		return new ModelAndView("panier", "panierAffiche", panierSession);
+		model.addAttribute("panierAffiche", panierSession);
+		model.addAttribute("clientAAjouter",new Client());
+		model.addAttribute("clientDejaDansBase", new Client());
+		
+		return "panier";
 	}
 
 	/**
-	 * Permet à un client pas encore enregistré de valider sa commande et de s'enregistrer.
-	 * Un client ne peut s'enregistrer (et sa commande être validée) que si aucun autre client ne possède la même adresse mail.
-	 * On génère ensuite le mot de passe de ce client et on l'enregistre. On enregistre ensuite la commande
-	 *  et le contenu de celle-ci à traers les lignes de commande.
+	 * Permet ï¿½ un client pas encore enregistrï¿½ de valider sa commande et de s'enregistrer.
+	 * Un client ne peut s'enregistrer (et sa commande ï¿½tre validï¿½e) que si aucun autre client ne possï¿½de la mï¿½me adresse mail.
+	 * On gï¿½nï¿½re ensuite le mot de passe de ce client et on l'enregistre. On enregistre ensuite la commande
+	 *  et le contenu de celle-ci ï¿½ traers les lignes de commande.
 	 * @param session Session Http contenant le panier
-	 * @param client client qui doit être enregistré.
+	 * @param client client qui doit ï¿½tre enregistrï¿½.
 	 * @return Page facture.
 	 */
 	@RequestMapping(value = "/panier/validationCommandePuisEnregistrement", method = RequestMethod.POST)
 	public ModelAndView enregistreClient(HttpSession session, @ModelAttribute("clientAAjouter") Client client) {
-		// Vérification de l'existence du client.
+		// Vï¿½rification de l'existence du client.
 		boolean clientAjoutable = false;
 		Panier panierSession = (Panier) session.getAttribute("panier");
 
@@ -342,7 +359,7 @@ public class ControlleurPanier {
 			ModelAndView modeleVue = new ModelAndView("panier", "clientAAjouter", new Client());
 			modeleVue.addObject("clientDejaDansBase", new Client());
 			modeleVue.addObject("panierAffiche", panierSession);
-			modeleVue.addObject("messageErreur", "Adresse mail déjà existante");
+			modeleVue.addObject("messageErreur", "Adresse mail dï¿½jï¿½ existante");
 			return modeleVue;
 
 		}
@@ -353,13 +370,13 @@ public class ControlleurPanier {
 		// ModelAndView("panier","clientAAjouter",new Client());
 		// modeleVue.addObject("clientDejaDansBase", new Client());
 		// modeleVue.addObject("panierAffiche", panierSession);
-		// modeleVue.addObject("messageErreur","Adresse mail déjà existante");
+		// modeleVue.addObject("messageErreur","Adresse mail dï¿½jï¿½ existante");
 		// return modeleVue;
 		// }
 
 		double prix = 0;
 
-		// Génération du code Perso.
+		// Gï¿½nï¿½ration du code Perso.
 		String caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		StringBuilder code = new StringBuilder();
 		int max = caracteres.length() - 1;
@@ -406,10 +423,10 @@ public class ControlleurPanier {
 		return new ModelAndView("commandeValide", "prix", prix);
 	}
 	/**
-	 * Validation de la commande pour un client déjà enregistré. On vérifie que l'adresse mail est bien enregistré et on passe 
-	 * à l'enregistrement de la commande.
+	 * Validation de la commande pour un client dï¿½jï¿½ enregistrï¿½. On vï¿½rifie que l'adresse mail est bien enregistrï¿½ et on passe 
+	 * ï¿½ l'enregistrement de la commande.
 	 * @param session Session Http contenant le panier
-	 * @param client Client qui cherche à valider sa commande
+	 * @param client Client qui cherche ï¿½ valider sa commande
 	 * @return Page Facture
 	 */
 	@RequestMapping(value = "panier/validationCommandeClientDansBase", method = RequestMethod.POST)
@@ -425,7 +442,7 @@ public class ControlleurPanier {
 			ModelAndView modeleVue = new ModelAndView("panier", "clientAAjouter", new Client());
 			modeleVue.addObject("clientDejaDansBase", new Client());
 			modeleVue.addObject("panierAffiche", panierSession);
-			modeleVue.addObject("messageErreur", "Aucun client trouvé");
+			modeleVue.addObject("messageErreur", "Aucun client trouvï¿½");
 			return modeleVue;
 
 		}
@@ -466,9 +483,9 @@ public class ControlleurPanier {
 		return new ModelAndView("commandeValide");
 	}
 	/**
-	 * Permet d'établir la facture en PDF.
+	 * Permet d'ï¿½tablir la facture en PDF.
 	 * @param session Session Http contenant le panier
-	 * @return On reste sur la même page.
+	 * @return On reste sur la mï¿½me page.
 	 */
 	@RequestMapping(value = "/panier/facturePDF")
 	public ModelAndView facturePDF(HttpSession session) {
@@ -481,12 +498,12 @@ public class ControlleurPanier {
 			PdfWriter pdfWriter = PdfWriter.getInstance(document,
 					new FileOutputStream(System.getProperty("user.home") + "\\Desktop\\factureEcommerce.pdf"));
 			document.open();
-			document.add(new Paragraph("Facture détaillée de la commande"));
+			document.add(new Paragraph("Facture dï¿½taillï¿½e de la commande"));
 			// Ecrire la facture dans le pdf.
-			// Entête du tableau
-			String[] enteteTableau = { "Produit", "Description", "Quantité", "Prix" };
+			// Entï¿½te du tableau
+			String[] enteteTableau = { "Produit", "Description", "Quantitï¿½", "Prix" };
 			PdfPTable table = new PdfPTable(enteteTableau.length);
-			// Création de l'entete du tableau
+			// Crï¿½ation de l'entete du tableau
 			for (String caseEntete : enteteTableau) {
 				Paragraph celluleEnteteTemp = new Paragraph();
 				celluleEnteteTemp.add(caseEntete);
@@ -509,11 +526,11 @@ public class ControlleurPanier {
 			document.add(table);
 
 			// Ajout du prix total.
-			Paragraph paraPrixTotal = new Paragraph("Prix Total : " + prixTotal + "€");
+			Paragraph paraPrixTotal = new Paragraph("Prix Total : " + prixTotal + "ï¿½");
 			document.add(paraPrixTotal);
 
 			document.close();
-			System.out.println("On essaye d'ouvrir le fichier PDF qui a été généré");
+			System.out.println("On essaye d'ouvrir le fichier PDF qui a ï¿½tï¿½ gï¿½nï¿½rï¿½");
 			try {
 				Desktop.getDesktop().open(new File(System.getProperty("user.home") + "\\Desktop\\factureEcommerce.pdf"));
 			} catch (IOException e) {
@@ -566,8 +583,8 @@ public class ControlleurPanier {
 
 			// String nom = "Boizard";
 			// sb.append("Mme/Mr. " + nom + ",\n\n");
-			sb.append("Cher client/Chère cliente" + "\n");
-			sb.append("Vous avez passé une commande pour :\n");
+			sb.append("Cher client/Chï¿½re cliente" + "\n");
+			sb.append("Vous avez passï¿½ une commande pour :\n");
 
 			// On liste les produits dans le corps du mail.
 			double prix = 0;
@@ -579,13 +596,13 @@ public class ControlleurPanier {
 				prix = prix + ligne.getPrix();
 				sb.append("  -  " + nomProduit + ":" + quantite + " exemplaire(s)" + "\n");
 			}
-			sb.append("Le montant total de vos achats s'élèvent à " + prix+" euros");
+			sb.append("Le montant total de vos achats s'ï¿½lï¿½vent ï¿½ " + prix+" euros");
 
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(new Date());
 			calendar.add(Calendar.DAY_OF_YEAR, 12);
-			sb.append("\nLa date de réception est prévue au " + calendar.getTime());
-			sb.append("Une facture plus détaillée se trouve jointe à ce mail.");
+			sb.append("\nLa date de rï¿½ception est prï¿½vue au " + calendar.getTime());
+			sb.append("Une facture plus dï¿½taillï¿½e se trouve jointe ï¿½ ce mail.");
 			message.setText(sb.toString());
 			System.out.println("Corps de texte");
 			// Pdf en piece jointe
@@ -595,13 +612,13 @@ public class ControlleurPanier {
 			PdfWriter pdfWriter = PdfWriter.getInstance(document,
 					new FileOutputStream(System.getProperty("user.home") + "\\Desktop\\factureEcommerce.pdf"));
 			document.open();
-			document.add(new Paragraph("Facture détaillée de la commande"));
+			document.add(new Paragraph("Facture dï¿½taillï¿½e de la commande"));
 
 			// Ecrire la facture dans le pdf.
-			// Entête du tableau
-			String[] enteteTableau = { "Produit", "Description", "Quantité", "Prix" };
+			// Entï¿½te du tableau
+			String[] enteteTableau = { "Produit", "Description", "Quantitï¿½", "Prix" };
 			PdfPTable table = new PdfPTable(enteteTableau.length);
-			// Création de l'entete du tableau
+			// Crï¿½ation de l'entete du tableau
 			for (String caseEntete : enteteTableau) {
 				Paragraph celluleEnteteTemp = new Paragraph();
 				celluleEnteteTemp.add(caseEntete);
@@ -624,11 +641,11 @@ public class ControlleurPanier {
 			document.add(table);
 
 			// Ajout du prix total.
-			Paragraph paraPrixTotal = new Paragraph("Prix Total : " + prixTotal + "€");
+			Paragraph paraPrixTotal = new Paragraph("Prix Total : " + prixTotal + "ï¿½");
 			document.add(paraPrixTotal);
 
 			document.close();
-			System.out.println("On essaye d'ouvrir le fichier PDF qui a été généré");
+			System.out.println("On essaye d'ouvrir le fichier PDF qui a ï¿½tï¿½ gï¿½nï¿½rï¿½");
 
 			
 			
@@ -653,7 +670,7 @@ public class ControlleurPanier {
 
 		ModelAndView modeleVue = new ModelAndView("accueil","listeProduit",listeProduit);
 		modeleVue.addObject("listeCategorie",listeCategorie);
-		//Retour à l'accueil
+		//Retour ï¿½ l'accueil
 		return modeleVue;
 	}
 }

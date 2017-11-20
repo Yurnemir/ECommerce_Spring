@@ -59,12 +59,19 @@
 			<c:forEach var="ligneCommande"
 				items="${panierAffiche.listeLignesCommande}">
 				<tr>
-					<th>${ligneCommande.produit.designation}</th>
-					<th>${ligneCommande.produit.description}</th>
-					<th>${ligneCommande.prix}</th>
-					<th>${ligneCommande.quantite}</th>
-					<th><a
-						href="${pageContext.request.contextPath}/panier/retirerPanier?pIdSuppression=${ligneCommande.produit.idProduit}">Retirer</a></th>
+					<td>${ligneCommande.produit.designation}</td>
+					<td>${ligneCommande.produit.description}</td>
+					<td>${ligneCommande.prix}</td>
+					<td>
+					<form:form method="GET" action="modifierProduitPanierViaFormulaire" modelAttribute="ligneModifiee">
+						<form:label path="quantite">${ligneCommande.quantite}</form:label>
+						<form:input type="hidden" path="idLigne" name="identifiantLigne" value="${ligneCommande.idLigne}"/>
+						<form:input type="number" path="quantite" name="quantite"/>
+						<input type="submit" value="Modifier"/>
+					</form:form>
+					</td>
+					<td><a
+						href="${pageContext.request.contextPath}/panier/retirerPanier?pIdSuppression=${ligneCommande.produit.idProduit}">Retirer</a></td>
 			</c:forEach>
 		</table>
 	</div>
@@ -73,7 +80,7 @@
 	<form:form action="validationCommandePuisEnregistrement" method="POST"
 		modelAttribute="clientAAjouter">
 		<div class="form-group">
-			<h3>Valider la commande en créeant un compte</h3>
+			<h3>Valider la commande en créant un compte</h3>
 			Nom :
 			<form:input path="nomClient" />
 			Adresse :
