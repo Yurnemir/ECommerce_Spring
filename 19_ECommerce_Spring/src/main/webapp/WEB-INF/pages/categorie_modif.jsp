@@ -19,7 +19,7 @@
 				<a class="navbar-brand" href="${pageContext.request.contextPath}/admin/connexion">Portail Admin</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li><a href="${pageContext.request.contextPath}/admin/categorie/recap">Retour</a></li>
+				<li><a href="${pageContext.request.contextPath}/admin/categorie/recap"><i class="glyphicon glyphicon-book"></i> Retour</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href='<c:url value="/deconnexion"/>'><span class="glyphicon glyphicon-log-out"></span> Deconnexion</a></li>

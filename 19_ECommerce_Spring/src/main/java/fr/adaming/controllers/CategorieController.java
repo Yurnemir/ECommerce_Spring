@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.adaming.modele.Categorie;
+import fr.adaming.modele.Produit;
 import fr.adaming.service.IServiceCategorie;
 
 @Controller
@@ -34,10 +36,6 @@ public class CategorieController {
 	public ModelAndView afficherFormAjout() {
 		return new ModelAndView("categorie_ajout", "categorie", new Categorie());
 	}
-	@RequestMapping(value="/modif", method=RequestMethod.GET)
-	public ModelAndView afficherFormModif() {
-		return new ModelAndView("categorie_modif", "categorie", new Categorie());
-	}
 
 	/* ========================== Actions ========================== */
 	@RequestMapping(value="/ajouterCategorie", method=RequestMethod.POST)
@@ -46,7 +44,7 @@ public class CategorieController {
 		if (cOut.getIdCategorie() != 0) {
 			List<Categorie> categories = categrieService.listerCategorie();
 			model.addAttribute("categories", categories);
-			return "admin";
+			return "categorie_recap";
 		} else {
 			return "redirect:ajout";
 		}
@@ -57,13 +55,23 @@ public class CategorieController {
 		if (cOut.getIdCategorie() != 0) {
 			List<Categorie> categories = categrieService.listerCategorie();
 			model.addAttribute("categories", categories);
-			return "admin";
+			return "categorie_recap";
 		} else {
 			return "redirect:ajout";
 		}
 	}
 
 	/* ========================== Actions via lien ========================== */
+	@RequestMapping(value="/modifViaLien", method=RequestMethod.GET)
+	public String affichageFormulaireModificationViaLien(Model model, @RequestParam("pId") int id) {
+		Categorie cIn = new Categorie();
+		cIn.setIdCategorie(id);
+		cIn = categrieService.rechercherCategorieParId(cIn);
+		model.addAttribute("categorie", cIn);
+		List<Categorie> categories = categrieService.listerCategorie();
+		model.addAttribute("categories", categories);
+		return "categorie_modif";
+	}
 	@RequestMapping(value="/supprViaLien/{pId}", method=RequestMethod.GET)
 	public String supprViaLink(Model model, @PathVariable("pId") int id) {
 		Categorie cIn = new Categorie();

@@ -64,27 +64,6 @@ public class ProduitController {
 		model.addAttribute("produitAjoute", new Produit());
 		return "produit_ajout";
 	}
-	/**
-	 * Permet d'afficher le formulaire pour modifier un produit
-	 * @return Le modèle de la page contenant le formulaire de modification de produit.
-	 * Les informations sont stockées dans produitModif qui est une instance de la classe Produit.
-	 */
-	@RequestMapping(value="/modif", method = RequestMethod.GET)
-	public String affichageFormulaireModification(Model model) {
-		model.addAttribute("listeCategorie", serviceCategorie.listerCategorie());
-		model.addAttribute("produitModif", new Produit());
-		return "produit_modif";
-	}
-	/**
-	 *  Permet d'afficher le formaulaire permettant de supprimer un produit de la base de données.
-	 * 
-	 * @return Le modèle de la page contenant le formulaire de suppression d'un produit de la base de données.
-	 * Les informations sont stockées dans produitSuppression qui est une instance de la classe Produit.
-	 */
-	@RequestMapping(value="/suppr", method = RequestMethod.GET)
-	public ModelAndView affichageFormulaireSuppression(){
-		return new ModelAndView("produit_suppr", "produitSuppression", new Produit());
-	}
 	
 
 	/* ========================== Actions ========================== */
@@ -121,7 +100,7 @@ public class ProduitController {
 	 * @see affichageFormulaireModification
 	 */
 	@RequestMapping(value="modifierProduit", method=RequestMethod.POST)
-	public ModelAndView soumissionFormulaireModification(Model modele,@ModelAttribute("produitModif") Produit produit, @RequestParam CommonsMultipartFile file, HttpSession session) throws Exception {
+	public String soumissionFormulaireModification(Model modele, @ModelAttribute("produitModif") Produit produit, @RequestParam CommonsMultipartFile file, HttpSession session) throws Exception {
 		Produit produitModif = serviceProduit.modifierProduit(produit);
 		String path = session.getServletContext().getRealPath("/images");
 		File imagesDir = new File(path);
@@ -134,8 +113,8 @@ public class ProduitController {
 		stream.write(bytes);
 		stream.flush();
 		stream.close();
-		System.out.println("file.getOriginalFilename() = " + file.getOriginalFilename());
-		return new ModelAndView("produit_recap", "listeProduit", serviceProduit.listerProduits());
+		modele.addAttribute("listeProduit", serviceProduit.listerProduits());
+		return "produit_recap";
 	}
 	
 	
@@ -147,8 +126,8 @@ public class ProduitController {
 	 * @param id : id du produit à modifier
 	 * @return : la page récapitulative des produits après suppression du produit
 	 */
-	@RequestMapping(value="/modifViaLien/{pId}", method=RequestMethod.GET)
-	public String affichageFormulaireModificationViaLien(Model model, @PathVariable("pId") int id) {
+	@RequestMapping(value="/modifViaLien", method=RequestMethod.GET)
+	public String affichageFormulaireModificationViaLien(Model model, @RequestParam("pId") int id) {
 		Produit pIn = new Produit();
 		pIn.setIdProduit(id);
 		pIn = serviceProduit.rechercherProduitAvecId(pIn);

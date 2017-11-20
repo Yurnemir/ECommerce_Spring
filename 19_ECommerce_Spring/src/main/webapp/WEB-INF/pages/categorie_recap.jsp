@@ -26,6 +26,7 @@
 				<c:if test="${sessionScope.role.nomRole == 'ROLE_ADMIN_CATEGORIE'}">
 					<li><a href="${pageContext.request.contextPath}/client/recap"><i class="glyphicon glyphicon-user"></i> Clients</a></li>
 				</c:if>
+				<li><a href="${pageContext.request.contextPath}/admin/produit/pdf/recap"><i class="glyphicon glyphicon-print"></i> Export pdf</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href='<c:url value="/deconnexion"/>'><span class="glyphicon glyphicon-log-out"></span>Deconnexion</a></li>
@@ -51,9 +52,12 @@
 					<td>${categorie.nomCategorie}</td>
 					<td>${categorie.description}</td>
 					<td>
-						<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/categorie/modifViaLien/${categorie.idCategorie}">Modification</a>
-						<br/>
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fenetreSupprCategorie_${categorie.idCategorie}">Supprimer</button>
+						<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/categorie/modifViaLien?pId=${categorie.idCategorie}">
+							<span class="glyphicon glyphicon-cog"></span>
+						</a>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fenetreSupprCategorie_${categorie.idCategorie}">
+							<span class="glyphicon glyphicon-trash"></span>
+						</button>
 						<!-- =========================== Fenetre confirmation suppression =========================== -->
 						<div id="fenetreSupprCategorie_${categorie.idCategorie}" class="modal fade" role="dialog">
 							<div class="modal-dialog">
@@ -80,5 +84,12 @@
 			</c:forEach>
 		</table>
 	</div>
+	
+	<div align="center">
+		<a class="btn btn-primary" style="width:100%; margin-bottom:150px;" href="${pageContext.request.contextPath}/admin/categorie/ajout">
+			<span class="glyphicon glyphicon-plus"></span>
+		</a>
+	</div>
+	
 </body>
 </html>
