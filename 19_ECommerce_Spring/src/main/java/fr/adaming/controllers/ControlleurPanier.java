@@ -280,9 +280,23 @@ public class ControlleurPanier {
 	@RequestMapping(value="/panier/modifierProduitPanierViaFormulaire")
 	public String modifierLigne(HttpSession session, Model model, @ModelAttribute("ligneModifiee") LigneCommande ligneMod){
 		
+		Panier panier = (Panier) session.getAttribute("panier");
+		
+		List<LigneCommande> liste = panier.getListeLignesCommande();
+		
+		for(LigneCommande ligne :liste){
+			if (ligneMod.getIdLigne()==ligne.getIdLigne()){
+				ligne.setQuantite(ligneMod.getQuantite());
+			}
+		}
+		
+		
+		
+		
+		session.setAttribute("panier", panier);
 		model.addAttribute("clientAAjouter", new Client());
 		model.addAttribute("clientDejaDansBase", new Client());
-		model.addAttribute("panierAffiche", session.getAttribute("panier"));
+		model.addAttribute("panierAffiche", panier);
 		model.addAttribute("ligneModifiee", new LigneCommande());
 		
 		return "panier";
