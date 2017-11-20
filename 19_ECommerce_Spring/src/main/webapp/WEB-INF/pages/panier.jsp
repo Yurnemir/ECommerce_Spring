@@ -63,6 +63,7 @@
 						<form:label path="quantite">${ligneCommande.quantite}</form:label>
 						<form:input type="hidden" path="idLigne" name="identifiantLigne" value="${ligneCommande.idLigne}"/>
 						<form:input type="number" path="quantite" name="quantite"/>
+						<form:errors path="quantite"/>
 						<input type="submit" value="Modifier"/>
 					</form:form>
 					</td>
