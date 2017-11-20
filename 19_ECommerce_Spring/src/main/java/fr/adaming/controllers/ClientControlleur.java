@@ -92,7 +92,22 @@ public class ClientControlleur {
 	@RequestMapping(value="/client/recap")
 	private ModelAndView listeClientPourAdmin(){
 		List<Client> listeClients = serviceClient.listerClient();
-		return new ModelAndView("client_liste", "listeClient", listeClients);
+		
+		System.out.println("Liste des clients/Commandes");
+		
+		for(Client client: listeClients){
+			client.setCommandes(serviceCommande.getCommandesByClient(client));
+			for (Commande commande :client.getCommandes()){
+				commande.setListeLigneCommande(serviceLigneCommande.listeLigneCommandeParCommande(commande));
+				//System.out.println(commande.getListeLigneCommande());
+			}
+			System.out.println(client.getCommandes());
+		}
+	
+		
+		
+		ModelAndView modeleVue = new ModelAndView("client_liste", "listeClient", listeClients);
+		return modeleVue;
 	}
 	
 	/**
