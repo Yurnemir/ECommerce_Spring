@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 /**
  * Classe qui repr�sente la quantit� et le prix total command� par le client pour un produit donn�es.
  * Elle contient deux attributs : 
@@ -26,6 +27,8 @@ public class LigneCommande {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long idLigne;
+	
+	@Min(0)
 	private int quantite ; 
 	private double prix ;
 	

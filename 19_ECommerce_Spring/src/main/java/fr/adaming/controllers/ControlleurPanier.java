@@ -26,12 +26,14 @@ import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.hibernate.cfg.CreateKeySecondPass;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -278,20 +280,22 @@ public class ControlleurPanier {
 	}
 	
 	@RequestMapping(value="/panier/modifierProduitPanierViaFormulaire")
-	public String modifierLigne(HttpSession session, Model model, @ModelAttribute("ligneModifiee") LigneCommande ligneMod){
+	public String modifierLigne(HttpSession session, Model model, @Valid @ModelAttribute("ligneModifiee") LigneCommande ligneMod, BindingResult bindingResult){
 		
 		Panier panier = (Panier) session.getAttribute("panier");
 		
 		List<LigneCommande> liste = panier.getListeLignesCommande();
-		
-		for(LigneCommande ligne :liste){
-			if (ligneMod.getIdLigne()==ligne.getIdLigne()){
-				ligne.setQuantite(ligneMod.getQuantite());
+		if(bindingResult.hasErrors()){
+			model.addAttribute("message", "Pas de quantites négatives!");
+		} else {
+			for(LigneCommande ligne :liste){
+				if (ligneMod.getIdLigne()==ligne.getIdLigne()){
+					ligne.setQuantite(ligneMod.getQuantite());
+					ligne.setPrix(ligne.getProduit().getPrix()*ligne.getQuantite());
+				}
 			}
 		}
-		
-		
-		
+
 		
 		session.setAttribute("panier", panier);
 		model.addAttribute("clientAAjouter", new Client());
@@ -299,6 +303,7 @@ public class ControlleurPanier {
 		model.addAttribute("panierAffiche", panier);
 		model.addAttribute("ligneModifiee", new LigneCommande());
 		
+
 		return "panier";
 	}
 	
