@@ -71,7 +71,7 @@
 	</div>
 	<div align="right" style="margin-right:100px;">
 		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fenetreViderPanier">
-			<span class="glyphicon glyphicon-trash">Vider le panier</span>
+			<span class="glyphicon glyphicon-trash"> Vider Panier</span>
 		</button>
 	</div>
 	<!-- =========================== Fenetre confirmation commande (nouveau client) =========================== -->
@@ -174,9 +174,7 @@
 					</div>
 				</div>
 			</div>
-
 		</form:form>
-
 	</div>
 	<h2>${messageErreur}</h2>
 

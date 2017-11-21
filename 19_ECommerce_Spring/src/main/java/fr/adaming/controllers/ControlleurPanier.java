@@ -664,13 +664,10 @@ public class ControlleurPanier {
 			document.add(paraPrixTotal);
 
 			document.close();
-			System.out.println("On essaye d'ouvrir le fichier PDF qui a �t� g�n�r�");
-
 			
-			
-			// DataSource pieceJointe = new FileDataSource(System.getProperty("user.home") + "\\Desktop\\factureEcommerce.pdf");
-			// message.setDataHandler(new DataHandler(pieceJointe));
-			// message.setFileName("recapitulatif_commande.pdf");
+//			 DataSource pieceJointe = new FileDataSource(System.getProperty("user.home") + "\\Desktop\\factureEcommerce.pdf");
+//			 message.setDataHandler(new DataHandler(pieceJointe));
+//			 message.setFileName("recapitulatif_commande.pdf");
 
 			Transport.send(message);
 		} catch (MessagingException | FileNotFoundException | DocumentException e) {
