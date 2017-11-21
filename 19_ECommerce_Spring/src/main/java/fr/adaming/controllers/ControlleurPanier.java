@@ -346,12 +346,12 @@ public class ControlleurPanier {
 	}
 
 	/**
-	 * Permet ï¿½ un client pas encore enregistrï¿½ de valider sa commande et de s'enregistrer.
-	 * Un client ne peut s'enregistrer (et sa commande ï¿½tre validï¿½e) que si aucun autre client ne possï¿½de la mï¿½me adresse mail.
-	 * On gï¿½nï¿½re ensuite le mot de passe de ce client et on l'enregistre. On enregistre ensuite la commande
-	 *  et le contenu de celle-ci ï¿½ traers les lignes de commande.
+	 * Permet à un client pas encore enregistré de valider sa commande et de s'enregistrer.
+	 * Un client ne peut s'enregistrer (et sa commande être validée) que si aucun autre client ne possède la même adresse mail.
+	 * On génère ensuite le mot de passe de ce client et on l'enregistre. On enregistre ensuite la commande
+	 *  et le contenu de celle-ci via les lignes de commande.
 	 * @param session Session Http contenant le panier
-	 * @param client client qui doit ï¿½tre enregistrï¿½.
+	 * @param client client qui doit être enregistré.
 	 * @return Page facture.
 	 */
 	@RequestMapping(value = "/panier/validationCommandePuisEnregistrement", method = RequestMethod.POST)
@@ -461,7 +461,7 @@ public class ControlleurPanier {
 			ModelAndView modeleVue = new ModelAndView("panier", "clientAAjouter", new Client());
 			modeleVue.addObject("clientDejaDansBase", new Client());
 			modeleVue.addObject("panierAffiche", panierSession);
-			modeleVue.addObject("messageErreur", "Aucun client trouvï¿½");
+			modeleVue.addObject("messageErreur", "Aucun client trouvé");
 			return modeleVue;
 
 		}
@@ -502,9 +502,9 @@ public class ControlleurPanier {
 		return new ModelAndView("commandeValide");
 	}
 	/**
-	 * Permet d'ï¿½tablir la facture en PDF.
+	 * Permet d'etablir la facture en PDF.
 	 * @param session Session Http contenant le panier
-	 * @return On reste sur la mï¿½me page.
+	 * @return On reste sur la meme page.
 	 */
 	@RequestMapping(value = "/panier/facturePDF")
 	public ModelAndView facturePDF(HttpSession session) {
@@ -517,10 +517,10 @@ public class ControlleurPanier {
 			PdfWriter pdfWriter = PdfWriter.getInstance(document,
 					new FileOutputStream(System.getProperty("user.home") + "\\Desktop\\factureEcommerce.pdf"));
 			document.open();
-			document.add(new Paragraph("Facture dï¿½taillï¿½e de la commande"));
+			document.add(new Paragraph("Facture détaillée de la commande\n\n"));
 			// Ecrire la facture dans le pdf.
 			// Entï¿½te du tableau
-			String[] enteteTableau = { "Produit", "Description", "Quantitï¿½", "Prix" };
+			String[] enteteTableau = { "Produit", "Description", "Quantitée", "Prix" };
 			PdfPTable table = new PdfPTable(enteteTableau.length);
 			// Crï¿½ation de l'entete du tableau
 			for (String caseEntete : enteteTableau) {
@@ -541,30 +541,21 @@ public class ControlleurPanier {
 				}
 
 			}
-
 			document.add(table);
-
-			// Ajout du prix total.
-			Paragraph paraPrixTotal = new Paragraph("Prix Total : " + prixTotal + "ï¿½");
+			Paragraph paraPrixTotal = new Paragraph("\n\nPrix Total : " + prixTotal + " €");
 			document.add(paraPrixTotal);
 
 			document.close();
-			System.out.println("On essaye d'ouvrir le fichier PDF qui a ï¿½tï¿½ gï¿½nï¿½rï¿½");
 			try {
 				Desktop.getDesktop().open(new File(System.getProperty("user.home") + "\\Desktop\\factureEcommerce.pdf"));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (FileNotFoundException | DocumentException e) {
-
 			e.printStackTrace();
 		}
 		return new ModelAndView("commandeValide", "prix", prixTotal);
-
 	}
-	
-	
 	
 	
 	/**
@@ -574,7 +565,7 @@ public class ControlleurPanier {
 	 */
 	@RequestMapping(value = "/panier/envoiMail", method = RequestMethod.GET)
 	public String envoyerMail(HttpSession sessionHttp) {
-		final String to = "benj.henry@free.fr";
+		final String to = "h.boizard@laposte.net";
 		final String username = "thezadzad@gmail.com";
 		final String password = "adaming44";
 		Properties props = new Properties();
@@ -592,9 +583,6 @@ public class ControlleurPanier {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(username));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-			
-
-			
 			message.setSubject("Commande Ecommerce");
 			System.out.println("Sujet");
 			// Message du mail
@@ -602,8 +590,8 @@ public class ControlleurPanier {
 
 			// String nom = "Boizard";
 			// sb.append("Mme/Mr. " + nom + ",\n\n");
-			sb.append("Cher client/Chï¿½re cliente" + "\n");
-			sb.append("Vous avez passï¿½ une commande pour :\n");
+			sb.append("Cher client / Chère cliente" + "\n");
+			sb.append("Vous avez passé une commande pour :\n");
 
 			// On liste les produits dans le corps du mail.
 			double prix = 0;
@@ -615,66 +603,26 @@ public class ControlleurPanier {
 				prix = prix + ligne.getPrix();
 				sb.append("  -  " + nomProduit + ":" + quantite + " exemplaire(s)" + "\n");
 			}
-			sb.append("Le montant total de vos achats s'ï¿½lï¿½vent ï¿½ " + prix+" euros");
-
+			sb.append("Le montant total de vos achats s'élève à " + prix + " euros");
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(new Date());
 			calendar.add(Calendar.DAY_OF_YEAR, 12);
-			sb.append("\nLa date de rï¿½ception est prï¿½vue au " + calendar.getTime());
-			sb.append("Une facture plus dï¿½taillï¿½e se trouve jointe ï¿½ ce mail.");
+			sb.append("\nLa date de réception est prévue au " + calendar.getTime());
+			sb.append("Une facture plus détaillée se trouve jointe à ce mail.");
 			message.setText(sb.toString());
 			System.out.println("Corps de texte");
-			// Pdf en piece jointe
-			double prixTotal =0;
-			Document document = new Document();
-
-			PdfWriter pdfWriter = PdfWriter.getInstance(document,
-					new FileOutputStream(System.getProperty("user.home") + "\\Desktop\\factureEcommerce.pdf"));
-			document.open();
-			document.add(new Paragraph("Facture détaillée de la commande"));
-
-			// Ecrire la facture dans le pdf.
-			// Entï¿½te du tableau
-			String[] enteteTableau = { "Produit", "Description", "Quantité", "Prix" };
-			PdfPTable table = new PdfPTable(enteteTableau.length);
-			// Crï¿½ation de l'entete du tableau
-			for (String caseEntete : enteteTableau) {
-				Paragraph celluleEnteteTemp = new Paragraph();
-				celluleEnteteTemp.add(caseEntete);
-				table.addCell(celluleEnteteTemp);
-			}
-			// On ajoute les lignes de commandes.
-			for (LigneCommande ligne : listeLigneCommande) {
-				prixTotal = prixTotal + ligne.getProduit().getPrix();
-				Object[] ligneFacture = { ligne.getProduit().getDesignation(), ligne.getProduit().getDescription(),
-						ligne.getQuantite(), ligne.getPrix() };
-
-				for (Object objet : ligneFacture) {
-					Paragraph paragrapheTemp = new Paragraph();
-					paragrapheTemp.add(objet.toString());
-					table.addCell(paragrapheTemp);
-				}
-
-			}
-
-			document.add(table);
-
-			// Ajout du prix total.
-			Paragraph paraPrixTotal = new Paragraph("Prix Total : " + prixTotal + " €");
-			document.add(paraPrixTotal);
-
-			document.close();
 			
-//			 DataSource pieceJointe = new FileDataSource(System.getProperty("user.home") + "\\Desktop\\factureEcommerce.pdf");
-//			 message.setDataHandler(new DataHandler(pieceJointe));
-//			 message.setFileName("recapitulatif_commande.pdf");
-
+			DataSource pieceJointe = new FileDataSource(System.getProperty("user.home") + "\\Desktop\\factureEcommerce.pdf");
+			message.setDataHandler(new DataHandler(pieceJointe));
+			message.setFileName("recapitulatif_commande.pdf");
+			
 			Transport.send(message);
-		} catch (MessagingException | FileNotFoundException | DocumentException e) {
+		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
 		return "commandeValide";
 	}
+	
 	@RequestMapping(value="/retourAccueil")
 	private ModelAndView retourAccueil(HttpSession session){
 		Panier panierSession =(Panier) session.getAttribute("panier");
@@ -686,7 +634,6 @@ public class ControlleurPanier {
 
 		ModelAndView modeleVue = new ModelAndView("accueil","listeProduit",listeProduit);
 		modeleVue.addObject("listeCategorie",listeCategorie);
-		//Retour ï¿½ l'accueil
 		return modeleVue;
 	}
 }

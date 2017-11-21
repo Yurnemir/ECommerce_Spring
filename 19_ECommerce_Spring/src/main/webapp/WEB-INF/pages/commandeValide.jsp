@@ -14,7 +14,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<h4 class="btn btn-primary"><a href="${pageContext.request.contextPath}/retourAccueil" >Retourner à l'accueil</a> </h4>
+	<h3 class="btn btn-primary"><a href="${pageContext.request.contextPath}/retourAccueil" >Retourner à l'accueil</a> </h3>
 	<br/>
 	<br/>
 	<h2 align="center">Facture</h2>
