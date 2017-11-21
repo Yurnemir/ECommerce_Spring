@@ -26,32 +26,29 @@
 		</div>
 		<ul class="nav navbar-nav">
 			<li><a href="${pageContext.request.contextPath}/accueil">Accueil</a></li>
-			<li><a
-				href="${pageContext.request.contextPath}/panier/affichagePanier">Panier</a></li>
-			<li class="active"><a
-				href="${pageContext.request.contextPath}/afficheClient">Client</a></li>
-
-
+			<li>
+				<a href="${pageContext.request.contextPath}/panier/affichagePanier">Panier</a>
+			</li>
+			<li class="active"><a href="#">Client</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
-			<li><a href="${pageContext.request.contextPath}/admin/connexion"><span
-					class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+			<li>
+				<a href="${pageContext.request.contextPath}/admin/connexion">
+					<span class="glyphicon glyphicon-log-in"></span> Connexion
+				</a>
+			</li>
 		</ul>
 	</div>
 	</nav>
+	<h2>${messageErreur}</h2>
 	<br />
 	<br />
 
-
-
-
-	<h1>${messageErreur}</h1>
 	<div align="center">
-		<h3>Indiquer vos identifiants pour savoir quelles commandes vous avez effectué</h3>
+		<h3>Indiquer vos identifiants pour savoir quelles commandes vous avez effectuées</h3>
 		<form:form class="form-horizontal" action="affichageCommande"
 			method="POST" modelAttribute="clientChercheCommande">
 			<div class="form-group">
-
 				Mail :
 				<form:input path="email" />
 				Code Personnel :
@@ -61,34 +58,23 @@
 		</form:form>
 	</div>
 	<c:forEach var="commande" items="${listeCommande}">
-		<h1 align="center" style="color: red">Commande du
-			${commande.dateCommande}</h1>
+		<h1 align="center" style="color: red">Commande du ${commande.dateCommande}</h1>
 		<table class="table table-bordered">
 			<tr>
 				<th>Produit</th>
 				<th>Quantite</th>
 				<th>Prix Unitaire</th>
 				<th>Prix Total</th>
-
 			</tr>
-
 			<c:forEach var="ligneCommande" items="${commande.listeLigneCommande}">
 				<tr>
 					<th>${ligneCommande.produit.designation}</th>
 					<th>${ligneCommande.quantite}</th>
 					<th>${ligneCommande.produit.prix}</th>
 					<th>${ligneCommande.prix}</th>
-
 				</tr>
 			</c:forEach>
-
 		</table>
 	</c:forEach>
-
-
-
-
-
-
 </body>
 </html>

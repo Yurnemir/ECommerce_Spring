@@ -631,11 +631,11 @@ public class ControlleurPanier {
 			PdfWriter pdfWriter = PdfWriter.getInstance(document,
 					new FileOutputStream(System.getProperty("user.home") + "\\Desktop\\factureEcommerce.pdf"));
 			document.open();
-			document.add(new Paragraph("Facture dï¿½taillï¿½e de la commande"));
+			document.add(new Paragraph("Facture détaillée de la commande"));
 
 			// Ecrire la facture dans le pdf.
 			// Entï¿½te du tableau
-			String[] enteteTableau = { "Produit", "Description", "Quantitï¿½", "Prix" };
+			String[] enteteTableau = { "Produit", "Description", "Quantité", "Prix" };
 			PdfPTable table = new PdfPTable(enteteTableau.length);
 			// Crï¿½ation de l'entete du tableau
 			for (String caseEntete : enteteTableau) {
@@ -660,7 +660,7 @@ public class ControlleurPanier {
 			document.add(table);
 
 			// Ajout du prix total.
-			Paragraph paraPrixTotal = new Paragraph("Prix Total : " + prixTotal + "ï¿½");
+			Paragraph paraPrixTotal = new Paragraph("Prix Total : " + prixTotal + " €");
 			document.add(paraPrixTotal);
 
 			document.close();
