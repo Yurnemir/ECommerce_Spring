@@ -72,46 +72,44 @@
 			</c:forEach>
 		</table>
 	</div>
-
-
+	<br/>
+	<br/>
+	<br/>
+	
 	<h1 style="text-align: center;">Liste des commande par clients</h1>
-<div align="center">
+	<br/>
+	<div class="panel-group" id="accordion">
 	<c:forEach var="client" items="${listeClient}">
-
-		<h2>Client numéro ${client.idClient} : Nom : ${client.nomClient} Mail : ${client.email}</h2>
-		<c:forEach var="commande" items="${client.commandes}">
-			<h3>Commande du ${commande.dateCommande}</h3>
-			<c:forEach var="ligneCommande" items="${commande.listeLigneCommande}">
-
-				<table class="table table-bordered">
-
-					<tr>
-						<th>Produit</th>
-						<th>Quantite</th>
-						<th>Prix Unitaire</th>
-						<th>Prix Total</th>
-
-					</tr>
-
-
-					<tr>
-						<th>${ligneCommande.produit.designation}</th>
-						<th>${ligneCommande.quantite}</th>
-						<th>${ligneCommande.produit.prix}</th>
-						<th>${ligneCommande.prix}</th>
-					</tr>
-				</table>
-
-			</c:forEach>
-
-
-
-		</c:forEach>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapse${client.idClient}">Client : ${client.nomClient} - ${client.email}</a>
+				</h4>
+			</div>
+			<div id="collapse${client.idClient}" class="panel-collapse collapse">
+				<c:forEach var="commande" items="${client.commandes}">
+					<h3>Commande du ${commande.dateCommande}</h3>
+					<c:forEach var="ligneCommande" items="${commande.listeLigneCommande}">
+						<table class="table table-bordered">
+							<tr>
+								<th>Produit</th>
+								<th>Quantite</th>
+								<th>Prix Unitaire</th>
+								<th>Prix Total</th>
+							</tr>
+							<tr>
+								<th>${ligneCommande.produit.designation}</th>
+								<th>${ligneCommande.quantite}</th>
+								<th>${ligneCommande.produit.prix}</th>
+								<th>${ligneCommande.prix}</th>
+							</tr>
+						</table>
+					</c:forEach>
+				</c:forEach>
+			</div>
+		</div>
 	</c:forEach>
-
-</div>
-
-
+	</div>
 
 </body>
 </html>
