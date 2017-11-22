@@ -37,35 +37,35 @@
 			<form:label path="idProduit" class="col-sm-2 control-label">Id du Produit</form:label>
 			<div class="col-sm-4">
 				<form:input path="idProduit" />
-				<form:errors path="idProduit" />
+				<form:errors path="idProduit" cssStyle="color:red" />
 			</div>
 		</div>
 		<div class="form-group">
 			<form:label path="designation" class="col-sm-2 control-label">Designation du produit</form:label>
 			<div class="col-sm-4">
 				<form:input path="designation" />
-				<form:errors path="designation" />
+				<form:errors path="designation" cssStyle="color:red" />
 			</div>
 		</div>
 		<div class="form-group">
 			<form:label path="description" class="col-sm-2 control-label">Description du produit</form:label>
 			<div class="col-sm-4">
 				<form:input path="description" />
-				<form:errors path="description" />
+				<form:errors path="description" cssStyle="color:red" />
 			</div>
 		</div>
 		<div class="form-group">
 			<form:label path="prix" class="col-sm-2 control-label">Prix du produit</form:label>
 			<div class="col-sm-4">
 				<form:input path="prix" />
-				<form:errors path="prix" />
+				<form:errors path="prix" cssStyle="color:red" />
 			</div>
 		</div>
 		<div class="form-group">
 			<form:label path="quantite" class="col-sm-2 control-label">Quantite du produit</form:label>
 			<div class="col-sm-4">
 				<form:input path="quantite" />
-				<form:errors path="quantite" />
+				<form:errors path="quantite" cssStyle="color:red" />
 			</div>
 		</div>
 		<div class="form-group">
@@ -74,7 +74,7 @@
 				<form:select path="categorie.idCategorie">
 					<form:options items="${listeCategorie}" itemValue="idCategorie" itemLabel="nomCategorie" />
 				</form:select>
-				<form:errors path="categorie.idCategorie" />
+				<form:errors path="categorie.idCategorie" cssStyle="color:red" />
 			</div>
 		</div>
 		<div class="form-group">

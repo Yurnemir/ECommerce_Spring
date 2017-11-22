@@ -9,11 +9,14 @@ import java.awt.Desktop;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -295,15 +298,11 @@ public class ControlleurPanier {
 				}
 			}
 		}
-
-		
 		session.setAttribute("panier", panier);
 		model.addAttribute("clientAAjouter", new Client());
 		model.addAttribute("clientDejaDansBase", new Client());
 		model.addAttribute("panierAffiche", panier);
 		model.addAttribute("ligneModifiee", new LigneCommande());
-		
-
 		return "panier";
 	}
 	
@@ -584,16 +583,11 @@ public class ControlleurPanier {
 			message.setFrom(new InternetAddress(username));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 			message.setSubject("Commande Ecommerce");
-			System.out.println("Sujet");
-			// Message du mail
+			
+			MimeBodyPart messageBodyPart = new MimeBodyPart();
 			StringBuilder sb = new StringBuilder();
-
-			// String nom = "Boizard";
-			// sb.append("Mme/Mr. " + nom + ",\n\n");
 			sb.append("Cher client / Chère cliente" + "\n");
 			sb.append("Vous avez passé une commande pour :\n");
-
-			// On liste les produits dans le corps du mail.
 			double prix = 0;
 			Panier panierSession = (Panier) sessionHttp.getAttribute("panier");
 			List<LigneCommande> listeLigneCommande = panierSession.getListeLignesCommande();
@@ -609,13 +603,18 @@ public class ControlleurPanier {
 			calendar.add(Calendar.DAY_OF_YEAR, 12);
 			sb.append("\nLa date de réception est prévue au " + calendar.getTime());
 			sb.append("Une facture plus détaillée se trouve jointe à ce mail.");
-			message.setText(sb.toString());
-			System.out.println("Corps de texte");
+			messageBodyPart.setContent(message, "text/html");
+			messageBodyPart.setText(sb.toString());
 			
+			MimeBodyPart attachPart = new MimeBodyPart();
 			DataSource pieceJointe = new FileDataSource(System.getProperty("user.home") + "\\Desktop\\factureEcommerce.pdf");
-			message.setDataHandler(new DataHandler(pieceJointe));
-			message.setFileName("recapitulatif_commande.pdf");
+			attachPart.setDataHandler(new DataHandler(pieceJointe));
+			attachPart.setFileName("recapitulatif_commande.pdf");
 			
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(messageBodyPart);
+			multipart.addBodyPart(attachPart);
+			message.setContent(multipart);
 			Transport.send(message);
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);

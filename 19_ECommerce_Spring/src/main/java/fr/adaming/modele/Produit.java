@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
+
+import org.hibernate.validator.constraints.NotEmpty;
 /**
  * 
  * @author inti0236
@@ -43,18 +46,22 @@ public class Produit {
 	 * L'id du produit. Non modifiable par l'utilisateur
 	 *
 	 */
+	@Min(value=1, message="l'id doit être supérieur à 1")
 	private int idProduit;
 	/**
 	 * Le nom utilisï¿½ dans le magasin pour nommer le produit. Modifiable
 	 */
+	@NotEmpty(message="aucune designation n'a été saisie")
 	private String designation;
 	/**
 	 * Une description plus ou mois dï¿½taillï¿½ du produit. Modifiable
 	 */
+	@NotEmpty(message="aucune description n'a été saisie")
 	private String description;
 	/**
 	 * Le prix de vente du produit. Modifiable
 	 */
+	@Min(value=1, message="le prix minimal est de 1€")
 	private double prix;
 	/**
 	 * Nombre d'unitï¿½ du produit en stock. Modifiable

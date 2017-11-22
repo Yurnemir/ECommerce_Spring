@@ -2,9 +2,12 @@ package fr.adaming.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,26 +42,24 @@ public class CategorieController {
 
 	/* ========================== Actions ========================== */
 	@RequestMapping(value="/ajouterCategorie", method=RequestMethod.POST)
-	public String soumettreFormAjout(Model model, @ModelAttribute("categorie") Categorie categorie) {
-		Categorie cOut = categrieService.ajouterCategorie(categorie);
-		if (cOut.getIdCategorie() != 0) {
-			List<Categorie> categories = categrieService.listerCategorie();
-			model.addAttribute("categories", categories);
-			return "categorie_recap";
-		} else {
-			return "redirect:ajout";
+	public String soumettreFormAjout(Model model, @Valid @ModelAttribute("categorie") Categorie categorie, BindingResult result) {
+		if(result.hasErrors()) {
+			return "categorie_ajout";
 		}
+		categrieService.ajouterCategorie(categorie);
+		List<Categorie> categories = categrieService.listerCategorie();
+		model.addAttribute("categories", categories);
+		return "categorie_recap";
 	}
 	@RequestMapping(value="/modifierCategorie", method=RequestMethod.POST)
-	public String soumettreFormModif(Model model, @ModelAttribute("categorie") Categorie categorie) {
-		Categorie cOut = categrieService.modifierCategorie(categorie);
-		if (cOut.getIdCategorie() != 0) {
-			List<Categorie> categories = categrieService.listerCategorie();
-			model.addAttribute("categories", categories);
-			return "categorie_recap";
-		} else {
-			return "redirect:ajout";
+	public String soumettreFormModif(Model model, @Valid @ModelAttribute("categorie") Categorie categorie, BindingResult result) {
+		if(result.hasErrors()) {
+			return "categorie_modif";
 		}
+		categrieService.modifierCategorie(categorie);
+		List<Categorie> categories = categrieService.listerCategorie();
+		model.addAttribute("categories", categories);
+		return "categorie_recap";
 	}
 
 	/* ========================== Actions via lien ========================== */

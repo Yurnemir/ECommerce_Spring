@@ -23,8 +23,6 @@
 				<li class="active"><a href="#">Accueil</a></li>
 				<li><a href="${pageContext.request.contextPath}/panier/affichagePanier">Panier</a></li>
 				<li><a href="${pageContext.request.contextPath}/afficheClient">Client</a></li>
-				
-				
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="${pageContext.request.contextPath}/admin/connexion"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>

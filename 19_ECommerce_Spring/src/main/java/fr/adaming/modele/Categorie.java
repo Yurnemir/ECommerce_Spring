@@ -12,9 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.validator.constraints.NotEmpty;
 /**
  * 
  * Cette classe reprï¿½sente une catï¿½gorie de produit c'est ï¿½ dire un type de produit proposï¿½ au client.
@@ -34,8 +36,11 @@ public class Categorie {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_Categorie")
+	@Min(value=1, message="l'id doit être supérieur à 1")
 	private int idCategorie;
+	@NotEmpty(message="aucun nom n'a été saisi")
 	private String nomCategorie;
+	@NotEmpty(message="aucune description n'a été saisie")
 	private String description;
 	
 	//Association avec la liste de produits

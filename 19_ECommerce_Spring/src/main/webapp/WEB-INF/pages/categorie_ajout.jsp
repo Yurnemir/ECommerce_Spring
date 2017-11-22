@@ -36,14 +36,14 @@
 			<form:label path="nomCategorie" class="col-sm-2 control-label">Nom : </form:label>
 			<div class="col-sm-4">
 				<form:input path="nomCategorie" />
-				<form:errors path="nomCategorie" />
+				<form:errors path="nomCategorie" cssStyle="color:red" />
 			</div>
 		</div>
 		<div class="form-group">
 			<form:label path="description" class="col-sm-2 control-label">Description : </form:label>
 			<div class="col-sm-4">
 				<form:input path="description" />
-				<form:errors path="description" />
+				<form:errors path="description" cssStyle="color:red" />
 			</div>
 		</div>
 		<br/>
